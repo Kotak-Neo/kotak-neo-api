@@ -104,10 +104,14 @@ class NeoAPI:
 
         view_token = neo_api_client.LoginAPI(self.api_client).generate_view_token(password, mobilenumber=mobilenumber,
                                                                                   userid=userid, pan=pan)
-        print(view_token)
+        # print(view_token)
         if "error" not in view_token:
             gen_otp = neo_api_client.LoginAPI(self.api_client).generate_otp()
-            print(gen_otp)
+        else:
+            gen_otp = {'Error': 'Error to send the OTP. Kindly login again'}
+        print(gen_otp)
+
+        return view_token
 
     def session_2fa(self, OTP):
         """
@@ -126,7 +130,8 @@ class NeoAPI:
         self.configuration.serverId: sets the server id obtained from the API response.
         """
         edit_token = neo_api_client.LoginAPI(self.api_client).login_2fa(OTP)
-        print(edit_token)
+        # print(edit_token)
+        return edit_token
 
     def place_order(self, exchange_segment, product, price, order_type, quantity, validity, trading_symbol,
                     transaction_type, amo="NO", disclosed_quantity="0", market_protection="0", pf="N",
@@ -147,7 +152,8 @@ class NeoAPI:
                                                                              market_protection=market_protection, pf=pf,
                                                                              trigger_price=trigger_price, tag=tag)
 
-        print("Place Order OutCome ", place_order)
+        # print("Place Order OutCome ", place_order)
+        return place_order
 
     def cancel_order(self, order_id, amo="NO", isVerify=False):
         req_data_validation.cancel_order_validation(order_id)
@@ -155,35 +161,39 @@ class NeoAPI:
         try:
             cancel_order = neo_api_client.OrderAPI(self.api_client).order_cancelling(order_id=order_id,
                                                                                      isVerify=isVerify, amo=amo)
-            print("[CANCEL ORD RESP]: ", cancel_order)
+            # print("[CANCEL ORD RESP]: ", cancel_order)
+            return cancel_order
         except Exception as e:
             # handle any exceptions that might be raised here
-            print(f"Error occurred: {e}")
+            return {"Error": e}
 
-    def order_book(self):
+    def order_report(self):
         try:
             order_list = neo_api_client.OrderReportAPI(self.api_client).ordered_books()
             print("[ORDER BOOK RESP]: ", order_list)
+            return order_list
         except Exception as e:
             # handle any exceptions that might be raised here
-            print(f"Error occurred: {e}")
+            return {"Error": e}
 
     def order_history(self, order_id):
         req_data_validation.order_history_validation(order_id)
         try:
             history_list = neo_api_client.OrderHistoryAPI(self.api_client).ordered_history(order_id=order_id)
-            print("[ORDER HISTORY RESP]:  ", history_list)
+            # print("[ORDER HISTORY RESP]:  ", history_list)
+            return history_list
         except Exception as e:
             # handle any exceptions that might be raised here
-            print(f"Error occurred: {e}")
+            return {"Error": e}
 
     def trade_report(self, order_id=None):
         try:
             filtered_trades = neo_api_client.TradeReportAPI(self.api_client).trading_report(order_id=order_id)
-            print("[TRADE RESP]: ", filtered_trades)
+            # print("[TRADE RESP]: ", filtered_trades)
+            return filtered_trades
         except Exception as e:
             # handle any exceptions that might be raised here
-            print(f"Error occurred: {e}")
+            return {"Error": e}
 
     def modify_order(self, order_id, price, order_type, quantity, validity, instrument_token=None,
                      exchange_segment=None, product=None, trading_symbol=None, transaction_type=None,
@@ -202,9 +212,10 @@ class NeoAPI:
                                        dd=dd, market_protection=market_protection,
                                        disclosed_quantity=disclosed_quantity,
                                        filled_quantity=filled_quantity)
-                print("Response For Modify Order", quick_modify)
+                # print("Response For Modify Order", quick_modify)
+                return quick_modify
             except Exception:
-                print("Exception has been occurred while connecting to API")
+                return {"Error": "Exception has been occurred while connecting to API"}
         elif order_id and not instrument_token and not exchange_segment and not trading_symbol:
             try:
                 modify_order = neo_api_client.ModifyOrder(self.api_client).modification_with_orderid(
@@ -214,19 +225,18 @@ class NeoAPI:
                     transaction_type=transaction_type, trigger_price=trigger_price,
                     dd=dd, market_protection=market_protection, disclosed_quantity=disclosed_quantity,
                     filled_quantity=filled_quantity)
-                print("Response For Modify Order", modify_order)
+                # print("Response For Modify Order", modify_order)
+                return modify_order
 
             except Exception:
-                print("Exception has been occurred while connecting to API")
+                return {"Error": "Exception has been occurred while connecting to API"}
 
         else:
             raise ValueError("Order ID is Mandate if we need to proceed further!")
 
-    async def async_quote(self, instrument_tokens, callback, quote_type, isIndex, session_token,
-                          sid, server_id, on_error):
+    def quotes(self, instrument_tokens, callback, quote_type=None, isIndex=False, session_token=None, sid=None,
+               server_id=None, on_error=None):
         instrument_tokens = json.loads(instrument_tokens)
-        print("INst Tokens ", type(instrument_tokens))
-        print("INst Tokens ", instrument_tokens)
         if not instrument_tokens:
             raise ValueError("Without instrument_tokens it's hard to subscribe with None values")
 
@@ -246,13 +256,6 @@ class NeoAPI:
 
         self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, callback=callback,
                                      isIndex=isIndex)
-
-    def quotes(self, instrument_tokens, callback, quote_type=None, isIndex=False, session_token=None, sid=None,
-               server_id=None, on_error=None):
-        asyncio.run(
-            self.async_quote(instrument_tokens, callback, quote_type=quote_type, isIndex=isIndex,
-                             session_token=session_token, sid=sid,
-                             server_id=server_id, on_error=on_error))
 
     def __on_open(self):
         if self.on_open:
@@ -311,18 +314,19 @@ class NeoAPI:
     def positions(self):
         try:
             position_list = neo_api_client.PositionsAPI(self.api_client).position_init()
-            print("Positions:", position_list)
+            return position_list
         except Exception as e:
             # handle any exceptions that might be raised here
-            print(f"Error occurred: {e}")
+            return e
 
     def holdings(self):
         try:
             portfolio_list = neo_api_client.PortfolioAPI(self.api_client).portfolio_holdings()
-            print("Portfolio Holdings:", portfolio_list)
+            # print("Portfolio Holdings:", portfolio_list)
+            return portfolio_list
         except Exception as e:
             # handle any exceptions that might be raised here
-            print(f"Error occurred: {e}")
+            return e
 
     def margin_required(self, exchange_segment, price, order_type, product, quantity, instrument_token,
                         transaction_type,
@@ -350,4 +354,5 @@ class NeoAPI:
                                                                                 square_off_value=square_off_value,
                                                                                 trailing_stop_loss=trailing_stop_loss,
                                                                                 trailing_sl_value=trailing_sl_value)
-        print("Margin OutCome ", margin_required)
+        # print("Margin OutCome ", margin_required)
+        return margin_required

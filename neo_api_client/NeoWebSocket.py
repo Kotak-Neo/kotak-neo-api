@@ -212,7 +212,8 @@ class NeoWebSocket:
                                                                                 'circuit_limits',
                                                                                 'scrip_details']}))
             except ValueError as e:
-                print(str(e))
+                return e
+                # print(str(e))
 
     def subscribe_scripts(self, channel_tokens):
         # print("self.channel_tokens.items()", self.channel_tokens)
@@ -225,7 +226,7 @@ class NeoWebSocket:
                 self.hsWebsocket.hs_send(req_params1)
 
     def prepare_un_sub(self):
-        print("IN Prepare UNSUB")
+        # print("IN Prepare UNSUB")
         for key, value in self.channel_tokens.items():
             # Loop through each item in the value list
             for item in value:

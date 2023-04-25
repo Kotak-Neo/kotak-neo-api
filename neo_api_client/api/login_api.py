@@ -112,9 +112,10 @@ class LoginAPI(object):
             body=body_params
         )
         edit_token_json_resp = json.loads(login_resp.text)
-        self.api_client.configuration.edit_token = edit_token_json_resp.get("data").get("token")
-        self.api_client.configuration.edit_sid = edit_token_json_resp.get("data").get("sid")
-        self.api_client.configuration.edit_rid = edit_token_json_resp.get("data").get("rid")
-        self.api_client.configuration.serverId = edit_token_json_resp.get("data").get("hsServerId")
+        if 'error' not in edit_token_json_resp:
+            self.api_client.configuration.edit_token = edit_token_json_resp.get("data").get("token")
+            self.api_client.configuration.edit_sid = edit_token_json_resp.get("data").get("sid")
+            self.api_client.configuration.edit_rid = edit_token_json_resp.get("data").get("rid")
+            self.api_client.configuration.serverId = edit_token_json_resp.get("data").get("hsServerId")
         return edit_token_json_resp
 
