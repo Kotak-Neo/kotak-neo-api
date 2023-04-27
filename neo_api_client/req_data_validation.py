@@ -1,7 +1,7 @@
 import json
 from neo_api_client.exceptions import ApiValueError
 from neo_api_client.settings import exchange_segment_allowed_values, product_allowed_values, \
-    order_type_allowed_values
+    order_type_allowed_values, segment_limits, exchange_limits, product_limits
 
 
 def login_params_validation(mobilenumber=None, userid=None, pan=None):
@@ -200,3 +200,23 @@ def margin_validation(exchange_segment, price, order_type, product, quantity, in
     if trigger_price is not None:
         if not isinstance(trigger_price, str):
             raise ApiValueError("trigger_price must be a string.")
+
+
+def limits_validation(segment, exchange, product):
+    #  Segment validation
+    if not isinstance(segment, str):
+        raise ApiValueError("Segment must be a string.")
+    if segment not in segment_limits:
+        raise ApiValueError("Invalid segment. Allowed values are CASH, CUR, FO, ALL")
+
+    #  Exchange validation
+    if not isinstance(exchange, str):
+        raise ApiValueError("Exchange must be a string.")
+    if exchange not in exchange_limits:
+        raise ApiValueError("Invalid Exchange. Allowed values are NSE, BSE, ALL")
+
+    #  Product validation
+    if not isinstance(product, str):
+        raise ApiValueError("Product must be a string.")
+    if product not in product_limits:
+        raise ApiValueError("Invalid Product. Allowed values are CNC, MIS, NRML, ALL")

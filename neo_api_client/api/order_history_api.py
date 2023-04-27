@@ -1,3 +1,5 @@
+import json
+
 from neo_api_client import rest
 from neo_api_client.exceptions import ApiException
 
@@ -25,6 +27,6 @@ class OrderHistoryAPI(object):
                 headers=header_params,
                 body=body_params
             )
-            return {"data": history_report.text}
+            return {"data": json.loads(history_report.text)}
         except ApiException as ex:
             return {"error": ex}

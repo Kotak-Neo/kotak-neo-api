@@ -14,7 +14,10 @@ UAT_URL = {
     "trade_report": "orderapi/1.0/quick/user/trades",
     "positions": "orderapi/1.0/quick/user/positions",
     "holdings": "portfolio/1.0/portfolio/v1/holdings",
-    "margin": "orderapi/1.0/quick/user/check-margin"
+    "margin": "orderapi/1.0/quick/user/check-margin",
+    "scrip_master": "scrip/1.0/masterscrip/file-paths",
+    "limits": "orderapi/1.0/quick/user/limits",
+    "logout": "api/1.0/logout"
 }
 
 PROD_URL = {
@@ -29,7 +32,10 @@ PROD_URL = {
     "trade_report": "Orders/2.0/quick/user/trades",
     "positions": "Orders/2.0/quick/user/positions",
     "holdings": "Portfolio/1.0/portfolio/v1/holdings",
-    "margin": "Orders/2.0/quick/user/check-margin"
+    "margin": "Orders/2.0/quick/user/check-margin",
+    "scrip_master": "Files/1.0/masterscrip/v1/file-paths",
+    "limits": "Orders/1.0/quick/user/limits",
+    "logout": "login/1.0/logout"
 }
 
 exchange_segment_allowed_values = ["NSE", "nse", "BSE", "bse", "NFO", "nfo", "BFO", "bfo", "CDS", "cds", "BCD", "bcd",
@@ -54,6 +60,10 @@ order_type = {"Limit": "L", "L": "L", "l": "L", "MKT": "MKT", "mkt": "MKT", "Mar
               "Stop loss limit": "SL", "Stop loss market": "SL-M", "SL-M": "SL-M", "sl-m": "SL-M", "Spread": "SP",
               "SP": "SP", "sp": "SP", "2L": "2L", "2l": "2L", "Two Leg": "2L", "3L": "3L", "3l": "3L",
               "Three leg": "3L"}
+
+segment_limits = ["CASH", "CUR", "FO", "ALL"]
+exchange_limits = ["NSE", "BSE", "ALL"]
+product_limits = ["CNC", "MIS", "NRML", "ALL"]
 
 stock_key_mapping = {
     'ltt': "last_traded_time",
@@ -136,3 +146,21 @@ neo_fin_key = "f784e198-bda7-439e-a1a6-177f432460b9"
 live_fin_key = "neotradeapi"
 market_protection = 0
 QuotesChannel = 1
+
+help_functions = {
+    1: 'help("place_order")',
+    2: 'help("modify_order")',
+    3: 'help("holdings")',
+    4: 'help("positions")',
+    5: 'help("limits")',
+    6: 'help("trade_report")',
+    7: 'help("margin_required")',
+    8: 'help("cancel_order")',
+    9: 'help("order_history")',
+    10: 'help("scripmaster")',
+    11: 'help("quotes")',
+    12: 'help("socket")',
+    13: 'help("search_scrip")',
+    14: 'help("order_report")',
+    15: 'help()'
+}

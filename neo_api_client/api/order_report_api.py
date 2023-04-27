@@ -1,6 +1,5 @@
 import requests
 from neo_api_client import rest
-from neo_api_client.settings import neo_fin_key, live_fin_key
 
 
 class OrderReportAPI(object):

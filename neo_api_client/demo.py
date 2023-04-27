@@ -1,5 +1,8 @@
 # from neo_api_client import NeoAPI
+import io
+from logger import logger
 import neo_api_client
+import threading
 
 
 def on_message(message):
@@ -18,23 +21,54 @@ client = neo_api_client.NeoAPI(consumer_key="lRJ_tZfsnuJ_AlJQ9fG99d4PtV0a",
                                on_error=on_error)
 client.login(mobilenumber="+919999999908", password="P@ssword1234")
 client.session_2fa(OTP=input("ENTER OTP:- "))
+# client = neo_api_client.NeoAPI(
+#     access_token="eyJ4NXQiOiJNbUprWWpVMlpETmpNelpqTURBM05UZ3pObUUxTm1NNU1qTXpNR1kyWm1OaFpHUTFNakE1TmciLCJraWQiOiJaalJqTUdRek9URmhPV1EwTm1WallXWTNZemRtWkdOa1pUUmpaVEUxTlRnMFkyWTBZVEUyTlRCaVlURTRNak5tWkRVeE5qZ3pPVGM0TWpGbFkyWXpOUV9SUzI1NiIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjbGllbnQxNjcxIiwiYXV0IjoiQVBQTElDQVRJT04iLCJhdWQiOiJmMVg3T2ZIRjJ6TGpNdFNUVDdDMVBuTFdEZDBhIiwibmJmIjoxNjgxOTc3MjIyLCJhenAiOiJmMVg3T2ZIRjJ6TGpNdFNUVDdDMVBuTFdEZDBhIiwic2NvcGUiOiJkZWZhdWx0IiwiaXNzIjoiaHR0cHM6XC9cL25hcGkua290YWtzZWN1cml0aWVzLmNvbTo0NDNcL29hdXRoMlwvdG9rZW4iLCJleHAiOjkyMjMzNzIwMzY4NTQ3NzUsImlhdCI6MTY4MTk3NzIyMiwianRpIjoiNTFlZmVlNmMtNTUxMS00ZWZmLWFkYmEtODZlNDk3MThhM2ZhIn0.aUZRtLo75BThlI3zP1El_0k5-U_dB36yaN_V_z72uTMMyLXeJt3MMDH7fN4c59kBwoPi6RwVk34Aa8jRY-qa1EmhVp9JKv78ImD1399uD2vWdKln85pa4Xenq7rYrlLv2T9x4KFPbZeg2XhO_sY1AkyKHy0oYpyTU6SDriG8p5geSwpXTSTTWe5ao9D8Sb6hKlDci5x2sB-iI2ktUQy9HBHAxHm44zDzZKRuqFqHazLcIgAL2HFERoV88h9HfTJqYPiG_rHaRuuJp35IaH773bWgacikVFZmPChH5Am98bWJsXfCj5YSIcflh9Dc9AKWpZEaIRm7x6lH_08ezqVi2w",
+#     environment="prod", on_message=on_message)
+# client.search_scrip(exchange_segment = "abcd")
+# client.scrip_master(exchange_segment="233")
+# client.search_scrip(exchange_segment='nse_cm', symbol = "YES")
+# client.search_scrip(symbol="EURINR", exchange_segment="cde_fo", expiry="26May2023", option_type="PE",
+#                     strike_price="855000000")
+# a = client.scrip_master(exchange_segment="233")
+# print(a)
+# client.help("place_order")
+# from neo_api_client import help
+# client.help()
+# client.help("order_report")
+# client.help("quotes")
+# client.help("holdings")
+#
+# instrument_tokens = [
+#     {"instrument_token": "6530", "exchange_segment": "nse_cm"},
+#     {"instrument_token": "6531", "exchange_segment": "nse_cm"},
+#     {"instrument_token": "6532", "exchange_segment": "nse_cm"}
+# ]
+# client.subscribe(instrument_tokens=instrument_tokens)
+# t1 = threading.Thread(target=client.subscribe(instrument_tokens=instrument_tokens))
+# t1.start()
+inst_tokens = [{"instrument_token": "11536", "exchange_segment": "nse_cm"},
+               {"instrument_token": "1594", "exchange_segment": "nse_cm"},
+               {"instrument_token": "11915", "exchange_segment": "nse_cm"},
+               {"instrument_token": "13245", "exchange_segment": "nse_cm"}]
+client.subscribe(instrument_tokens=inst_tokens)
+# t2 = threading.Thread(target=client.subscribe(instrument_tokens=inst_tokens))
+# t2.start()
+#
+# in_tokens = [{"instrument_token": "6551", "exchange_segment": "nse_cm"},
+#     {"instrument_token": "6553", "exchange_segment": "nse_cm"},
+#     {"instrument_token": "6555", "exchange_segment": "nse_cm"}]
+# t3 = threading.Thread(target=client.subscribe(instrument_tokens=in_tokens))
+# t3.start()
+# Start threads
 
-instrument_tokens = [
-    {"instrument_token": "6530", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6531", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6532", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6533", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6542", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6543", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6545", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6551", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6553", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6555", "exchange_segment": "nse_cm"}
-]
-print("instrument_tokens")
-print("Subscription is going to start ")
+# Wait for all threads to complete
+# t1.join()
+# t2.join()
+# t3.join()
+# print("instrument_tokens")
+# print("Subscription is going to start ")
 
-# client.quotes(instrument_tokens=instrument_tokens, callback=on_message, quote_type="scrip_details", isIndex=True)
+# client.quotes(instrument_tokens=inst_tokens, callback=on_message, quote_type="scrip_details", isIndex=False)
 
 # market_depth
 # ohlc
@@ -54,8 +88,10 @@ print("Subscription is going to start ")
 # import multiprocessing
 #
 # proc1 = multiprocessing.Process(target=client.subscribe(instrument_tokens=instrument_tokens))
-# inst_tokens = [{"instrument_token": "-11536", "exchange_segment": "nse_cm"}]
-client.subscribe(instrument_tokens=instrument_tokens)
+# inst_tokens = [{"instrument_token": "11536", "exchange_segment": "nse_cm"}]
+# client.subscribe(instrument_tokens=instrument_tokens)
+# inst_token = [{"instrument_token": "6542", "exchange_segment": "nse_fo"}]
+# client.un_subscribe(inst_token)
 #
 # proc2 = multiprocessing.Process(target=client.subscribe(instrument_tokens=inst_tokens))
 #
@@ -66,4 +102,34 @@ client.subscribe(instrument_tokens=instrument_tokens)
 # proc1.join()
 # proc2.join()
 
-print("Both Processes Completed!")
+
+# import os
+# import re
+#
+#
+# def help(section=None):
+#     # Get the path to the README.md file
+#     readme_path = os.path.join(os.path.dirname(__file__), 'README.md')
+#
+#     # Read the contents of the README.md file
+#     with open(readme_path, 'r') as f:
+#         readme_contents = f.read()
+#
+#     # Define regular expressions to extract section information
+#     login_regex = r'### Login\n(.*?)\n\n'
+#     place_order_regex = r'### Place Order\n(.*?)\n\n'
+#
+#     # Extract the relevant section information
+#     if section == 'login':
+#         section_info = re.search(login_regex, readme_contents, re.DOTALL).group(1)
+#     elif section == 'place_order':
+#         section_info = re.search(place_order_regex, readme_contents, re.DOTALL).group(1)
+#     else:
+#         # No section specified, display entire README.md file
+#         section_info = readme_contents
+#
+#     # Print the relevant section information
+#     print(section_info)
+#
+#
+# help()

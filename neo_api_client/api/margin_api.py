@@ -1,4 +1,4 @@
-import neo_api_client
+import json
 from neo_api_client import rest
 from neo_api_client.exceptions import ApiException
 
@@ -36,7 +36,7 @@ class MarginAPI(object):
                 body=body_params
             )
 
-            return {"data": margin_resp.text}
+            return {"data": json.loads(margin_resp.text)}
 
         except ApiException as ex:
             return {"error": ex}

@@ -35,8 +35,8 @@ class TradeReportAPI(object):
                             output_json["data"] = item
                     return output_json
                 else:
-                    return {"Message": "There is no trades available with the given order id"}
+                    return {"Error": "There is no trades available with the given order id"}
             else:
                 return trade_report
         except requests.exceptions.RequestException as e:
-            print(f"Error occurred: {e}")
+            return {'Error': e}

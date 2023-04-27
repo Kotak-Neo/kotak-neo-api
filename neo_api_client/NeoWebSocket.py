@@ -3,6 +3,7 @@ import json
 import neo_api_client
 from neo_api_client.settings import stock_key_mapping, MarketDepthResp, QuotesChannel, \
     ReqTypeValues, index_key_mapping
+# from neo_api_client.logger import logger
 
 
 class NeoWebSocket:
@@ -34,11 +35,8 @@ class NeoWebSocket:
         req_params = {"type": "cn", "Authorization": self.access_token, "Sid": self.sid}
         self.hsWebsocket.hs_send(json.dumps(req_params))
 
-    def remove_un_sub_list(self):
-        pass
-
     def on_message(self, message):
-        print("on Message Func in NeoWebsocket", message)
+        # print("on Message Func in NeoWebsocket", message)
         if message:
             if type(message) == str:
                 req_type = json.loads(message)[0]["type"]
@@ -47,24 +45,22 @@ class NeoWebSocket:
                     self.OPEN = 1
                     if len(self.quotes_arr) >= 1:
                         self.call_quotes()
-                    if self.un_sub_token:
-                        self.un_subscription()
-                    # elif len(self.sub_list) >= 1:
-                    #     self.subscribe_scripts(self.channel_tokens)
+                    if len(self.sub_list) >= 1:
+                        self.subscribe_scripts(self.channel_tokens)
                 if req_type == "unsub":
                     if len(self.un_sub_channel_token) > 0 and self.un_sub_channel:
                         # remove from sub_list and sub_token
                         self.remove_items(self.un_sub_channel_token[self.un_sub_channel])
                         del self.un_sub_channel_token[self.un_sub_channel]
-
                     if len(self.un_sub_channel_token) == 0:
                         if self.token_limit_reached:
                             self.sub_list = []
                             self.channel_tokens = {}
-                        else:
-                            self.live_message("Un-Subscribed Successfully!")
+                            self.un_sub_channel_token = {}
+                    self.live_message("Un-Subscribed Successfully!")
             elif type(message) == list:
                 if len(self.quotes_arr) >= 1:
+                    print("*************", self.quotes_arr)
                     out_list, quote_type = self.quote_response_formatter(message)
                     message = self.response_format(out_list, quote_type=quote_type)
                     self.quotes_api_callback(message)
@@ -75,9 +71,6 @@ class NeoWebSocket:
     def on_close(self):
         self.OPEN = 0
         self.hsWebsocket.close()
-        if self.quotes_arr:
-            self.quotes_arr = []
-        print("On Close Function NeoWebSocket")
 
     def on_error(self, error):
         self.OPEN = 0
@@ -89,7 +82,6 @@ class NeoWebSocket:
             print("Some Error! From Websocket")
 
     def remove_items(self, un_sub_json):
-        tokens_to_remove = []
         for unsubscribe_token in un_sub_json:
             token_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['instrument_token']
             segment_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['exchange_segment']
@@ -97,12 +89,15 @@ class NeoWebSocket:
             for channel_token_list in self.channel_tokens.values():
                 for channel_token_dict in channel_token_list:
                     for channel_token_key, channel_token_value in channel_token_dict.items():
+                        for dictionary in self.sub_list:
+                            if list(dictionary.keys())[0] == channel_token_key and dictionary.get(
+                                    channel_token_key) == channel_token_value:
+                                self.sub_list.remove(dictionary)
                         if token_value == channel_token_value['instrument_token'] and segment_value == \
                                 channel_token_value['exchange_segment'] and sub_type_value == \
                                 channel_token_value['subscription_type']:
                             channel_token_list.remove(channel_token_dict)
                             break
-
         return
 
     def input_validation(self, instrument_tokens):
@@ -110,7 +105,6 @@ class NeoWebSocket:
         ret_obj = True
         if len(instrument_tokens) > 0:
             for item in instrument_tokens:
-                # diff = list(set(list(item.keys())) - set(valid_params))
                 if ret_obj:
                     keys_lst = list(item.keys())
                     for key in valid_params:
@@ -212,8 +206,7 @@ class NeoWebSocket:
                                                                                 'circuit_limits',
                                                                                 'scrip_details']}))
             except ValueError as e:
-                return e
-                # print(str(e))
+                print(str(e))
 
     def subscribe_scripts(self, channel_tokens):
         # print("self.channel_tokens.items()", self.channel_tokens)
@@ -226,7 +219,7 @@ class NeoWebSocket:
                 self.hsWebsocket.hs_send(req_params1)
 
     def prepare_un_sub(self):
-        # print("IN Prepare UNSUB")
+        print("IN Prepare UNSUB")
         for key, value in self.channel_tokens.items():
             # Loop through each item in the value list
             for item in value:
@@ -507,28 +500,6 @@ class NeoWebSocket:
 
     def un_subscribe_list(self, instrument_tokens, onmessage=None, isIndex=False, isDepth=False):
         # print("INTO UNSUBSCRIBE", instrument_tokens)
-        self.sub_list = [
-            {'6530': {'instrument_token': '6530', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6531': {'instrument_token': '6531', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6532': {'instrument_token': '6532', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6533': {'instrument_token': '6533', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6542': {'instrument_token': '6542', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6543': {'instrument_token': '6543', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6545': {'instrument_token': '6545', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6551': {'instrument_token': '6551', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6553': {'instrument_token': '6553', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-            {'6555': {'instrument_token': '6555', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}}]
-        self.channel_tokens = {
-            2: [{'6530': {'instrument_token': '6530', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6531': {'instrument_token': '6531', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6532': {'instrument_token': '6532', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6533': {'instrument_token': '6533', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6542': {'instrument_token': '6542', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6543': {'instrument_token': '6543', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6545': {'instrument_token': '6545', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6551': {'instrument_token': '6551', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6553': {'instrument_token': '6553', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}},
-                {'6555': {'instrument_token': '6555', 'exchange_segment': 'nse_cm', 'subscription_type': 'mws'}}]}
         self.live_message = onmessage
         un_subscription_type = ReqTypeValues.get("SCRIP_UNSUBS")
         subscription_type = ReqTypeValues.get("SCRIP_SUBS")
@@ -563,11 +534,11 @@ class NeoWebSocket:
             print("self.un_sub_channel_token", self.un_sub_channel_token)
             if self.hsWebsocket and self.OPEN == 1:
                 self.un_subscription()
-            else:
-                self.un_sub_token = True
-                self.hsWebsocket = neo_api_client.HSWebSocket()
-                self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
-                                                 self.on_open, self.on_message, self.on_error, self.on_close)
-
             # else:
-            #     print("Socket Connection has been closed, So! The scripts are already un-subscribed!")
+            #     self.un_sub_token = True
+            #     self.hsWebsocket = neo_api_client.HSWebSocket()
+            #     self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
+            #                                      self.on_open, self.on_message, self.on_error, self.on_close)
+
+            else:
+                print("Socket Connection has been closed, So! The scripts are already un-subscribed!")

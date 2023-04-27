@@ -14,7 +14,7 @@ class PortfolioAPI(object):
             "Auth": self.api_client.configuration.edit_token,
             'accept': '*/*'
         }
-        params = {'alt': 'true'}
+        params = {"sId": self.api_client.configuration.serverId}
 
         URL = self.api_client.configuration.get_url_details("holdings")
 

@@ -30,7 +30,7 @@ class OrderAPI(object):
                 body=body_params
             )
 
-            return {"data": orders_resp.text}
+            return orders_resp.json()
         except ApiException as ex:
             return {"error": ex}
 
@@ -41,7 +41,10 @@ class OrderAPI(object):
                 for item in order_book_resp["data"]:
                     if item["nOrdNo"] == order_id.strip():
                         if item["ordSt"] in ["rejected", "cancelled", "complete", "traded"]:
-                            return {"Message": "The Given Order Status is " + str(item["ordSt"])}
+                            if item["ordSt"] == 'complete':
+                                item["ordSt"] = 'Traded'
+                            return {"Error": "The Given Order Status is " + str(item["ordSt"]),
+                                    "Reason": item["rejRsn"]}
 
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token,
                          "Sid": self.api_client.configuration.edit_sid,
@@ -59,7 +62,7 @@ class OrderAPI(object):
                 headers=header_params,
                 body=body_params
             )
-            return {"data": cancel_resp.text}
+            return cancel_resp.json()
         except ApiException as ex:
             return {"error": ex}
 

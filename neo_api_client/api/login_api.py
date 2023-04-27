@@ -77,8 +77,8 @@ class LoginAPI(object):
             view_token_json_resp = json.loads(generate_view_token.text)
             if mobilenumber and not mobilenumber.startswith("+"):
                 view_token_json_resp["Note"] = "since no country code found we have appended +91 as the default " \
-                                              "country code. Please change it to the correct code if your mobile " \
-                                              "number is not of indian number "
+                                               "country code. Please change it to the correct code if your mobile " \
+                                               "number is not of indian number "
             return view_token_json_resp
 
     def generate_otp(self):
@@ -118,4 +118,3 @@ class LoginAPI(object):
             self.api_client.configuration.edit_rid = edit_token_json_resp.get("data").get("rid")
             self.api_client.configuration.serverId = edit_token_json_resp.get("data").get("hsServerId")
         return edit_token_json_resp
-

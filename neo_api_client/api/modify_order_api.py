@@ -53,8 +53,11 @@ class ModifyOrder(object):
             for item in order_book_resp["data"]:
                 if item["nOrdNo"] == order_id:
                     if item["ordSt"] in ["rejected", "cancelled", "complete", "traded"]:
-                        return {"Message": "The Given Order Status is " + str(item["ordSt"]) + ", So we can't "
-                                                                                               "proceed further"}
+                        if item["ordSt"] == 'complete':
+                            item["ordSt"] = 'Traded'
+                        return {"Error": "The Given Order Status is " + str(item["ordSt"]) +
+                                         ", So we can't proceed further",
+                                "Reason": item["rejRsn"]}
                     else:
                         trading_symbol = trading_symbol or item['trdSym']
                         instrument_token = instrument_token or item['tok']
@@ -92,7 +95,7 @@ class ModifyOrder(object):
                                 headers=header_params,
                                 body=body_params
                             )
-                            return {"data": orders_resp.text}
+                            return orders_resp.json()
 
                         except ApiException as ex:
                             return {"error": ex}
