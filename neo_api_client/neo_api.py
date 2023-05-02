@@ -565,6 +565,8 @@ class NeoAPI:
             Raises:
                 ValueError: If the instrument tokens are not provided, or if the session token and SID are not provided when there is no Login.
         """
+        # instrument_tokens = json.loads(instrument_tokens)
+        # print("INside Quptes", instrument_tokens)
         if not instrument_tokens:
             raise ValueError("Without instrument_tokens it's hard to subscribe with None values")
 
@@ -609,7 +611,7 @@ class NeoAPI:
             Subscribe to live feeds for the given instrument tokens.
 
             Args:
-                instrument_tokens (str): A JSON-encoded list of instrument tokens to subscribe to.
+                instrument_tokens (List): A JSON-encoded list of instrument tokens to subscribe to.
                 isIndex (bool): Whether the instrument is an index. Default is False.
                 isDepth (bool): Whether to subscribe to depth data. Default is False.
 
@@ -631,9 +633,12 @@ class NeoAPI:
                                             onerror=self.__on_error, onclose=self.__on_close,
                                             onopen=self.__on_open, isIndex=isIndex, isDepth=isDepth)
         else:
-            raise ValueError("Please complete the Login Flow to Subscribe the Scrips")
+            print("Please complete the Login Flow to Subscribe the Scrips")
 
-    def un_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    # def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    #     asyncio.run(self.async_subscribe(instrument_tokens, isIndex=isIndex, isDepth=isDepth))
+
+    def un_subscribe(self, instrument_tokens, isIndex, isDepth):
         if self.configuration.edit_token and self.configuration.edit_sid:
             if not self.NeoWebSocket:
                 self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
@@ -645,6 +650,9 @@ class NeoAPI:
             print("The Data has been Un-Subscribed")
         else:
             raise ValueError("Please complete the Login Flow to Un_Subscribe the Scrips")
+
+    # def un_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    #     asyncio.run(self.async_un_subscribe(instrument_tokens, isIndex=isIndex, isDepth=isDepth))
 
     def help(self, function_name=None):
         # function_names = [name for name in dir(NeoAPI) if callable(getattr(NeoAPI, name)) and not name.startswith(
@@ -680,6 +688,9 @@ class NeoAPI:
         if self.configuration.edit_token and self.configuration.edit_sid:
             try:
                 log_off = neo_api_client.LogoutAPI(self.api_client).logging_out()
+                self.configuration.bearer_token = None
+                self.configuration.edit_sid = None
+                self.configuration.edit_token = None
                 return {"State": "OK", "message": "You have been successfully logged out"}
 
             except Exception as e:

@@ -21,6 +21,6 @@ class ScripMasterAPI(object):
                     return exchange_segment_csv[0]
                 else:
                     return {"Error": "Exchange segment not found"}
-            return scrip_report.json()
+            return scrip_report
         except ApiException as ex:
             return {"error": ex}

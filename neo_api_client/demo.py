@@ -1,6 +1,5 @@
 # from neo_api_client import NeoAPI
 import io
-from logger import logger
 import neo_api_client
 import threading
 
@@ -21,6 +20,8 @@ client = neo_api_client.NeoAPI(consumer_key="lRJ_tZfsnuJ_AlJQ9fG99d4PtV0a",
                                on_error=on_error)
 client.login(mobilenumber="+919999999908", password="P@ssword1234")
 client.session_2fa(OTP=input("ENTER OTP:- "))
+# s = client.scrip_master()
+# print(s)
 # client = neo_api_client.NeoAPI(
 #     access_token="eyJ4NXQiOiJNbUprWWpVMlpETmpNelpqTURBM05UZ3pObUUxTm1NNU1qTXpNR1kyWm1OaFpHUTFNakE1TmciLCJraWQiOiJaalJqTUdRek9URmhPV1EwTm1WallXWTNZemRtWkdOa1pUUmpaVEUxTlRnMFkyWTBZVEUyTlRCaVlURTRNak5tWkRVeE5qZ3pPVGM0TWpGbFkyWXpOUV9SUzI1NiIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjbGllbnQxNjcxIiwiYXV0IjoiQVBQTElDQVRJT04iLCJhdWQiOiJmMVg3T2ZIRjJ6TGpNdFNUVDdDMVBuTFdEZDBhIiwibmJmIjoxNjgxOTc3MjIyLCJhenAiOiJmMVg3T2ZIRjJ6TGpNdFNUVDdDMVBuTFdEZDBhIiwic2NvcGUiOiJkZWZhdWx0IiwiaXNzIjoiaHR0cHM6XC9cL25hcGkua290YWtzZWN1cml0aWVzLmNvbTo0NDNcL29hdXRoMlwvdG9rZW4iLCJleHAiOjkyMjMzNzIwMzY4NTQ3NzUsImlhdCI6MTY4MTk3NzIyMiwianRpIjoiNTFlZmVlNmMtNTUxMS00ZWZmLWFkYmEtODZlNDk3MThhM2ZhIn0.aUZRtLo75BThlI3zP1El_0k5-U_dB36yaN_V_z72uTMMyLXeJt3MMDH7fN4c59kBwoPi6RwVk34Aa8jRY-qa1EmhVp9JKv78ImD1399uD2vWdKln85pa4Xenq7rYrlLv2T9x4KFPbZeg2XhO_sY1AkyKHy0oYpyTU6SDriG8p5geSwpXTSTTWe5ao9D8Sb6hKlDci5x2sB-iI2ktUQy9HBHAxHm44zDzZKRuqFqHazLcIgAL2HFERoV88h9HfTJqYPiG_rHaRuuJp35IaH773bWgacikVFZmPChH5Am98bWJsXfCj5YSIcflh9Dc9AKWpZEaIRm7x6lH_08ezqVi2w",
 #     environment="prod", on_message=on_message)
@@ -84,7 +85,6 @@ client.subscribe(instrument_tokens=inst_tokens)
 #     concurrent.futures.wait([future1, future2])
 
 # client.un_subscribe(instrument_tokens)
-# client.subscribe(instrument_tokens=instrument_tokens)
 # import multiprocessing
 #
 # proc1 = multiprocessing.Process(target=client.subscribe(instrument_tokens=instrument_tokens))

@@ -58,12 +58,13 @@ client = NeoAPI(consumer_key="", consumer_secret="",
 # Also this will generate the OTP to complete 2FA
 client.login(mobilenumber="+919999999999", password="XXXX")
 
-#Complete login and generate session token
+# Complete login and generate session token
 client.session_2fa(OTP="")
 
-client.place_order(order_type = "N", instrument_token = 727, transaction_type = "BUY",\
-                   quantity = 1, price = 0, disclosed_quantity = 0, trigger_price = 0,\
-                   tag = "string", validity = "GFD", variety = "REGULAR")
+# Once 2FA has you can place the order by using below function
+client.place_order(exchange_segment='', product='', price='', order_type='', quantity=12, validity='', trading_symbol='',
+                    transaction_type='', amo="NO", disclosed_quantity="0", market_protection="0", pf="N",
+                    trigger_price="0", tag=None)
 						
 # Modify an order
 client.modify_order(order_id = "", price = 0, quantity = 1, disclosed_quantity = 0, trigger_price = 0, validity = "GFD")
@@ -83,23 +84,48 @@ client.trade_report()
 # Get Detailed Trade Report for specific order id. 
 client.trade_report(order_id = "")
 
-# Get Margin required for Equity orders. 
-
 # Get Positions
 client.positions()
 
+# Get Portfolio Holdings
+client.holdings()
+
+# Get Limits
+client.limits(segment="", exchange="", product="")
+
+# Get Margin required for Equity orders. 
+client.margin_required(exchange_segment = "", price = "", order_type= "", product = "",   quantity = "", instrument_token = "",  transaction_type = "")
+
+# Get Scrip Master CSV file
+client.scrip_master()
+
+# Get Scrip Master CSV file for specific Exchange Segment. 
+client.scrip_master(exchange_segment = "")
+
+# Search for the Scrip details from Scrip master file
+# exchange_segment is mandatory option to pass and remaining parameters are optional
+client.search_scrip(exchange_segment="cde_fo", symbol="", expiry="", option_type="",
+                    strike_price="")
+
 # Get Quote details. 
-instrument_tokens = [{"instrument_token": "6533", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6542", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6543", "exchange_segment": "nse_cm"},
-    {"instrument_token": "6545", "exchange_segment": "nse_cm"}]
+instrument_tokens = [{"instrument_token": "", "exchange_segment": ""},
+    {"instrument_token": "", "exchange_segment": ""},
+    {"instrument_token": "", "exchange_segment": ""},
+    {"instrument_token": "", "exchange_segment": ""}]
 
 # quote_type can be market_depth, ohlc, ltp, 52w, circuit_limits, scrip_details
 # By Default quote_type is set as None that means you will get the complete data.
 # Quotes api can be accessed without completing login by passing session_token, sid and server_id 
-client.quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=True, 
+client.quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=False, 
               callback=on_message, session_token="", sid="",server_id="")
 
+# Subscribe method will get you the live feed details of the given tokens.
+# By Default isIndex is set as False and you want to get the live feed to index scrips set the isIndex flag as True 
+# By Default isDepth is set as False and you want to get the depth information set the isDepth flag as True
+client.subscribe(instrument_tokens = instrument_tokens, isIndex=False, isDepth=False)
+
+# Un_Subscribes the given tokens. First the tokens will be checked weather that is subscribed. If not Subscribed we will send you the error message else we will unsubscribe the give tokens
+client.un_subscribe(instrument_tokens=instrument_tokens)
 #Terminate user's Session
 client.logout()
 ```

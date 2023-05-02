@@ -28,4 +28,3 @@ from neo_api_client.urls import WEBSOCKET_URL, PROD_BASE_URL, SESSION_PROD_BASE_
 from neo_api_client.neo_api import NeoAPI
 from neo_api_client.api.modify_order_api import ModifyOrder
 from neo_api_client.api.scrip_search import ScripSearch
-from neo_api_client.logger import logger

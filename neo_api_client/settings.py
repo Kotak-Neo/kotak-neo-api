@@ -157,7 +157,7 @@ help_functions = {
     7: 'help("margin_required")',
     8: 'help("cancel_order")',
     9: 'help("order_history")',
-    10: 'help("scripmaster")',
+    10: 'help("scrip_master")',
     11: 'help("quotes")',
     12: 'help("socket")',
     13: 'help("search_scrip")',

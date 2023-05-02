@@ -60,7 +60,6 @@ class NeoWebSocket:
                     self.live_message("Un-Subscribed Successfully!")
             elif type(message) == list:
                 if len(self.quotes_arr) >= 1:
-                    # print("*************", self.quotes_arr)
                     out_list, quote_type = self.quote_response_formatter(message)
                     message = self.response_format(out_list, quote_type=quote_type)
                     self.quotes_api_callback(message)
@@ -69,6 +68,7 @@ class NeoWebSocket:
                     self.live_message(message)
 
     def on_close(self):
+        print("On Close Function is running!")
         self.OPEN = 0
         self.hsWebsocket.close()
 
@@ -80,6 +80,7 @@ class NeoWebSocket:
             self.live_error(error)
         else:
             print("Some Error! From Websocket")
+        self.hsWebsocket.close()
 
     def remove_items(self, un_sub_json):
         for unsubscribe_token in un_sub_json:
@@ -531,7 +532,7 @@ class NeoWebSocket:
                                 self.un_sub_channel_token[key].append({in_key: value})
                 else:
                     print("The Given Token is not in Subscription list")
-            print("self.un_sub_channel_token", self.un_sub_channel_token)
+            # print("self.un_sub_channel_token", self.un_sub_channel_token)
             if self.hsWebsocket and self.OPEN == 1:
                 self.un_subscription()
             # else:

@@ -1,7 +1,9 @@
 import datetime
 import json
-import websocket
+
 import rel
+import websocket
+
 # from neo_api_client.logger import logger
 
 isEncyptOut = False
@@ -1108,11 +1110,14 @@ class StartServer:
 
         else:
             print("WebSocket not initialized!")
-        ws.run_forever(ping_interval=70, ping_timeout=10)  # dispatcher=rel, reconnect=5
-        # rel.signal(2, rel.abort)  # Keyboard Interrupt
+        # ws.run_forever()
+        ws.run_forever(dispatcher=rel,
+                       reconnect=5)  # Set dispatcher to automatic reconnection, 5 second reconnect delay if connection closed unexpectedly
+        rel.signal(2, rel.abort)  # Keyboard Interrupt
         rel.dispatch()
 
     def on_open(self, ws):
+        # print("[OnOpen]: Function is running in HSWebscoket")
         self.onopen()
 
     def on_message(self, ws, inData):
@@ -1129,7 +1134,7 @@ class StartServer:
             self.onmessage(outData)
 
     def on_close(self, ws, close_status_code, close_msg):
-        # print("[OnClose]: Function is running HSWebsocket", close_status_code)
+        print("[OnClose]: Function is running HSWebsocket", close_status_code)
         self.onclose()
 
     def on_error(self, ws, error):
