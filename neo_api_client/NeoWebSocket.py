@@ -60,7 +60,7 @@ class NeoWebSocket:
                     self.live_message("Un-Subscribed Successfully!")
             elif type(message) == list:
                 if len(self.quotes_arr) >= 1:
-                    print("*************", self.quotes_arr)
+                    # print("*************", self.quotes_arr)
                     out_list, quote_type = self.quote_response_formatter(message)
                     message = self.response_format(out_list, quote_type=quote_type)
                     self.quotes_api_callback(message)
@@ -219,7 +219,7 @@ class NeoWebSocket:
                 self.hsWebsocket.hs_send(req_params1)
 
     def prepare_un_sub(self):
-        print("IN Prepare UNSUB")
+        # print("IN Prepare UNSUB")
         for key, value in self.channel_tokens.items():
             # Loop through each item in the value list
             for item in value:
@@ -265,7 +265,7 @@ class NeoWebSocket:
             self.prepare_un_sub()
             self.un_subscription()
 
-        print("INTO LIVE FEED")
+        # print("INTO LIVE FEED")
         self.live_message = onmessage
         self.live_error = onerror
         self.live_open = onopen
@@ -295,14 +295,14 @@ class NeoWebSocket:
                     else:
                         self.sub_list[index][key].update(value)
             channel_tokens = self.channel_segregation(tmp_token_list)
-            print("channel_tokens newly adding ", self.sub_list)
-            print("Total Channel Tokens ", self.channel_tokens)
+            # print("channel_tokens newly adding ", self.sub_list)
+            # print("Total Channel Tokens ", self.channel_tokens)
             if self.hsWebsocket and self.OPEN == 1:
-                print("Websocket is opened and subscribing the scripts.............")
+                # print("Websocket is opened and subscribing the scripts.............")
                 self.subscribe_scripts(channel_tokens)
             else:
-                print("Websocket is connection is not there.............")
-                print("Opening the Websocket connection and subscribing the scripts.............")
+                # print("Websocket is connection is not there.............")
+                # print("Opening the Websocket connection and subscribing the scripts.............")
                 self.hsWebsocket = neo_api_client.HSWebSocket()
                 self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
                                                  self.on_open, self.on_message, self.on_error, self.on_close)
