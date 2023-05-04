@@ -30,6 +30,6 @@ class LimitsAPI(object):
                 headers=header_params,
                 body=body_params
             )
-            return limits_report.json()
+            return {"data": limits_report.text}
         except ApiException as ex:
             return {"error": ex}

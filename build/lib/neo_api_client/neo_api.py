@@ -290,7 +290,7 @@ class NeoAPI:
     def modify_order(self, order_id, price, order_type, quantity, validity, instrument_token=None,
                      exchange_segment=None, product=None, trading_symbol=None, transaction_type=None,
                      trigger_price="0", dd="NA", market_protection="0", disclosed_quantity="0",
-                     filled_quantity="0", amo='NO'):
+                     filled_quantity="0"):
         """
             There are 2 ways to modify the order one is bypassing all the parameters and another one is
             pass the order_id based on that we will take the values from order book and updated the latest details
@@ -298,7 +298,6 @@ class NeoAPI:
             Modify an existing order with new values for its parameters.
 
             Args:
-                amo: (str, optional): Default sets to NO. Override with 'YES' if you want to pass amo
                 order_id (int): The unique identifier of the order to be modified.
                 price (float): The new price for the order.
                 order_type (str): The new order type for the order.
@@ -334,7 +333,7 @@ class NeoAPI:
                                            transaction_type=transaction_type, trigger_price=trigger_price,
                                            dd=dd, market_protection=market_protection,
                                            disclosed_quantity=disclosed_quantity,
-                                           filled_quantity=filled_quantity, amo=amo)
+                                           filled_quantity=filled_quantity)
                     return quick_modify
                 except Exception:
                     return {'Error': "Exception has been occurred while connecting to API"}
@@ -346,7 +345,7 @@ class NeoAPI:
                         exchange_segment=exchange_segment, trading_symbol=trading_symbol,
                         transaction_type=transaction_type, trigger_price=trigger_price,
                         dd=dd, market_protection=market_protection, disclosed_quantity=disclosed_quantity,
-                        filled_quantity=filled_quantity, amo=amo)
+                        filled_quantity=filled_quantity)
                     return modify_order
 
                 except Exception:
@@ -525,25 +524,25 @@ class NeoAPI:
                 key with a list of error messages.
 
         """
-        if self.configuration.edit_token and self.configuration.edit_sid:
-            if not exchange_segment:
-                error = {
-                    'error': [{'code': '10300', 'message': 'Validation Errors! Exchange Segment is Mandate to proceed '
-                                                           'further'}]}
-                return error
-            try:
-                exchange_segment = neo_api_client.settings.exchange_segment[exchange_segment]
-                symbol = str(symbol).lower()
-                scrip_list = neo_api_client.ScripSearch(self.api_client).scrip_search(exchange_segment=exchange_segment,
-                                                                                      symbol=symbol, expiry=expiry,
-                                                                                      option_type=option_type,
-                                                                                      strike_price=strike_price,
-                                                                                      ignore_50multiple=ignore_50multiple)
-                return scrip_list
-            except Exception as e:
-                return {"Error": e, "message": 'Exchange Segment is not available'}
-        else:
-            return {"Error Message": "Complete the 2fa process before accessing this application"}
+        # if self.configuration.edit_token and self.configuration.edit_sid:
+        if not exchange_segment:
+            error = {
+                'error': [{'code': '10300', 'message': 'Validation Errors! Exchange Segment is Mandate to proceed '
+                                                       'further'}]}
+            return error
+        try:
+            exchange_segment = neo_api_client.settings.exchange_segment[exchange_segment]
+            symbol = str(symbol).lower()
+            scrip_list = neo_api_client.ScripSearch(self.api_client).scrip_search(exchange_segment=exchange_segment,
+                                                                                  symbol=symbol, expiry=expiry,
+                                                                                  option_type=option_type,
+                                                                                  strike_price=strike_price,
+                                                                                  ignore_50multiple=ignore_50multiple)
+            return scrip_list
+        except Exception as e:
+            return {"Error": e, "message": 'Exchange Segment is not available'}
+        # else:
+        #     return {"Error Message": "Complete the 2fa process before accessing this application"}
 
     def quotes(self, instrument_tokens, callback, quote_type=None, isIndex=False, session_token=None, sid=None,
                server_id=None, on_error=None):

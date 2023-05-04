@@ -10,7 +10,7 @@ class ModifyOrder(object):
 
     def quick_modification(self, order_id, price, order_type, quantity, validity, instrument_token,
                            exchange_segment, product, trading_symbol, transaction_type, trigger_price,
-                           dd, market_protection, disclosed_quantity, filled_quantity, amo):
+                           dd, market_protection, disclosed_quantity, filled_quantity):
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token,
                          "Sid": self.api_client.configuration.edit_sid,
                          "Auth": self.api_client.configuration.edit_token,
@@ -19,7 +19,7 @@ class ModifyOrder(object):
 
         body_params = {"tk": instrument_token, "mp": market_protection, "pc": product, "dd": dd,
                        "dq": disclosed_quantity, "vd": validity, "ts": trading_symbol, "tt": transaction_type,
-                       "pr": price, "pt": order_type, "fq": filled_quantity, 'am': amo,
+                       "pr": price, "pt": order_type, "fq": filled_quantity,
                        "tp": trigger_price, "qt": quantity, "no": order_id, "es": exchange_segment}
 
         query_params = {"sId": self.api_client.configuration.serverId}
@@ -32,14 +32,14 @@ class ModifyOrder(object):
                 body=body_params
             )
 
-            return orders_resp.json()
+            return {"data": orders_resp.text}
 
         except ApiException as ex:
             return {"error": ex}
 
     def modification_with_orderid(self, order_id, price, order_type, quantity, validity, instrument_token,
                                   exchange_segment, product, trading_symbol, transaction_type, trigger_price,
-                                  dd, market_protection, disclosed_quantity, filled_quantity, amo):
+                                  dd, market_protection, disclosed_quantity, filled_quantity):
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token,
                          "Sid": self.api_client.configuration.edit_sid,
                          "Auth": self.api_client.configuration.edit_token,
@@ -85,7 +85,6 @@ class ModifyOrder(object):
                             "qt": quantity,
                             "no": order_id,
                             "es": exchange_segment,
-                            "am": amo
                         }
                         query_params = {"sId": self.api_client.configuration.serverId}
                         try:

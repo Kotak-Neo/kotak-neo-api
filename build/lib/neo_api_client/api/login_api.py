@@ -58,7 +58,6 @@ class LoginAPI(object):
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token}
         body_params = req_data_validation.login_params_validation(mobilenumber=mobilenumber, userid=userid, pan=pan)
         body_params["password"] = password
-        self.api_client.configuration.login_params = body_params
         URL = self.api_client.configuration.get_url_details("view_token")
         generate_view_token = self.rest_client.request(
             url=URL, method='POST',
@@ -99,20 +98,13 @@ class LoginAPI(object):
         return output_fo.text
 
     def login_2fa(self, OTP):
-        params = self.api_client.configuration.login_params
-        body_params = {}
-        if 'mobileNumber' in params and len(str(OTP)) == 6:
-            body_params['mobileNumber'] = str(params['mobileNumber'])
-            body_params['mpin'] = str(OTP)
-        elif 'pan' in params and len(str(OTP)) == 6:
-            body_params['pan'] = str(params['pan'])
-            body_params['mpin'] = str(OTP)
-        else:
-            body_params['userId'] = str(self.api_client.configuration.userId)
-            body_params['otp'] = str(OTP)
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token,
                          "sid": self.api_client.configuration.sid,
                          "Auth": self.api_client.configuration.view_token}
+        body_params = {
+            "userId": str(self.api_client.configuration.userId),
+            "otp": str(OTP)
+        }
         URL = self.api_client.configuration.get_url_details("edit_token")
         login_resp = self.rest_client.request(
             url=URL, method='POST',
