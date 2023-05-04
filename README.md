@@ -13,7 +13,7 @@ Python 2.7+ and 3.0+
 If the python package is hosted on a repository, you can install directly using:
 
 ```sh
-pip install -e ""
+pip install "git+https://github.com/NEOSDK/neoapi.git#egg=neo_api_client"
 ```
 (you may need to run `pip` with root permission: `sudo pip install -e "`)
 
