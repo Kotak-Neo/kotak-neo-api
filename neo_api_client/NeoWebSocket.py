@@ -531,7 +531,8 @@ class NeoWebSocket:
                                     self.un_sub_channel_token[key] = []
                                 self.un_sub_channel_token[key].append({in_key: value})
                 else:
-                    print("The Given Token is not in Subscription list")
+                    return {"Message": "The Given Tokens has been un-subscribed"}
+                    # print("The Given Token is not in Subscription list")
             # print("self.un_sub_channel_token", self.un_sub_channel_token)
             if self.hsWebsocket and self.OPEN == 1:
                 self.un_subscription()

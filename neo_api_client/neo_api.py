@@ -545,7 +545,10 @@ class NeoAPI:
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
-    def quotes(self, instrument_tokens, callback, quote_type=None, isIndex=False, session_token=None, sid=None,
+    def quotes_callback(self, message):
+        return message
+
+    def quotes(self, instrument_tokens, quote_type=None, isIndex=False, session_token=None, sid=None,
                server_id=None, on_error=None):
         """
             Subscribe to real-time quotes for the given instrument tokens.
@@ -585,7 +588,7 @@ class NeoAPI:
         if not self.NeoWebSocket:
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
 
-        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, callback=callback,
+        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, callback=self.quotes_callback,
                                      isIndex=isIndex)
 
     def __on_open(self):
@@ -636,10 +639,7 @@ class NeoAPI:
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")
 
-    # def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
-    #     asyncio.run(self.async_subscribe(instrument_tokens, isIndex=isIndex, isDepth=isDepth))
-
-    def un_subscribe(self, instrument_tokens, isIndex, isDepth):
+    def un_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         if self.configuration.edit_token and self.configuration.edit_sid:
             if not self.NeoWebSocket:
                 self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
@@ -652,12 +652,7 @@ class NeoAPI:
         else:
             raise ValueError("Please complete the Login Flow to Un_Subscribe the Scrips")
 
-    # def un_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
-    #     asyncio.run(self.async_un_subscribe(instrument_tokens, isIndex=isIndex, isDepth=isDepth))
-
     def help(self, function_name=None):
-        # function_names = [name for name in dir(NeoAPI) if callable(getattr(NeoAPI, name)) and not name.startswith(
-        # "_")]
         class_name = NeoAPI.__name__
         try:
             if function_name is None:

@@ -50,7 +50,7 @@ order_type_allowed_values = ["Limit", "Market", "Stop loss limit", "Stop loss ma
 exchange_segment = {"nse_cm": "nse_cm", "NSE": "nse_cm", "nse": "nse_cm", "BSE": "bse_cm", "bse": "bse_cm",
                     "bse_cm": "bse_cm", "NFO": "nse_fo", "nse_fo": "nse_fo", "nfo": "nse_fo", "BFO": "bse_fo",
                     "bse_fo": "bse_fo", "bfo": "bse_fo", "CDS": "cde_fo", "cde_fo": "cde_fo", "cds": "cde_fo",
-                    "BCD": "bcs-fo", "bcs-fo": "bcs-fo", "bcd": "bcs-fo"}
+                    "BCD": "bcs-fo", "bcs-fo": "bcs-fo", "bcd": "bcs-fo",  "MCX": "MCX", "mcx": "MCX"}
 
 product = {"Normal": "NRML", "NRML": "NRML", "CNC": "CNC", "cnc": "CNC", "Cash and Carry": "CNC", "MIS": "MIS",
            "mis": "MIS", "INTRADAY": "INTRADAY", "intraday": "INTRADAY", "Cover Order": "CO", "co": "CO",
