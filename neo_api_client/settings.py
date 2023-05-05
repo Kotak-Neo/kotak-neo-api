@@ -34,7 +34,7 @@ PROD_URL = {
     "holdings": "Portfolio/1.0/portfolio/v1/holdings",
     "margin": "Orders/2.0/quick/user/check-margin",
     "scrip_master": "Files/1.0/masterscrip/v1/file-paths",
-    "limits": "Orders/1.0/quick/user/limits",
+    "limits": "Orders/2.0/quick/user/limits",
     "logout": "login/1.0/logout"
 }
 
