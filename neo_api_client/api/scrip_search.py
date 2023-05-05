@@ -74,7 +74,7 @@ class ScripSearch(object):
                         df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if strike_price:
-                    strike_price = str(strike_price) + str('00')
+                    strike_price = str(strike_price) + str('00.0')
                     if strike_price < '0':
                         error = {
                             'error': [
