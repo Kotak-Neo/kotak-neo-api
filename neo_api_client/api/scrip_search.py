@@ -57,9 +57,24 @@ class ScripSearch(object):
                     df = df[mask]
                     # print(df.head(5))
                 if expiry:
-                    df = df[df['pExpiryDate'] >= expiry]
+                    list_expiry = expiry.split('-')
+                    if len(list_expiry) > 2:
+                        error = {
+                            'error': [
+                                {'message': "Format of Expiry Date is not proper. Kindly pass DDMMYYYY(01MAY2023)"}]}
+                        return error
+                    elif len(list_expiry) == 2:
+                        df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], format='%d%b%Y')
+                        df = df[(df['pExpiryDate'] >= pd.to_datetime(list_expiry[0])) & (
+                                df['pExpiryDate'] <= pd.to_datetime(list_expiry[1]))]
+                        df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
+                    else:
+                        df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], format='%d%b%Y')
+                        df = df[df['pExpiryDate'] == pd.to_datetime(list_expiry[0])]
+                        df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if strike_price:
+                    strike_price = str(strike_price) + str('00')
                     if strike_price < '0':
                         error = {
                             'error': [
@@ -79,7 +94,7 @@ class ScripSearch(object):
                         else:
                             df = df[min_strike_price < df['dStrikePrice;'] <= max_strike_price]
                     elif len(list_strike_price) == 1:
-                        df = df[df['dStrikePrice;'] > list_strike_price[0]]
+                        df = df[df['dStrikePrice;'] == list_strike_price[0]]
                     else:
                         error = {
                             'error': [

@@ -545,10 +545,7 @@ class NeoAPI:
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
-    def quotes_callback(self, message):
-        return message
-
-    def quotes(self, instrument_tokens, quote_type=None, isIndex=False, session_token=None, sid=None,
+    def quotes(self, instrument_tokens, callback, quote_type=None, isIndex=False, session_token=None, sid=None,
                server_id=None, on_error=None):
         """
             Subscribe to real-time quotes for the given instrument tokens.
@@ -569,8 +566,6 @@ class NeoAPI:
             Raises:
                 ValueError: If the instrument tokens are not provided, or if the session token and SID are not provided when there is no Login.
         """
-        # instrument_tokens = json.loads(instrument_tokens)
-        # print("INside Quptes", instrument_tokens)
         if not instrument_tokens:
             raise ValueError("Without instrument_tokens it's hard to subscribe with None values")
 
@@ -588,7 +583,7 @@ class NeoAPI:
         if not self.NeoWebSocket:
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
 
-        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, callback=self.quotes_callback,
+        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, callback=callback,
                                      isIndex=isIndex)
 
     def __on_open(self):
