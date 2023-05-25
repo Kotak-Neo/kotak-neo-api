@@ -1,5 +1,8 @@
 import datetime
 import json
+import ssl
+
+import rel
 import websocket
 
 # from neo_api_client.logger import logger
@@ -1100,14 +1103,15 @@ class StartServer:
                                         on_close=self.on_close)
         except Exception:
             print("WebSocket not supported!")
+
         if ws:
             # print("WS is a array buffer ")
             ws.binary_type = "arraybuffer"
             self.hsWrapper = HSWrapper()
             # print("HS WRAPPER IS DONE ")
-
         else:
             print("WebSocket not initialized!")
+
         ws.run_forever()
 
     def on_open(self, ws):
@@ -1239,3 +1243,190 @@ class HSWebSocket:
 
     def close(self):
         ws.close()
+
+
+#
+# import json
+# import websocket
+#
+#
+# class HSIWebSocket:
+#     def __init__(self, url):
+#         self.hsiSocket = None
+#         self.reqData = None
+#         self.hsiWs = None
+#         self.OPEN = 0
+#         self.readyState = 0
+#         self.url = url
+#         self.start_hsi_server(self.url)
+#
+#     def start_hsi_server(self, url):
+#         self.hsiWs = websocket.WebSocketApp(url,
+#                                             on_message=self.on_message,
+#                                             on_error=self.on_error,
+#                                             on_close=self.on_close)
+#         self.hsiWs.on_open = self.on_open
+#         self.hsiWs.run_forever()
+#
+#     def on_message(self, ws, message):
+#         print("Received message:", message)
+#
+#     def on_error(self, ws, error):
+#         print("Error:", error)
+#
+#     def on_close(self, ws):
+#         print("Connection closed")
+#         self.OPEN = 0
+#         self.readyState = 0
+#         self.hsiWs = None
+#
+#     def on_open(self, ws):
+#         print("Connection established")
+#         self.OPEN = 1
+#         self.readyState = 1
+#
+#     def send(self, d):
+#         reqJson = json.loads(d)
+#         req = None
+#         if reqJson['type'] == 'CONNECTION':
+#             if 'Authorization' in reqJson and 'Sid' in reqJson and 'src' in reqJson:
+#                 req = {
+#                     'type': 'cn',
+#                     'Authorization': reqJson['Authorization'],
+#                     'Sid': reqJson['Sid'],
+#                     'src': reqJson['src']
+#                 }
+#                 self.reqData = req
+#             else:
+#                 if 'x-access-token' in reqJson and 'src' in reqJson:
+#                     req = {
+#                         'type': 'cn',
+#                         'x-access-token': reqJson['x-access-token'],
+#                         'src': reqJson['src']
+#                     }
+#                     self.reqData = req
+#                 else:
+#                     print("Invalid connection mode !")
+#         else:
+#             if reqJson['type'] == 'FORCE_CONNECTION':
+#                 self.reqData = self.reqData['type'] = 'fcn'
+#                 req = self.reqData
+#             else:
+#                 print("Invalid Request !")
+#         if self.hsiWs and req:
+#             print("REQ", req)
+#             self.hsiWs.send(json.dumps(req))
+#         else:
+#             print("Unable to send request! Reason: Connection faulty or request not valid!")
+#
+#     def close(self):
+#         self.hsiWs.close()
+#         self.OPEN = 0
+#         self.readyState = 0
+#         self.hsiWs = None
+
+
+class StartHSIServer:
+    def __init__(self, url, onopen, onmessage, onerror, onclose):
+        self.OPEN = None
+        self.readyState = None
+        self.url = url
+        self.onopen = onopen
+        self.onmessage = onmessage
+        self.onerror = onerror
+        self.onclose = onclose
+        # self.token, self.sid = token, sid
+        global hsiws
+        try:
+            # websocket.enableTrace(True)
+            hsiws = websocket.WebSocketApp(self.url,
+                                           on_open=self.on_open,
+                                           on_message=self.on_message,
+                                           on_error=self.on_error,
+                                           on_close=self.on_close)
+        except Exception:
+            print("WebSocket not supported!")
+        hsiws.run_forever()
+
+    def on_message(self, ws, message):
+        # print("Received message:", message)
+        self.onmessage(message)
+
+    def on_error(self, ws, error):
+        print("Error:", error)
+        self.onerror(error)
+
+    def on_close(self, ws, close_status_code, close_msg):
+        print("Connection closed")
+        self.OPEN = 0
+        self.readyState = 0
+        hsiWs = None
+        self.onclose()
+
+    def on_open(self, ws):
+        print("Connection established HSWebSocket")
+        self.OPEN = 1
+        self.readyState = 1
+        self.onopen()
+
+
+class HSIWebSocket:
+    def __init__(self):
+        # self.hsiWs = None
+        self.hsiSocket = None
+        self.reqData = None
+        self.OPEN = 0
+        self.readyState = 0
+        self.url = None
+        self.onopen = None
+        self.onmessage = None
+        self.onclose = None
+        self.onerror = None
+        # self.token, self.sid = token, sid
+
+    def open_connection(self, url, onopen, onmessage, onclose, onerror):
+        self.url = url
+        self.onopen = onopen
+        self.onmessage = onmessage
+        self.onclose = onclose
+        self.onerror = onerror
+        StartHSIServer(self.url, self.onopen, self.onmessage, self.onerror, self.onclose)
+
+    def send(self, d):
+        reqJson = json.loads(d)
+        req = None
+        if reqJson['type'] == 'CONNECTION':
+            if 'Authorization' in reqJson and 'Sid' in reqJson and 'source' in reqJson:
+                req = {
+                    'type': 'cn',
+                    'Authorization': reqJson['Authorization'],
+                    'Sid': reqJson['Sid'],
+                    'src': reqJson['source']
+                }
+                self.reqData = req
+            else:
+                if 'x-access-token' in reqJson and 'src' in reqJson:
+                    req = {
+                        'type': 'cn',
+                        'x-access-token': reqJson['x-access-token'],
+                        'source': reqJson['source']
+                    }
+                    self.reqData = req
+                else:
+                    print("Invalid connection mode !")
+        else:
+            if reqJson['type'] == 'FORCE_CONNECTION':
+                self.reqData = self.reqData['type'] = 'fcn'
+                req = self.reqData
+            else:
+                print("Invalid Request !")
+        if hsiws and req:
+            js_obj = json.dumps(req)
+            hsiws.send(js_obj)
+        else:
+            print("Unable to send request! Reason: Connection faulty or request not valid!")
+
+    def close(self):
+        self.OPEN = 0
+        self.readyState = 0
+        hsiws.close()

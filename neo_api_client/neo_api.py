@@ -688,3 +688,12 @@ class NeoAPI:
                 return {"State": "NOT_OK", "message": "Some Exception with the Logout Functionality"}
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
+
+    def subscribe_to_orderfeed(self):
+        if self.configuration.edit_token and self.configuration.edit_sid:
+            url = "wss://lhsi.kotaksecurities.com/realtime?sId="
+            neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
+                                                       sid=self.configuration.edit_sid,
+                                                       server_id=self.configuration.serverId)
+        else:
+            return {"Error Message": "Complete the 2fa process before accessing this application"}

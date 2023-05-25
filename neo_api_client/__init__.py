@@ -23,7 +23,9 @@ from neo_api_client.api.limits_api import LimitsAPI
 from neo_api_client.api.logout_api import LogoutAPI
 from .settings import neo_fin_key, stock_key_mapping
 from neo_api_client.NeoWebSocket import NeoWebSocket
+from neo_api_client.NeoWebSocket import ConnectHSM
 from neo_api_client.HSWebSocketLib import HSWebSocket
+from neo_api_client.HSWebSocketLib import HSIWebSocket
 from neo_api_client.urls import WEBSOCKET_URL, PROD_BASE_URL, SESSION_PROD_BASE_URL, SESSION_UAT_BASE_URL, UAT_BASE_URL
 from neo_api_client.neo_api import NeoAPI
 from neo_api_client.api.modify_order_api import ModifyOrder
