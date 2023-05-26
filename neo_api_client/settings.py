@@ -162,5 +162,6 @@ help_functions = {
     12: 'help("socket")',
     13: 'help("search_scrip")',
     14: 'help("order_report")',
-    15: 'help()'
+    15: 'help("subscribe_to_orderfeed")',
+    16: 'help()'
 }

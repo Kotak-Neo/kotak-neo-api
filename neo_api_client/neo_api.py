@@ -690,6 +690,15 @@ class NeoAPI:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
     def subscribe_to_orderfeed(self):
+        """
+            Subscribe To OrderFeed
+
+            Raises:
+                Exception: If the user hasn't completes his 2FA.
+
+            Returns:
+                Order Feed information.
+        """
         if self.configuration.edit_token and self.configuration.edit_sid:
             url = "wss://lhsi.kotaksecurities.com/realtime?sId="
             neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
