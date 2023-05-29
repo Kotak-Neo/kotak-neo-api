@@ -2,7 +2,6 @@ import datetime
 import json
 import ssl
 
-import rel
 import websocket
 
 # from neo_api_client.logger import logger
