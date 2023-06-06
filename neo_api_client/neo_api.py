@@ -545,7 +545,7 @@ class NeoAPI:
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
-    def quotes(self, instrument_tokens, callback, quote_type=None, isIndex=False, session_token=None, sid=None,
+    def quotes(self, instrument_tokens, quote_type=None, isIndex=False, session_token=None, sid=None,
                server_id=None, on_error=None):
         """
             Subscribe to real-time quotes for the given instrument tokens.
@@ -557,7 +557,6 @@ class NeoAPI:
                 session_token (str): The session token to use for authentication. This argument is optional if the login has been completed.
                 sid (str): The session ID to use for authentication. This argument is mandatory if the session token is passed as input.
                 server_id (str): The server ID to use for authentication. This argument is mandatory if the session token is passed as input.
-                callback (callable): A callback function to be called whenever a new quote is received.
                 on_error (callable): A callback function to be called whenever an error occurs.
 
             Returns:
@@ -583,8 +582,19 @@ class NeoAPI:
         if not self.NeoWebSocket:
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
 
-        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, callback=callback,
-                                     isIndex=isIndex)
+        response = {}
+
+        def callback(message):
+            nonlocal response
+            response = {'message': message}
+
+        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, isIndex=isIndex,
+                                     callback=callback)
+
+        while not response:
+            pass
+
+        return response
 
     def __on_open(self):
         if self.on_open:
