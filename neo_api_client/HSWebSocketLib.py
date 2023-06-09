@@ -444,14 +444,15 @@ class DepthTopicData(TopicData):
 
 
 def get_acknowledgement_req(a):
-    buffer = bytearray(11)
-    buffer[0] = BinRespTypes.get("ACK_TYPE")
-    buffer[1] = 1
-    buffer[2] = 1
-    buffer[3:5] = int(4).to_bytes(2, byteorder='big')
-    buffer[5:9] = int(a).to_bytes(4, byteorder='big')
-    buffer[9] = BinRespTypes.get("END_OF_MSG")
-    return buffer
+    buffer = ByteData(11) #bytearray(11)
+    buffer.markStartOfMsg()
+    buffer.appendByte(BinRespTypes["ACK_TYPE"])
+    buffer.appendByte(1)
+    buffer.appendByte(1)
+    buffer.appendShort(4)
+    buffer.appendInt(a)
+    buffer.markEndOfMsg()
+    return buffer.getBytes()
 
 
 def prepare_connection_request(a):
@@ -811,6 +812,7 @@ class IndexTopicData(TopicData):
 
 class HSWrapper:
     def __init__(self):
+        self.counter = 0
         self.ack_num = 0
 
     def getNewTopicData(self, c):
@@ -901,22 +903,21 @@ class HSWrapper:
                 jsonRes['stCode'] = RespCodes.get("CONNECTION_INVALID")
             return send_json_arr_resp(jsonRes)
         else:
-            counter = 0
             if type == BinRespTypes.get("DATA_TYPE"):
                 # print("IN By Datatype ")
                 # print("IN By self.ack_num ", self.ack_num)
                 msg_num = 0
                 if self.ack_num > 0:
                     # print("ack_num", self.ack_num)
-                    counter += 1
+                    self.counter += 1
                     msg_num = buf2long(e[pos: pos + 4])
                     pos += 4
-                    if counter == self.ack_num:
+                    if self.counter == self.ack_num:
                         req = get_acknowledgement_req(msg_num)
                         if ws:
                             ws.send(req)
+                            self.counter = 0
                         # print("Acknowledgement sent for message num:", msg_num)
-                        # counter = 0
                 h = []
                 e = bytearray(e)
                 g = buf2long(e[pos: pos + 2])
