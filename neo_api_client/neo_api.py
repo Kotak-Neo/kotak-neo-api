@@ -616,7 +616,7 @@ class NeoAPI:
         if self.on_message:
             self.on_message(message)
 
-    def async_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    async def async_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         if self.configuration.edit_token and self.configuration.edit_sid:
             if not self.NeoWebSocket:
                 self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
@@ -629,7 +629,7 @@ class NeoAPI:
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")
 
-    async def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         """
             Subscribe to live feeds for the given instrument tokens.
 
