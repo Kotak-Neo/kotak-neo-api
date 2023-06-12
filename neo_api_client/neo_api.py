@@ -615,6 +615,19 @@ class NeoAPI:
         if self.on_message:
             self.on_message(message)
 
+    def async_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+        if self.configuration.edit_token and self.configuration.edit_sid:
+            if not self.NeoWebSocket:
+                self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
+                                                                self.configuration.edit_token,
+                                                                self.configuration.serverId)
+
+            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
+                                            onerror=self.__on_error, onclose=self.__on_close,
+                                            onopen=self.__on_open, isIndex=isIndex, isDepth=isDepth)
+        else:
+            print("Please complete the Login Flow to Subscribe the Scrips")
+
     def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         """
             Subscribe to live feeds for the given instrument tokens.
@@ -632,17 +645,7 @@ class NeoAPI:
 
             The function establishes a WebSocket connection to the trading platform and subscribes to live feeds for the specified instrument tokens. When a new feed is received, the function's internal callback functions are called with the feed data as their arguments. If an error occurs, the on_error function is called with the error message as its argument.
         """
-        if self.configuration.edit_token and self.configuration.edit_sid:
-            if not self.NeoWebSocket:
-                self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
-                                                                self.configuration.edit_token,
-                                                                self.configuration.serverId)
-
-            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
-                                            onerror=self.__on_error, onclose=self.__on_close,
-                                            onopen=self.__on_open, isIndex=isIndex, isDepth=isDepth)
-        else:
-            print("Please complete the Login Flow to Subscribe the Scrips")
+        asyncio.run(self.async_subscribe(instrument_tokens, isIndex=isIndex, isDepth=isDepth))
 
     def un_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         if self.configuration.edit_token and self.configuration.edit_sid:

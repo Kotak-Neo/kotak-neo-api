@@ -12,3 +12,4 @@ urllib3==1.26.14
 websocket-client==1.5.1
 websockets==8.1
 pandas==2.0.0
+asyncio==3.4.3

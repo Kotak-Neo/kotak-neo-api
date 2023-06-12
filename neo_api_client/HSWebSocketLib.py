@@ -9,7 +9,7 @@ import websocket
 isEncyptOut = False
 isEncyptIn = True
 
-MAX_SCRIPS = 200
+MAX_SCRIPS = 100
 topic_list = {}
 counter = 0
 FieldTypes = {
@@ -915,11 +915,10 @@ class HSWrapper:
                     if self.counter == self.ack_num:
                         req = get_acknowledgement_req(msg_num)
                         if ws:
-                            ws.send(req)
+                            ws.send(req, 0x2)
                             self.counter = 0
                         # print("Acknowledgement sent for message num:", msg_num)
                 h = []
-                e = bytearray(e)
                 g = buf2long(e[pos: pos + 2])
                 # print("G in ", g)
                 pos += 2
@@ -1106,7 +1105,6 @@ class StartServer:
 
         if ws:
             # print("WS is a array buffer ")
-            ws.binary_type = "arraybuffer"
             self.hsWrapper = HSWrapper()
             # print("HS WRAPPER IS DONE ")
         else:
