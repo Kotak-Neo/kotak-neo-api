@@ -629,7 +629,7 @@ class NeoAPI:
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")
 
-    def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    async def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         """
             Subscribe to live feeds for the given instrument tokens.
 
