@@ -110,17 +110,17 @@ class ScripSearch(object):
                             }
                             return error
 
-                    df = df.dropna(how='all')
-                    if len(df) > 0:
-                        df = df.sort_values('dStrikePrice;', ascending=True)  # Add sorting step here
-                        df = df.to_json(orient='records')
-                        df = json.loads(df)
-                        return df
-                    else:
-                        return {"message": "No data found with the given search information."
-                                           "Please try with other combinations."}
+                df = df.dropna(how='all')
+                if len(df) > 0:
+                    df = df.sort_values('dStrikePrice;', ascending=True)  # Add sorting step here
+                    df = df.to_json(orient='records')
+                    df = json.loads(df)
+                    return df
                 else:
-                    return {"error": "Exchange segment not found."}
+                    return {"message": "No data found with the given search information."
+                                       "Please try with other combinations."}
+            else:
+                return {"error": "Exchange segment not found."}
 
         except ApiException as ex:
             return {"error": ex}
