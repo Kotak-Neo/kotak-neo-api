@@ -592,9 +592,6 @@ class NeoAPI:
         self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, isIndex=isIndex,
                                      callback=callback)
 
-        while not response:
-            pass
-
         return response
 
     def __on_open(self):
