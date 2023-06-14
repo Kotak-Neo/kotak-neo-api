@@ -134,22 +134,22 @@ client.logout()
 ```
 ## Documentation for API Endpoints
 
-| Class         | Method                                                                        | Description        |
-|---------------|-------------------------------------------------------------------------------|--------------------|
-| *LoginAPI*    | [**neo_api_client.SessionINIT**](docs/Session.md#session_init)                | Initialise Session |
-| *LoginAPI*    | [**neo_api_client.NeoAPI**](docs/Login.md#login)                              | Login NeoAPI       |
-| *LoginAPI*    | [**neo_api_client.2FA**](docs/Login_2fa.md#2fa)                               | Session 2FA        |
-| *Place Order* | [**neo_api_client.placeorder**](docs/Place_Order.md#place_order)              | Place Order        |
-| *Place Order* | [**neo_api_client.modifyorder**](docs/Modify_Order.md#modify_order)           | Modify Order       |
-| *Place Order* | [**neo_api_client.cancelorder**](docs/Modify_Order.md#cancel_order)           | Cancel Order       |
-| *Place Order* | [**neo_api_client.orderreport**](docs/Order_report.md#order_report)           | Order Report       |
-| *Place Order* | [**neo_api_client.tradereport**](docs/Trade_report.md#trade_report)           | Trade Report       |
-| *Place Order* | [**neo_api_client.positions**](docs/Positions.md#positions)                   | Positions          |
-| *Place Order* | [**neo_api_client.holdings**](docs/Holdings.md#holdings)                      | Holdings           |
-| *Place Order* | [**neo_api_client.limits**](docs/Limits.md#limits)                            | Limits             |
-| *Place Order* | [**neo_api_client.margin_required**](docs/Margin_Required.md#margin_required) | Margin Required    |
-| *Place Order* | [**neo_api_client.scrip_master**](docs/Scrip_Master.md#scrip_master)          | Scrip Master       |
-| *Place Order* | [**neo_api_client.scrip_search**](docs/Scrip_Search.md#scrip_search)          | Scrip Search       |
-| *Place Order* | [**neo_api_client.quotes**](docs/quotes.md#quotes)                            | Quotes             |
-| *Place Order* | [**neo_api_client.subscribe**](docs/socket.md#subscribe)                      | Subscribe          |
+| Class             | Method                                                                        | Description        |
+|-------------------|-------------------------------------------------------------------------------|--------------------|
+| *LoginAPI*        | [**neo_api_client.SessionINIT**](docs/Session.md#session_init)                | Initialise Session |
+| *LoginAPI*        | [**neo_api_client.NeoAPI**](docs/Login.md#login)                              | Login NeoAPI       |
+| *LoginAPI*        | [**neo_api_client.2FA**](docs/Login_2fa.md#2fa)                               | Session 2FA        |
+| *Place Order*     | [**neo_api_client.placeorder**](docs/Place_Order.md#place_order)              | Place Order        |
+| *Modify Order*    | [**neo_api_client.modifyorder**](docs/Modify_Order.md#modify_order)           | Modify Order       |
+| *Cancel Order*    | [**neo_api_client.cancelorder**](docs/Modify_Order.md#cancel_order)           | Cancel Order       |
+| *Order Report*    | [**neo_api_client.orderreport**](docs/Order_report.md#order_report)           | Order Report       |
+| *Trade Report*    | [**neo_api_client.tradereport**](docs/Trade_report.md#trade_report)           | Trade Report       |
+| *Positions*       | [**neo_api_client.positions**](docs/Positions.md#positions)                   | Positions          |
+| *Holdings*        | [**neo_api_client.holdings**](docs/Holdings.md#holdings)                      | Holdings           |
+| *Limits*          | [**neo_api_client.limits**](docs/Limits.md#limits)                            | Limits             |
+| *Margin Required* | [**neo_api_client.margin_required**](docs/Margin_Required.md#margin_required) | Margin Required    |
+| *Scrip Master*    | [**neo_api_client.scrip_master**](docs/Scrip_Master.md#scrip_master)          | Scrip Master       |
+| *Search Scrip*    | [**neo_api_client.scrip_search**](docs/Scrip_Search.md#scrip_search)          | Scrip Search       |
+| *Quotes*          | [**neo_api_client.quotes**](docs/quotes.md#quotes)                            | Quotes             |
+| *Subscribe*       | [**neo_api_client.subscribe**](docs/socket.md#subscribe)                      | Subscribe          |
 
