@@ -132,4 +132,9 @@ client.subscribe_to_orderfeed()
 #Terminate user's Session
 client.logout()
 ```
+## Documentation for API Endpoints
+
+| Class | Method                                                  | Description |
+|-------|---------------------------------------------------------| -------------|
+| *LoginAPI* | [**neo_api_client.NeoAPI**](docs/Login.md#session_init) | Initialise Session|
 
