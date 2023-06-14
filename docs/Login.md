@@ -1,6 +1,11 @@
 # neo_api_client.login
 
 
-# **session_init**
-> client = NeoAPI(consumer_key="", consumer_secret="", 
-                environment='uat', on_message=on_message, on_error=on_error, on_close=None, on_open=None)
+# **Login**
+
+#### ***First Step to login***
+
+> client.login(mobilenumber="+919999999999", password="XXXX")
+
+
+#### This will even send an OTP to the mobile number
