@@ -98,8 +98,8 @@ class ScripSearch(object):
                                 }
                                 return error
                             else:
-                                df = df[(df['dStrikePrice;'] > min_strike_price) & (
-                                        df['dStrikePrice;'] < max_strike_price)]
+                                df = df[(df['dStrikePrice;'] >= min_strike_price) & (
+                                        df['dStrikePrice;'] <= max_strike_price)]
                         elif len(list_strike_price) == 1:
                             df = df[df['dStrikePrice;'] == (list_strike_price[0])]
                         else:

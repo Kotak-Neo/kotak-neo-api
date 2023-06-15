@@ -569,6 +569,10 @@ class NeoAPI:
         if not instrument_tokens:
             raise ValueError("Without instrument_tokens it's hard to subscribe with None values")
 
+        if len(instrument_tokens) > 1:
+            # print({'Error': "Error", 'message': "Tokens must be less than 100"})
+            return {'Error': "Error", 'message': "Tokens must be less than 100"}
+
         if not session_token and not self.configuration.edit_token:
             raise ValueError("Error! Login or pass the Session Token and SID")
 
