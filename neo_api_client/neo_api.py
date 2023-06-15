@@ -569,7 +569,7 @@ class NeoAPI:
         if not instrument_tokens:
             raise ValueError("Without instrument_tokens it's hard to subscribe with None values")
 
-        if len(instrument_tokens) > 1:
+        if len(instrument_tokens) > 100:
             # print({'Error': "Error", 'message': "Tokens must be less than 100"})
             return {'Error': "Error", 'message': "Tokens must be less than 100"}
 
