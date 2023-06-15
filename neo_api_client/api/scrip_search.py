@@ -38,9 +38,12 @@ class ScripSearch(object):
                     return {'error': [
                         {'code': '10300', 'message': "The given segment doesn't have expire and strike price"}]}
 
-                if exchange_segment.endswith('fo'):
+                if exchange_segment.endswith('fo') and 'mcx' not in str(exchange_segment).lower():
                     df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
                     df['pExpiryDate'] = df['pExpiryDate'] + pd.DateOffset(years=10)
+
+                if exchange_segment.endswith('fo'):
+                    df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
                     df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if symbol != '':
@@ -82,10 +85,10 @@ class ScripSearch(object):
                     df['dStrikePrice;'] = df['dStrikePrice;'].astype(str)
                     if '>' in strike_price:
                         min_strike_price = strike_price[1:]
-                        df = df[df['dStrikePrice;'] > min_strike_price]
+                        df = df[df['dStrikePrice;'] >= min_strike_price]
                     elif '<' in strike_price:
                         max_strike_price = strike_price[1:]
-                        df = df[df['dStrikePrice;'] < max_strike_price]
+                        df = df[df['dStrikePrice;'] <= max_strike_price]
                     else:
                         list_strike_price = strike_price.split('-')
                         if len(list_strike_price) == 2:
