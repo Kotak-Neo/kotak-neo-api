@@ -1,36 +1,68 @@
-# neo_api_client.cancel_order
+# **cancel_order**
+> object cancel_order(order_id)
 
-# Cancel an order 
-
-# Cancels an order with the given `order_id` using the NEO API.
+Cancel an order
 
 # Method 1
 client.cancel_order(order_id = "")
 
 # Method 2 (Delayed)
-# This is delay type. if order id along with isVerify as True will be passed then check the status of the given order id and then proceed to further
-client.cancel_order(order_id = "", isVerify=True)
+# This is delay type, if order id along with isVerify as True will be passed then check the status of the given order id and then proceed to further
+client.cancel_order(order_id = "", isVerify="True")
 
- """
+### Example
 
-            Args: order_id (str): The ID of the order to cancel.
-            amo (str, optional): Default is "NO" for no amount specified.
-            isVerify (bool, optional): Whether to verify the cancellation. Default is False.
-            "If isVerify is True, we will first check the status of the given order. If the order status is not
-             'rejected', 'cancelled', 'traded', or 'completed', we will proceed to cancel the order using the
-             cancel_order function. Otherwise, we will display the order status to the user instead."
 
-            Raises:
-                ValueError: If the `order_id` is not a valid input.
-                Exception: If there was an error cancelling the order.
+```python
+from neo_api_client import NeoAPI
 
-            Returns:
-                The Status of given order id.
-"""
+#First initialize session and generate session token
 
-Example Response:
-                {
-                'stat': 'Ok',
-                'nOrdNo': '230120000017243',
-                'stCode': 200
-                }
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
+
+try:
+    # Cancel an order
+    client.cancel_order(order_id = "2200922000576")
+except Exception as e:
+    print("Exception when calling OrderApi->cancel_order: %s\n" % e)
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes
+ **order_id** | **str**| Order ID to cancel. | 
+
+### Return type
+
+**object**
+
+### Sample response
+
+```python
+{
+  {
+    'stat': 'Ok',
+    'nOrdNo': '230120000017243',
+    'stCode': 200
+  }
+}
+```
+
+### HTTP request headers
+
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+**200** | Order cancelled successfully |  -  |
+**400** | Invalid or missing input parameters |  -  |
+**403** | Invalid session, please re-login to continue |  -  |
+**429** | Too many requests to the API |  -  |
+**500** | Unexpected error |  -  |
+**502** | Not able to communicate with OMS |  -  |
+**503** | Trade API service is unavailable |  -  |
+**504** | Gateway timeout, trade API is unreachable |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)

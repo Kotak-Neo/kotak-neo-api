@@ -141,7 +141,7 @@ client.logout()
 | *LoginAPI*        | [**neo_api_client.2FA**](docs/Login_2fa.md#2fa)                               | Session 2FA        |
 | *Place Order*     | [**neo_api_client.placeorder**](docs/Place_Order.md#place_order)              | Place Order        |
 | *Modify Order*    | [**neo_api_client.modifyorder**](docs/Modify_Order.md#modify_order)           | Modify Order       |
-| *Cancel Order*    | [**neo_api_client.cancelorder**](docs/Modify_Order.md#cancel_order)           | Cancel Order       |
+| *Cancel Order*    | [**neo_api_client.cancelorder**](docs/cancel_Order.md#cancel_order)           | Cancel Order       |
 | *Order Report*    | [**neo_api_client.orderreport**](docs/Order_report.md#order_report)           | Order Report       |
 | *Trade Report*    | [**neo_api_client.tradereport**](docs/Trade_report.md#trade_report)           | Trade Report       |
 | *Positions*       | [**neo_api_client.positions**](docs/Positions.md#positions)                   | Positions          |

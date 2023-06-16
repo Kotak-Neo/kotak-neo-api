@@ -1,51 +1,86 @@
-# neo_api_client.modify_order
+# **modify_order**
+> object modify_order(order_id, price , quantity , disclosed_quantity, trigger_price)
+
+Modify an existing order
+
+# **Method 1 Quick method** 
+client.modify_order(instrument_token = "", exchange_segment = "", product = "", price = "", order_type = "", quantity= "", validity = "", trading_symbol = "", transaction_type = "", order_id = "")
+
+# **Method 2 Delayed method**
+client.modify_order(order_id = "", price = 0, quantity = 1, disclosed_quantity = 0, trigger_price = 0, validity = "")
+
+### Example
 
 
-# **Modify Order**
+```python
+from neo_api_client import NeoAPI
 
-# Modify an order 
+#First initialize session and generate session token
 
-# Method 1 quick method 
-client.modify_order(instrument_token = "11915", exchange_segment = "nse_cm", product = "NRML", price = "15", order_type = "L", quantity= "1", validity = "DAY", trading_symbol = "YESBANK-EQ", transaction_type = "B", order_id = "230327000000089")
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
 
-# Method 2 delayed method
-client.modify_order(order_id = "", price = 0, quantity = 1, disclosed_quantity = 0, trigger_price = 0, validity = "GFD")
+try:
+    # Modify an existing order
+    client.modify_order(instrument_token = "", exchange_segment = "", product = "", price = "", 
+                        order_type = "", quantity= "", validity = "", trading_symbol = "",transaction_type = "", order_id = "")
+except Exception as e:
+    print("Exception when calling OrderApi->modify_order: %s\n" % e)
 
-        """
-            There are 2 ways to modify the order one is bypassing all the parameters and another one is
-            pass the order_id based on that we will take the values from order book and updated the latest details
+```
 
-            Modify an existing order with new values for its parameters.
+### Parameters
 
-            Args:
-                amo: (str, optional): Default sets to NO. Override with 'YES' if you want to pass amo
-                order_id (int): The unique identifier of the order to be modified.
-                price (float): The new price for the order.
-                order_type (str): The new order type for the order.
-                quantity (int): The new quantity of the order.
-                validity (str): The new validity for the order.
-                instrument_token (int, optional): The unique identifier of the instrument. Defaults to None.
-                exchange_segment (str, optional): The exchange segment of the order. Defaults to None.
-                product (str, optional): The product type for the order. Defaults to None.
-                trading_symbol (str, optional): The trading symbol of the order. Defaults to None.
-                transaction_type (str, optional): The transaction type for the order. Defaults to None.
-                trigger_price (float, optional): The new trigger price for the order. Defaults to "0".
-                dd (str, optional): The new disclosed quantity for the order. Defaults to "NA".
-                market_protection (str, optional): The new market protection for the order. Defaults to "0".
-                disclosed_quantity (str, optional): The new disclosed quantity for the order. Defaults to "0".
-                filled_quantity (str, optional): The new filled quantity for the order. Defaults to "0".
+|Name | Type    | Description                                                                                                           | Notes
+**instrument_token ** | **str** | pSymbol in ScripMaster (first Column)                                                                                 | 
+**market_protection** | **str** | String - (Default Value - 0)                                                                                          | [optional]
+**product** | **str** | Product types - NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, CO - Cover Order, BO - Bracket Order |
+**dd** | **str** | Default Value - “NA”                                  | [optional]
+**disclosed_quantity** | **str** | (Default Value - 0)                                 | [optional]
+**filled_quantity** | **str** | (Default Value - 0)         | [optional]
+**validity** | **str** | Validity of the order - DAY, IOC  
+**trading_symbol** | **str** | 
+*transaction_type** | **str** | B(Buy), S(sell)
+**trigger_price** | **str** | (Default Value - 0) | [optional]
+**quantity** | **str** |                                                     |
+**order_id** | **str** |     | 
+**exchange_segment** | **str** | nse_cm NSE bse_cm BSE nse_fo NFO bse_fo BFO cde_fo CDS bcs_fo BCD    | 
+**order_type** | **str** | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market
+ 
 
-            Raises:
-                ValueError: If order ID is not provided.
 
-            Returns:
-                The Status of the Given Order ID modification
-        """
 
-Example Response:
-                {
-                  "stat": "Ok",
-                  "nOrdNo": "220621000000097",
-                  "stCode": 200
-                }
-                
+### Return type
+
+**object**
+
+### Sample response
+
+```python
+{
+  {
+    "stat": "Ok",
+    "nOrdNo": "220621000000097",
+    "stCode": 200
+  }
+}
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+**200** | Order modified successfully |  -  |
+**400** | Invalid or missing input parameters |  -  |
+**403** | Invalid session, please re-login to continue |  -  |
+**429** | Too many requests to the API |  -  |
+**500** | Unexpected error |  -  |
+**502** | Not able to communicate with OMS |  -  |
+**503** | Trade API service is unavailable |  -  |
+**504** | Gateway timeout, trade API is unreachable |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
