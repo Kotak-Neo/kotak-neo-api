@@ -42,14 +42,14 @@ except Exception as e:
 | *disclosed_quantity* | (Default Value - 0)                                                                                            | Str [optional] |
 | *exchange_segment*   | nse_cm NSE bse_cm BSE nse_fo NFO bse_fo BFO cde_fo CDS bcs_fo BCD                                              | Str            |
 | *market_protection*  | (Default Value - 0)                                                                                            | Str [optional] |
-| *product *           | NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, <br/>CO - Cover Order, BO - Bracket Order | Str [optional] |
+| *product*            | NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, <br/>CO - Cover Order, BO - Bracket Order | Str            |
 | *pf*                 | Default Value - “N”                                                                                            | Str [optional] |
-| *price *             |                                                                                                                | Str [optional] |
+| *price*              |                                                                                                                | Str [optional] |
 | *order_typ*          | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market                                               | Str            |
-| *quantity *          |                                                                                                                | Str            |
+| *quantity*           |                                                                                                                | Str            |
 | *validity*           | Validity of the order - DAY, IOC                                                                               | Str            |
-| *trigger_price*      |                                                                                                                | Str            |
-| *trading_symmbol*    |                                                                                                                | Str            |
+| *trigger_price*      |                                                                                                                | Str [optional] |
+| *trading_symbol*     |                                                                                                                | Str            |
 | *transaction_type*   | B(Buy), S(Sell)                                                                                                | Str            |
 | *tag*                | Tag for this order                                                                                             | Str [optional] |
 
