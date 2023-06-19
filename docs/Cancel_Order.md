@@ -25,15 +25,15 @@ client.session_2fa("")
 
 try:
     # Cancel an order
-    client.cancel_order(order_id = "2200922000576")
+    client.cancel_order(order_id = "")
 except Exception as e:
     print("Exception when calling OrderApi->cancel_order: %s\n" % e)
 ```
 
 ### Parameters
-| Name        | Type                                | Description         |
-|-------------|-------------------------------------|---------------------|
-| *order_id*  | str                                 | Order ID to cancel. |
+| Name        | Type  | Description         |
+|-------------|-------|---------------------|
+| *order_id*  | str   | Order ID to cancel. |
 
 ### Return type
 
@@ -56,7 +56,7 @@ except Exception as e:
 ### HTTP response details
 | Status Code | Description                                  | Response headers |
 |-------------|----------------------------------------------|------------------|
-| *200*       | Order placed successfully                    | -                |
+| *200*       | Order canceled successfully                  | -                |
 | *400*       | Invalid or missing input parameters          | -                |
 | *403*       | Invalid session, please re-login to continue | -                |
 | *429*       | Too many requests to the API                 | -                |

@@ -46,7 +46,7 @@ except Exception as e:
 | *trigger_price*      | (Default Value - 0)                                                                                       | Str [optional] |
 | *quantity*           |                                                                                                           | Str            |
 | *order_id*           |                                                                                                           | Str            |
-| *exchange_segment*   | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market                                          | Str [optional] |
+| *exchange_segment*   | nse_cm NSE, bse_cm BSE, nse_fo NFO, bse_fo BFO, cde_fo CDS, bcs_fo BCD.                                   | Str [optional] |
 
 ### Return type
 
@@ -71,7 +71,7 @@ except Exception as e:
 ### HTTP response details
 | Status Code | Description                                  | Response headers |
 |-------------|----------------------------------------------|------------------|
-| *200*       | Order placed successfully                    | -                |
+| *200*       | Order modified successfully                  | -                |
 | *400*       | Invalid or missing input parameters          | -                |
 | *403*       | Invalid session, please re-login to continue | -                |
 | *429*       | Too many requests to the API                 | -                |

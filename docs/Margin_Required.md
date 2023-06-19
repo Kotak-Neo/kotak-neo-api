@@ -1,56 +1,80 @@
-# neo_api_client.margin_required
+# **Margin_Required**
+> object margin_required(exchange_segment = "", price = "", order_type= "", product = "",   quantity = "", instrument_token = "",  transaction_type = "")
 
-# **Margin Required**
+Get margin_required details using the NEO API
 
-# Get Margin required for Equity orders. 
-client.margin_required(exchange_segment = "", price = "", order_type= "", product = "",   quantity = "", instrument_token = "",  transaction_type = "")
+### Example
+
+```python
+from neo_api_client import NeoAPI
+
+#First initialize session and generate session token
+
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
+
+try:
+    client.margin_required(exchange_segment = "", price = "", order_type= "", product = "",   quantity = "", instrument_token = "",  transaction_type = "")
+except Exception as e:
+    print("Exception when calling margin_required->margin_required: %s\n" % e)
+```
+
+### Parameters
+
+| Name               | Description                                                                                               | Type           |
+|--------------------|-----------------------------------------------------------------------------------------------------------|----------------|
+| *exchange_segment* | nse_cm NSE, bse_cm BSE, nse_fo NFO, bse_fo BFO, cde_fo CDS, bcs_fo BCD.                                   | Str            |
+| *price*            |                                                                                                           | Str            |
+| *product*          | NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, CO - Cover Order, BO - Bracket Order | Str            |
+| *order_type*       | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market                                          | Str            |
+| *quantity*         |                                                                                                           | Str            |
+| *instrument_token* | pSymbol in ScripMaster                                                                                    | Str            |
+| *transaction_type* | B(Buy), S(sell)                                                                                           | Str            |
+| *trading_symbol*   |                                                                                                           | Str            |
+| *transaction_type* | B(Buy), S(sell)                                                                                           | Str            |
+| *trigger_price*    |                                                                                                           | Str [Optional] |
 
 
-        """
-            Calculates the margin required for a given trade using the NEO API.
+### Return type
 
-            Args:
-                exchange_segment (str): A string representing the exchange segment for the trade.
-                price (float): The price at which to execute the trade.
-                order_type (str): A string representing the type of order to place.
-                product (str): A string representing the product type for the trade.
-                quantity (float): The quantity to trade.
-                instrument_token (int): The instrument token of the stock to trade.
-                transaction_type (str): A string representing the type of transaction to perform.
-                trigger_price (float, optional): The trigger price for the trade.
-                broker_name (str, optional): The name of the broker to use. Defaults to "KOTAK".
-                branch_id (str, optional): The ID of the branch to use. Defaults to "ONLINE".
-                stop_loss_type (str, optional): The type of stop loss to use.
-                stop_loss_value (float, optional): The value for the stop loss.
-                square_off_type (str, optional): The type of square off to use.
-                square_off_value (float, optional): The value for the square off.
-                trailing_stop_loss (str, optional): The type of trailing stop loss to use.
-                trailing_sl_value (float, optional): The value for the trailing stop loss.
+**object**
 
-            Raises:
-                 Exception: If there was an error calculating the margin.
+### Sample response
 
-            Returns:
-                 The calculated margin required for the trade.
-
-        """
-
-Example Response:
+```python
+{
+    'data': 
                 {
-                    'data': 
-                    {
-                        'avlCash': '104.96', 
-                        'insufFund': '12520.04', 
-                        'stat': 'Ok', 
-                        'totMrgnUsd': '12625.00', 
-                        'mrgnUsd': '0.00', 
-                        'reqdMrgn': '12625.00', 
-                        'avlMrgn': '104.96', 
-                        'stCode': 200, 
-                        'tid': 'server2_2330220', 
-                        'ordMrgn': '12625.00', 
-                        'rmsVldtd': 78
-                    }
+                    'avlCash': '104.96', 
+                    'insufFund': '12520.04', 
+                    'stat': 'Ok', 
+                    'totMrgnUsd': '12625.00', 
+                    'mrgnUsd': '0.00', 
+                    'reqdMrgn': '12625.00', 
+                    'avlMrgn': '104.96', 
+                    'stCode': 200, 
+                    'tid': 'server2_2330220', 
+                    'ordMrgn': '12625.00', 
+                    'rmsVldtd': 78
                 }
+}
+```
 
-                
+### HTTP request headers
+
+ - **Accept**: application/json
+
+### HTTP response details
+| Status Code | Description                                           | Response headers |
+|-------------|-------------------------------------------------------|------------------|
+| *200*       | Gets the margin_required data for a client account    | -                |
+| *400*       | Invalid or missing input parameters                   | -                |
+| *403*       | Invalid session, please re-login to continue          | -                |
+| *429*       | Too many requests to the API                          | -                |
+| *500*       | Unexpected error                                      | -                |
+| *502*       | Not able to communicate with OMS                      | -                |
+| *503*       | Trade API service is unavailable                      | -                |
+| *504*       | Gateway timeout, trade API is unreachable             | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)

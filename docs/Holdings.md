@@ -1,24 +1,32 @@
-# neo_api_client.holdings
+# **Portfolio holdings**
+> object holdings()
 
+### Example
 
-# **Holdings**
+```python
 
-# Get Portfolio Holdings
-client.holdings()
+from neo_api_client import NeoAPI
 
-        """
-            Retrieves the current holdings for the portfolio using the NEO API.
+#First initialize session and generate session token
 
-            Raises:
-                 Exception: If there was an error retrieving the holdings.
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
 
-            Returns:
-                 A list of portfolio holding objects.
-        """
+try:
+    client.holdings("")
+except Exception as e:
+    print("Exception when calling Holdings->holdings: %s\n" % e)
+```
 
-Example Response:
-                {
-                  "data": [
+### Return type
+
+**object**
+
+### Sample response
+```python
+{
+      "data": [
                     {
                       "symbol": "YESBANK",
                       "displaySymbol": "YESBANK",
@@ -31,7 +39,7 @@ Example Response:
                       "scripId": "dade08eae3d978dcb31940b6da2cfbab4ab395d3",
                       "instrumentToken": 7169,
                       "instrumentType": "Equity",
-                      "isAlternateScrip": false,
+                      "isAlternateScrip": "false",
                       "closingPrice": 19.75
                     },
                     {
@@ -46,7 +54,7 @@ Example Response:
                       "scripId": "40297c23c30022e35db0e59e7ca3a30c7a5c6906",
                       "instrumentToken": 7168,
                       "instrumentType": "Equity",
-                      "isAlternateScrip": true,
+                      "isAlternateScrip": "true",
                       "closingPrice": 19.75
                     },
                     {
@@ -61,7 +69,7 @@ Example Response:
                       "scripId": "fb94935fb38a1dd7f87c52e562d6756636fcb7f3",
                       "instrumentToken": 955,
                       "instrumentType": "Equity",
-                      "isAlternateScrip": false,
+                      "isAlternateScrip": "false",
                       "closingPrice": 73.8
                     },
                     {
@@ -76,38 +84,27 @@ Example Response:
                       "scripId": "22995f58a180b89e279e9d74df05545bc7fd02c9",
                       "instrumentToken": 954,
                       "instrumentType": "Equity",
-                      "isAlternateScrip": true,
+                      "isAlternateScrip": "true",
                       "closingPrice": 73.8
-                    },
-                    {
-                      "symbol": "GPIL",
-                      "displaySymbol": "GPIL",
-                      "averagePrice": 280.4275,
-                      "quantity": 4,
-                      "exchangeSegment": "nse_cm",
-                      "exchangeIdentifier": "13409",
-                      "holdingCost": 1121.71,
-                      "mktValue": 1629.4,
-                      "scripId": "5960fc030a164a0af93334089dc9cf2a8896594e",
-                      "instrumentToken": 7964,
-                      "instrumentType": "Equity",
-                      "isAlternateScrip": false,
-                      "closingPrice": 407.35
-                    },
-                    {
-                      "symbol": "GPIL",
-                      "displaySymbol": "GPIL",
-                      "averagePrice": 280.4275,
-                      "quantity": 4,
-                      "exchangeSegment": "bse_cm",
-                      "exchangeIdentifier": "532734",
-                      "holdingCost": 1121.71,
-                      "mktValue": 1629.4,
-                      "scripId": "21a74b89385b75997f4c19891074f5e1a538bf49",
-                      "instrumentToken": 7963,
-                      "instrumentType": "Equity",
-                      "isAlternateScrip": true,
-                      "closingPrice": 407.35
                     }
-                  ]
-                }
+                ]
+}           
+
+```
+
+### HTTP request headers
+
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status Code | Description                                           | Response headers |
+|-------------|-------------------------------------------------------|------------------|
+| *200*       | Gets the Portfolio holdings data for a client account | -                |
+| *400*       | Invalid or missing input parameters                   | -                |
+| *403*       | Invalid session, please re-login to continue          | -                |
+| *429*       | Too many requests to the API                          | -                |
+| *500*       | Unexpected error                                      | -                |
+| *502*       | Not able to communicate with OMS                      | -                |
+| *503*       | Trade API service is unavailable                      | -                |
+| *504*       | Gateway timeout, trade API is unreachable             | -                |

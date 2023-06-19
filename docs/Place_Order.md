@@ -67,7 +67,6 @@ except Exception as e:
 
 ### HTTP response details
 
-
 | Status Code | Description                                  | Response headers |
 |-------------|----------------------------------------------|------------------|
 | *200*       | Order placed successfully                    | -                |

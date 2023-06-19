@@ -1,28 +1,43 @@
-# neo_api_client.limits
-
 # **Limits**
+> object limits(segment="", exchange="", product="")
 
-# Get Limits details using the NEO API
+Get Limits details using the NEO API
 
 client.limits(segment="", exchange="", product="")
 
-    """
-        Retrieves the limits available for the given segment, exchange and product using the NEO API.
+### Example
 
-        Args:
-            segment (str): A string representing the segment for which limits are to be retrieved. Default value is "ALL".
-            exchange (str): A string representing the exchange for which limits are to be retrieved. Default value is "ALL".
-            product (str): A string representing the product for which limits are to be retrieved. Default value is "ALL".
+```python
+from neo_api_client import NeoAPI
 
-        Raises:
-            Exception: If there was an error retrieving the limits.
+#First initialize session and generate session token
 
-        Returns:
-            A list of limits available for the given segment, exchange and product.
-    """
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
 
-Example Response:
-                {
+try:
+    client.limits(segment="ALL", exchange="ALL",product="ALL")
+except Exception as e:
+    print("Exception when calling Limits->limits: %s\n" % e)
+```
+
+### Parameters
+| Name        | Type           | Description                                 |
+|-------------|----------------|---------------------------------------------|
+| *segment*   | str [Optional] | [CASH, CUR, FO, ALL] Default value - ALL.   |
+| *exchange*  | str [Optional] | [NSE, BSE, ALL] Default value - ALL.        |
+| *product*   | str [Optional] | [CNC, MIS, NRML, ALL] Default value - ALL.  |
+ 
+
+### Return type
+
+**object**
+
+### Sample response
+
+```python
+{
                   "AddPreExpMrgnMisPrsnt": "0.00",
                   "CurExpMrgnNrmlPrsnt": "0.00",
                   "CurPremiumNrmlPrsnt": "0.00",
@@ -103,4 +118,23 @@ Example Response:
                   "TenderMrgnNrmlPrsnt": "0.00",
                   "MarginScripBasketPrsnt": "0.00",
                   "ComSpanMrgnMisPrsnt": "0.00"
-                }
+}
+```
+
+### HTTP request headers
+
+ - **Accept**: application/json
+
+### HTTP response details
+| Status Code | Description                                  | Response headers |
+|-------------|----------------------------------------------|------------------|
+| *200*       | Gets the Limits data for a client account    | -                |
+| *400*       | Invalid or missing input parameters          | -                |
+| *403*       | Invalid session, please re-login to continue | -                |
+| *429*       | Too many requests to the API                 | -                |
+| *500*       | Unexpected error                             | -                |
+| *502*       | Not able to communicate with OMS             | -                |
+| *503*       | Trade API service is unavailable             | -                |
+| *504*       | Gateway timeout, trade API is unreachable    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)

@@ -1,22 +1,46 @@
-# neo_api_client.scrip_master
-
 # **Scrip Master**
-
+> object scrip_master()
+> 
 # Get Scrip Master CSV file
 
-client.scrip_master()
+### Example
+
+```python
+
+from neo_api_client import NeoAPI
+
+#First initialize session and generate session token
+
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
+
+try:
+    client.scrip_master("")
+except Exception as e:
+    print("Exception when calling Scrip Master Api->scrip_master: %s\n" % e)
+```
+
+### Return type
+
+**object**
+
+### HTTP request headers
+
+ - **Accept**: application/json
 
 
-    """
-        Retrieves the list of scrips available in the given exchange segment using the NEO API.
+### HTTP response details
+| Status Code | Description                                  | Response headers |
+|-------------|----------------------------------------------|------------------|
+| *200*       | Ok                                           | -                |
+| *400*       | Invalid or missing input parameters          | -                |
+| *403*       | Invalid session, please re-login to continue | -                |
+| *429*       | Too many requests to the API                 | -                |
+| *500*       | Unexpected error                             | -                |
+| *502*       | Not able to communicate with OMS             | -                |
+| *503*       | Trade API service is unavailable             | -                |
+| *504*       | Gateway timeout, trade API is unreachable    | -                |
 
-        Args:
-            exchange_segment (str): A string representing the exchange segment to retrieve the list of scrips from.
 
-        Raises:
-            Exception: If there was an error retrieving the list of scrips.
-
-        Returns:
-            A list of scrips available in the given exchange segment.
-    """
 

@@ -1,27 +1,51 @@
-# neo_api_client.order_report
+# **order_report**
+> object order_report()
 
-
-# **Order Report**
-
-# Get Order Book details using the NEO API
-
+# Method 1
+Get all order details using order_report
 client.order_report()
 
-        """
-            Retrieves a list of orders in the order book using the NEO API.
+# Method 2 
+Get particular details using order_history
+client.order_history(order_id = "")
 
-            Raises:
-                Exception: If there was an error retrieving the order book.
+### Example
 
-            Returns:
-                Json object of Orders.
-        """
+```python
+from neo_api_client import NeoAPI
 
-Example Response:
-                {
-                  "stat": "Ok",
-                  "stCode": 200,
-                  "data": [
+#First initialize session and generate session token
+
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
+
+try:
+    # Get all order details
+    client.order_report()
+    # Get particular details using order_id
+    client.order_history()    
+except Exception as e:
+    print("Exception when order report API->order_report: %s\n" % e)
+```
+
+### Parameters
+| Name        | Type  | Description |
+|-------------|-------|-------------|
+| *order_id*  | str   | Order ID    |
+
+### Return type
+
+**object**
+
+### Sample response
+
+```python
+{
+
+        "stat": "Ok",
+        "stCode": 200,
+        "data": [
                     {
                       "brkClnt": "--",
                       "ordValDt": "NA",
@@ -162,5 +186,24 @@ Example Response:
                       "optTp": "XX",
                       "prcDen": "1"
                     }
-                  ]
-                }
+                ]
+}
+```
+
+### HTTP request headers
+
+ - **Accept**: application/json
+
+### HTTP response details
+| Status Code | Description                                  | Response headers |
+|-------------|----------------------------------------------|------------------|
+| *200*       | Order canceled successfully                  | -                |
+| *400*       | Invalid or missing input parameters          | -                |
+| *403*       | Invalid session, please re-login to continue | -                |
+| *429*       | Too many requests to the API                 | -                |
+| *500*       | Unexpected error                             | -                |
+| *502*       | Not able to communicate with OMS             | -                |
+| *503*       | Trade API service is unavailable             | -                |
+| *504*       | Gateway timeout, trade API is unreachable    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)

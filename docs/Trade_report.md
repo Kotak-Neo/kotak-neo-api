@@ -1,34 +1,50 @@
-# neo_api_client.trade_report
+# **order_report**
+> object order_report()
 
-
-# **Trade Report**
-
-# Get Trade Book
+# Method 1
+Get all Traded order detail
 client.trade_report()
 
-# Get Detailed Trade Report for specific order id. 
+# Method 2 
+Get particular traded order details using order_id
 client.trade_report(order_id = "")
 
+### Example
 
-    """
-            Retrieves a filtered list of trades using the NEO API.
+```python
+from neo_api_client import NeoAPI
 
-            Args:
-                order_id (str): An optional string representing the order ID to filter trades by. If not provided,
-                    all trades will be returned.
+#First initialize session and generate session token
 
-            Raises:
-                Exception: If there was an error retrieving the trade report.
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
 
-            Returns:
-                Json object of all trades/filtered items.
-    """
+try:
+    # Get all trade details
+    client.trade_report()
+    # Get particular traded details using order_id
+    client.trade_report(order_id="")    
+except Exception as e:
+    print("Exception when trade report API->trade_report: %s\n" % e)
+```
 
-Example Response:
-                {
-                  "stat": "Ok",
-                  "stCode": 200,
-                  "data": [
+### Parameters
+| Name        | Type  | Description |
+|-------------|-------|-------------|
+| *order_id*  | str   | Order ID.   |
+
+### Return type
+
+**object**
+
+### Sample response
+
+```python
+{
+    "stat": "Ok",
+    "stCode": 200,
+    "data": [
                     {
                       "exOrdId": "1000000000109874",
                       "brkClnt": "NA",
@@ -38,7 +54,7 @@ Example Response:
                       "fldQty": 5,
                       "flDt": "21-Jun-2022",
                       "avgPrc": "658.70",
-                      "ordSrc": null,
+                      "ordSrc": "null",
                       "algId": "NA",
                       "prcTp": "MKT",
                       "prod": "CNC",
@@ -85,7 +101,7 @@ Example Response:
                       "fldQty": 2,
                       "flDt": "21-Jun-2022",
                       "avgPrc": "641.00",
-                      "ordSrc": null,
+                      "ordSrc": "null",
                       "algId": "NA",
                       "prcTp": "MKT",
                       "prod": "CNC",
@@ -132,7 +148,7 @@ Example Response:
                       "fldQty": 1,
                       "flDt": "21-Jun-2022",
                       "avgPrc": "644.65",
-                      "ordSrc": null,
+                      "ordSrc": "null",
                       "algId": "NA",
                       "prcTp": "MKT",
                       "prod": "CNC",
@@ -171,4 +187,23 @@ Example Response:
                       "prcDen": "1"
                     }
                   ]
-                }
+}
+```
+
+### HTTP request headers
+
+ - **Accept**: application/json
+
+### HTTP response details
+| Status Code | Description                                  | Response headers |
+|-------------|----------------------------------------------|------------------|
+| *200*       | ok                                           | -                |
+| *400*       | Invalid or missing input parameters          | -                |
+| *403*       | Invalid session, please re-login to continue | -                |
+| *429*       | Too many requests to the API                 | -                |
+| *500*       | Unexpected error                             | -                |
+| *502*       | Not able to communicate with OMS             | -                |
+| *503*       | Trade API service is unavailable             | -                |
+| *504*       | Gateway timeout, trade API is unreachable    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)

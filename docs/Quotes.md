@@ -1,44 +1,63 @@
-# neo_api_client.quotes
-
-
 # **Quotes**
+> object quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=False, session_token="", sid="",server_id="")
 
-# Get Quote details. 
+# Get quotes details
 
-instrument_tokens = [{"instrument_token": "", "exchange_segment": ""},
-    {"instrument_token": "", "exchange_segment": ""},
-    {"instrument_token": "", "exchange_segment": ""},
-    {"instrument_token": "", "exchange_segment": ""}]
+quote_type can be market_depth, ohlc, ltp, 52w, circuit_limits, scrip_details
+By Default quote_type is set as None that means you will get the complete data.
+Quotes api can be accessed without completing login by passing session_token, sid and server_id
 
-# quote_type can be market_depth, ohlc, ltp, 52w, circuit_limits, scrip_details
-# By Default quote_type is set as None that means you will get the complete data.
-# Quotes api can be accessed without completing login by passing session_token, sid and server_id 
+### Example
 
-client.quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=False, 
-              callback=on_message, session_token="", sid="",server_id="")
+```python
+from neo_api_client import NeoAPI
 
-        """
-            Subscribe to real-time quotes for the given instrument tokens.
+def on_message(message):
+    print('[Res]: ', message)
 
-            Args:
-                instrument_tokens (List): A JSON-encoded list of instrument tokens to subscribe to.
-                quote_type (str): The type of quote to subscribe to.
-                isIndex (bool): Whether the instrument is an index.
-                session_token (str): The session token to use for authentication. This argument is optional if the login has been completed.
-                sid (str): The session ID to use for authentication. This argument is mandatory if the session token is passed as input.
-                server_id (str): The server ID to use for authentication. This argument is mandatory if the session token is passed as input.
-                on_error (callable): A callback function to be called whenever an error occurs.
 
-            Returns:
-                JSON-encoded list of Quotes information
+def on_error(message):
+    result = message
+    print('[OnError]: ', result)
 
-            Raises:
-                ValueError: If the instrument tokens are not provided, or if the session token and SID are not provided when there is no Login.
-        """
+client = NeoAPI(consumer_key="", consumer_secret="", environment='uat', on_message=on_message, on_error=on_error)
+client.login(mobilenumber=" ", password=" ")
+client.session_2fa("")
 
-Example Response:
-                { 
-                    "instrument_token": "11915", 
+inst_tokens = [{"instrument_token": "11536", "exchange_segment": "nse_cm"},
+               {"instrument_token": "1594", "exchange_segment": "nse_cm"},
+               {"instrument_token": "11915", "exchange_segment": "nse_cm"},
+               {"instrument_token": "13245", "exchange_segment": "nse_cm"}]
+
+try:
+    # get LTP and Market Depth Data
+    client.quotes(instrument_tokens=inst_tokens, quote_type="market_depth", isIndex=False)
+    
+   # OR Quotes api can be accessed without completing login by passing session_token, sid and server_id
+    client.quotes(instrument_tokens = inst_tokens, quote_type="", isIndex=False, session_token="", sid="",server_id="")
+except Exception as e:
+    print("Exception when calling get Quote api->quotes: %s\n" % e)
+
+```
+### Parameters
+
+| Name                | Description                                                        | Type                   |
+|---------------------|--------------------------------------------------------------------|------------------------|
+| *instrument_tokens* | wToken or instrument Token                                         | Str                    |
+| *exchange_segment*  | nse_cm NSE bse_cm BSE nse_fo NFO bse_fo BFO cde_fo CDS bcs_fo BCD  | Str [optional]         |
+| *quote_type*        | LTP, depth, OHLC, 52W, circuit_limits, scrip_details               | Str [optional]         |
+| *isIndex*           | Boolean value                                                      | True/False [optional]  |
+
+
+### Return type
+
+**object**
+
+### Sample response
+
+```python
+{  
+    "instrument_token": "11915", 
                     "trading_symbol": "YESBANK-EQ", 
                     "exchange_segment": "nse_cm", 
                     "last_trade_time": "19/01/2023 12:34:46", 
@@ -119,5 +138,26 @@ Example Response:
                                                     "orders": "" 
                                                   }, 
                                                 ] 
-                                   }
-                }
+                                   } 
+}
+
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status Code | Description                                  | Response headers |
+|-------------|----------------------------------------------|------------------|
+| *200*       | ok                                           | -                |
+| *400*       | Invalid or missing input parameters          | -                |
+| *403*       | Invalid session, please re-login to continue | -                |
+| *429*       | Too many requests to the API                 | -                |
+| *500*       | Unexpected error                             | -                |
+| *502*       | Not able to communicate with OMS             | -                |
+| *503*       | Trade API service is unavailable             | -                |
+| *504*       | Gateway timeout, trade API is unreachable    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)

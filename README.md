@@ -136,9 +136,9 @@ client.logout()
 
 | Class             | Method                                                                        | Description        |
 |-------------------|-------------------------------------------------------------------------------|--------------------|
-| *LoginAPI*        | [**neo_api_client.SessionINIT**](docs/Session.md#session_init)                | Initialise Session |
+| *LoginAPI*        | [**neo_api_client.SessionINIT**](docs/Session_init.md#session_init)           | Initialise Session |
 | *LoginAPI*        | [**neo_api_client.NeoAPI**](docs/Login.md#login)                              | Login NeoAPI       |
-| *LoginAPI*        | [**neo_api_client.2FA**](docs/Login_2fa.md#2fa)                               | Session 2FA        |
+| *LoginAPI*        | [**neo_api_client.2FA**](docs/session_2fa.md#2fa)                             | Session 2FA        |
 | *Place Order*     | [**neo_api_client.placeorder**](docs/Place_Order.md#place_order)              | Place Order        |
 | *Modify Order*    | [**neo_api_client.modifyorder**](docs/Modify_Order.md#modify_order)           | Modify Order       |
 | *Cancel Order*    | [**neo_api_client.cancelorder**](docs/cancel_Order.md#cancel_order)           | Cancel Order       |
