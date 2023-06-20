@@ -4,6 +4,7 @@ neo_api_client/HSWebSocketLib.py
 neo_api_client/NeoWebSocket.py
 neo_api_client/__init__.py
 neo_api_client/api_client.py
+neo_api_client/demo.py
 neo_api_client/exceptions.py
 neo_api_client/neo_api.py
 neo_api_client/neo_utility.py
