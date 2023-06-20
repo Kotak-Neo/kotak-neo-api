@@ -14,7 +14,6 @@ class ScripSearch(object):
 
     def scrip_search(self, symbol, exchange_segment, expiry, option_type, strike_price,
                      ignore_50multiple):
-
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token}
 
         URL = self.api_client.configuration.get_url_details("scrip_master")
@@ -38,12 +37,9 @@ class ScripSearch(object):
                     return {'error': [
                         {'code': '10300', 'message': "The given segment doesn't have expire and strike price"}]}
 
-                if exchange_segment.endswith('fo') and 'mcx' not in str(exchange_segment).lower():
-                    df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
-                    df['pExpiryDate'] = df['pExpiryDate'] + pd.DateOffset(years=10)
-
                 if exchange_segment.endswith('fo'):
                     df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
+                    df['pExpiryDate'] = df['pExpiryDate'] + pd.DateOffset(years=10)
                     df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if symbol != '':
@@ -75,24 +71,20 @@ class ScripSearch(object):
                         df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if strike_price:
-                    strike_price = str(strike_price) + str('00')
-                    if strike_price < '0':
-                        error = {
-                            'error': [
-                                {'message': "Strike price cannot be less than 0. Please provide a valid value."}]
-                        }
-                        return error
-                    df['dStrikePrice;'] = df['dStrikePrice;'].astype(str)
+                    df['dStrikePrice;'] = df['dStrikePrice;'].astype(float)
                     if '>' in strike_price:
-                        min_strike_price = strike_price[1:]
+                        strike_price = strike_price.split('>')
+                        min_strike_price = float(strike_price[1])
                         df = df[df['dStrikePrice;'] >= min_strike_price]
                     elif '<' in strike_price:
-                        max_strike_price = strike_price[1:]
+                        strike_price = strike_price.split('<')
+                        max_strike_price = float(str(strike_price[1]) + str('00.0'))
                         df = df[df['dStrikePrice;'] <= max_strike_price]
                     else:
                         list_strike_price = strike_price.split('-')
                         if len(list_strike_price) == 2:
-                            min_strike_price, max_strike_price = list_strike_price[0], list_strike_price[1]
+                            min_strike_price, max_strike_price = float(list_strike_price[0]) * 100, float(
+                                list_strike_price[1]) * 100
                             if min_strike_price > max_strike_price:
                                 error = {
                                     'error': [
@@ -104,7 +96,16 @@ class ScripSearch(object):
                                 df = df[(df['dStrikePrice;'] >= min_strike_price) & (
                                         df['dStrikePrice;'] <= max_strike_price)]
                         elif len(list_strike_price) == 1:
-                            df = df[df['dStrikePrice;'] == (list_strike_price[0])]
+                            if (float(list_strike_price[0]) * 100) <= 0:
+                                error = {
+                                    'error': [
+                                        {
+                                            'message': "Strike price cannot be less than 0. Please provide a valid "
+                                                       "value."}]
+                                }
+                                return error
+                            else:
+                                df = df[df['dStrikePrice;'] == float(list_strike_price[0]) * 100]
                         else:
                             error = {
                                 'error': [
@@ -113,17 +114,16 @@ class ScripSearch(object):
                             }
                             return error
 
-                df = df.dropna(how='all')
-                if len(df) > 0:
-                    df = df.sort_values('dStrikePrice;', ascending=True)  # Add sorting step here
-                    df = df.to_json(orient='records')
-                    df = json.loads(df)
-                    return df
+                    df = df.dropna(how='all')
+                    if len(df) > 0:
+                        df = df.to_json(orient='records')
+                        df = json.loads(df)
+                        return df
+                    else:
+                        return {"message": "No data found with the given search information."
+                                           "Please try with other combinations."}
                 else:
-                    return {"message": "No data found with the given search information."
-                                       "Please try with other combinations."}
-            else:
-                return {"error": "Exchange segment not found."}
+                    return {"error": "Exchange segment not found."}
 
         except ApiException as ex:
             return {"error": ex}
