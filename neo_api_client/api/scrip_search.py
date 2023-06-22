@@ -25,14 +25,12 @@ class ScripSearch(object):
             )
 
             data = scrip_report.json()["data"]
-
             if exchange_segment is not None:
                 exchange_segment_csv = [file for file in data["filesPaths"] if exchange_segment.lower() in file.lower()]
                 response = requests.get(exchange_segment_csv[0])
                 csv_text = response.text
                 df = pd.read_csv(io.StringIO(csv_text))
                 df = df.rename(columns=lambda x: x.strip())
-
                 if expiry and strike_price and not exchange_segment.endswith('fo'):
                     return {'error': [
                         {'code': '10300', 'message': "The given segment doesn't have expire and strike price"}]}
@@ -43,6 +41,7 @@ class ScripSearch(object):
                     df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if symbol != '':
+                    print("INSIDE the symbol", symbol)
                     mask = df["pSymbolName"].str.lower().str.strip().str.contains(symbol)
                     df = df[mask]
 
@@ -114,16 +113,14 @@ class ScripSearch(object):
                             }
                             return error
 
-                    df = df.dropna(how='all')
-                    if len(df) > 0:
-                        df = df.to_json(orient='records')
-                        df = json.loads(df)
-                        return df
-                    else:
-                        return {"message": "No data found with the given search information."
-                                           "Please try with other combinations."}
+                df = df.dropna(how='all')
+                if len(df) > 0:
+                    df = df.to_json(orient='records')
+                    df = json.loads(df)
+                    return df
                 else:
-                    return {"error": "Exchange segment not found."}
+                    return {"message": "No data found with the given search information."
+                                       "Please try with other combinations."}
 
         except ApiException as ex:
             return {"error": ex}
