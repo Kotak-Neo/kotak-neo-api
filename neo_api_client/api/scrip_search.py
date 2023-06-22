@@ -41,7 +41,6 @@ class ScripSearch(object):
                     df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if symbol != '':
-                    print("INSIDE the symbol", symbol)
                     mask = df["pSymbolName"].str.lower().str.strip().str.contains(symbol)
                     df = df[mask]
 
