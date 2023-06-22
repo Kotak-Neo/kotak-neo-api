@@ -25,14 +25,12 @@ class ScripSearch(object):
             )
 
             data = scrip_report.json()["data"]
-            print("FILE paths ", data["filesPaths"])
             if exchange_segment is not None:
                 exchange_segment_csv = [file for file in data["filesPaths"] if exchange_segment.lower() in file.lower()]
                 response = requests.get(exchange_segment_csv[0])
                 csv_text = response.text
                 df = pd.read_csv(io.StringIO(csv_text))
                 df = df.rename(columns=lambda x: x.strip())
-                print("DF", df.head(5))
                 if expiry and strike_price and not exchange_segment.endswith('fo'):
                     return {'error': [
                         {'code': '10300', 'message': "The given segment doesn't have expire and strike price"}]}
@@ -43,7 +41,6 @@ class ScripSearch(object):
                     df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if symbol != '':
-                    print("INSIDE the symbol", symbol)
                     mask = df["pSymbolName"].str.lower().str.strip().str.contains(symbol)
                     df = df[mask]
 

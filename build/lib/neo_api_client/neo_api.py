@@ -534,7 +534,6 @@ class NeoAPI:
                 return error
             try:
                 exchange_segment = neo_api_client.settings.exchange_segment[exchange_segment]
-                print("exchange_segment, ",exchange_segment)
                 symbol = str(symbol).lower()
                 scrip_list = neo_api_client.ScripSearch(self.api_client).scrip_search(exchange_segment=exchange_segment,
                                                                                       symbol=symbol, expiry=expiry,
