@@ -72,7 +72,7 @@ class ScripSearch(object):
                     df['dStrikePrice;'] = df['dStrikePrice;'].astype(float)
                     if '>' in strike_price:
                         strike_price = strike_price.split('>')
-                        min_strike_price = float(strike_price[1])
+                        min_strike_price = float(str(strike_price[1]) + str('00.0'))
                         df = df[df['dStrikePrice;'] >= min_strike_price]
                     elif '<' in strike_price:
                         strike_price = strike_price.split('<')
@@ -114,6 +114,7 @@ class ScripSearch(object):
 
                 df = df.dropna(how='all')
                 if len(df) > 0:
+                    df = df.sort_values('dStrikePrice;', ascending=True)  # Add sorting step here
                     df = df.to_json(orient='records')
                     df = json.loads(df)
                     return df
