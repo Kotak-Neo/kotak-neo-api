@@ -2,13 +2,14 @@
 > object session_2fa(OTP=""")
 Generate final Session Token
 
-API to generate final session for user based on one time token.
+Method to generate final session token for the user
 
 ### Example
 
 
 ```python
 from neo_api_client import NeoAPI
+
 client = NeoAPI(consumer_key="",consumer_secret="",environment='uat')
 				
 try:
@@ -17,6 +18,7 @@ try:
     
     # Generate final Session Token
     client.session_2fa(OTP="")
+	
 except Exception as e:
     print("Exception when calling SessionApi->session_2fa: %s\n" % e)
 ```
