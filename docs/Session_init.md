@@ -13,25 +13,20 @@ def on_message(message):
     
 def on_error(error_message):
     print(error_message)
-
-def on_open(message):
-    print('[OnOpen]: ', message)
     
-def on_close(message):
-    print('[OnClose]: ', message)
-    
-#the session initializes when following constructor is called
-client = NeoAPI(consumer_key="",consumer_secret="",environment='uat',on_message=None, on_error=None, on_close=None, on_open=None, neo_fin_key=None)
+#the session initializes when the following constructor is called
+client = NeoAPI(consumer_key="",consumer_secret="",environment='uat',on_message=on_message, on_error=on_error, neo_fin_key="neotradeapi")
 ```
 ### Parameters
 
 | Name                        | Description                                | Type           |
 |-----------------------------|--------------------------------------------|----------------|
-| *consumer_key*              |                                            | Str            |
-| *consumer_secret*           |                                            | Str            |
+| *consumer_key*              | Mandatory if not passing access token      | Str [optional] |
+| *consumer_secret*           | Mandatory if not passing access token      | Str [optional] |
 | *access_token*              | Mandatory if generate_new_access_token="N" | Str [optional] |
-| *environment*               | UAT/LIVE                                   | Str UAT        |
-| *generate_new_access_token* | Y                                          | Str [optional] |
+| *environment*               | UAT/PROD, Default Value = "UAT"            | Str [optional] |
+| *generate_new_access_token* | Allowed Values - Y/N, Default Value - Y    | Str [optional] |
+| *neo_fin_key*               | Default Value = "neotradeapi"              | Str [optional] |
 
 
 ### HTTP request headers
