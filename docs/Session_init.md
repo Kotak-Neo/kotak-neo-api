@@ -19,14 +19,13 @@ client = NeoAPI(consumer_key="",consumer_secret="",environment='uat',on_message=
 ```
 ### Parameters
 
-| Name                        | Description                                | Type           |
-|-----------------------------|--------------------------------------------|----------------|
-| *consumer_key*              | Mandatory if not passing access token      | Str [optional] |
-| *consumer_secret*           | Mandatory if not passing access token      | Str [optional] |
-| *access_token*              | Mandatory if generate_new_access_token="N" | Str [optional] |
-| *environment*               | UAT/PROD, Default Value = "UAT"            | Str [optional] |
-| *generate_new_access_token* | Allowed Values - Y/N, Default Value - Y    | Str [optional] |
-| *neo_fin_key*               | Default Value = "neotradeapi"              | Str [optional] |
+| Name                        | Description                                      | Type           |
+|-----------------------------|--------------------------------------------------|----------------|
+| *consumer_key*              | Mandatory if not passing access token            | Str [optional] |
+| *consumer_secret*           | Mandatory if not passing access token            | Str [optional] |
+| *access_token*              | Mandatory if not passing consumer key and secret | Str [optional] |
+| *environment*               | UAT/PROD, Default Value = "UAT"                  | Str [optional] |
+| *neo_fin_key*               | Default Value = "neotradeapi"                    | Str [optional] |
 
 
 ### HTTP request headers
