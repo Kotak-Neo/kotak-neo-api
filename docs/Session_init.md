@@ -34,15 +34,10 @@ client = NeoAPI(consumer_key="",consumer_secret="",environment='uat',on_message=
 
 ### HTTP response details
 
-| Status Code | Description                                  | Response headers |
-|-------------|----------------------------------------------|------------------|
-| *200*       | Order placed successfully                    | -                |
-| *400*       | Invalid or missing input parameters          | -                |
-| *403*       | Invalid session, please re-login to continue | -                |
-| *429*       | Too many requests to the API                 | -                |
-| *500*       | Unexpected error                             | -                |
-| *502*       | Not able to communicate with OMS             | -                |
-| *503*       | Trade API service is unavailable             | -                |
-| *504*       | Gateway timeout, trade API is unreachable    | -                |
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| *200*       | Ok                                           |
+| *401*       | Invalid or missing input parameters          |
+
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
