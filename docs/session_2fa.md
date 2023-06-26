@@ -27,13 +27,12 @@ except Exception as e:
 
 ### Parameters
 
-| Name           | Description            | Type |
-|----------------|------------------------|------|
-| *mobilenumber* | Eg: "+919999999908"    | Str  |
-| *userid*       | Eg: “asfdywgsiqwjnskm” | Str  |
-| *pan*          | Eg: “AVRFT7865T”       | Str  |
-| *password*     |                        |      |
-| *otp*          |                        |      |
+| Name           | Description                                                        | Type   |
+|----------------|--------------------------------------------------------------------|--------|
+| *mobilenumber* | Your registered mobile number Eg: "+919999996708"                  | Str    |
+| *pan*          | Your PAN number Eg: “DUMMY1234A”                                   | Str    |
+| *password*     | Your trading password                                              | Str    |
+| *otp*          | The 4-digit code you receive on registered mobile number           | Str    | 
 
 ### Return type
 
@@ -41,21 +40,23 @@ object
 
 ### Sample response
 
-```python
+```json
 {
-  "data": {
-    "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJUcmFkZSJdLCJleHAiOjE2NTU4MDY1MzksImp0aSI6ImU2YWVkMzUxLTI0MzAtNDNhNi04ZGFjLWM3Zjg3MGQwNzJhZiIsImlhdCI6MTY1NTgwMjkzOSwiaXNzIjoibG9naW4tc2VydmljZSIsInN1YiI6IlRFU1RZQTI0IiwiZmV0Y2hjYWNoaW5ncnVsZSI6MCwiY2F0ZWdvcmlzYXRpb24iOiIifQ.Leq2OMYd-5ezEmG3czEMJxpgkrVmmXMBFJcbOUIeN5ZFFcWT2Ta-fZsyedEcEo4ge8-RP1d0xOMn_xydjw85zBu0zy8eQGmKxZA9kPutQ-tDOdAW_lUBYIbmidZvvZ2FFU5uspFV0fZBHsvaGqDJzEmB6w5n5Rf26IEnyGwQFBtSM1VcihOr13ZvurRFlrnA-x7_r5oi2wweEC7IrhLn6dMc0U8xtHkirYL9NCN_qd0Zcw8HVlM9d2_D_Zg7E-G2zmhlYEUPGHbPYPCQB0dPx4-qyL_TJvJHTqtja0tdpcApUtTiprQHLp5fCwWoa6O4s-SRqVOh3Z0fvIRga2vO1Q",
-    "sid": "b3ebb6af-7205-43e9-8513-189472393cab",
-    "rid": "a9fe0821-6849-4c68-a083-ddc92d61e060",
-    "hsServerId": "server1",
-    "caches": {
-      "lastUpdatedTS": "1654684389",
-      "multiplewatchlists": "1654684389",
-      "watchlist": "1638271224"
-    },
-    "ucc": "TESTYA24",
-    "greetingName": "string"
-  }
+  "data": {"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJUcmFkZSJdLCJleHAiOjE2ODc1NDUwMDAsImp0aSI6ImFlOTYyMGMyLWIyZWItNDM2Zi04NWViLTU3NDhlYzBhNzY5NyIsImlhdCI6MTY4NzUxNDIyOCwiaXNzIjoibG9naW4tc2VydmljZSIsInN1YiI6ImZmZmMyMDgyLTdiMTktNGFkOC1iY2Q5LTdiNWM0NWZhMzZhZiIsInVjYyI6IllSSUowIiwibmFwIjoiSExQUEs4OTM2TCIsImZldGNoY2FjaGluZ3J1bGUiOjAsImNhdGVnb3Jpc2F0aW9uIjoiIn0.Epq8jKxbXVQTvcSlW7GIVSmtAvWr_Zt0riRKN8zUh2Wvn6XGkiQRY5Ts1hIbcnJ0s2Jclh6Ig4C6UFz_P_Ar4dhcQf-x4EV8FtuKz1-HAnjwXZ_OTHn4Xrlq7tcpouGT9dbi4nt38UYcab9iMnEiMgtqQxbz042ub1WqrZEWABiZ2kOBBaksHmgEKsTe2iqNwa4fN-DoItqFhOu6DkcPz90lb1JmAbovwpu7TqOK30bHcjIJjDKQKBlHuw9_4ZbuAb4wSdQQwXxYYyXOZGM_HLIjinwnYJpxRpeG5eQigNkXO-VcyC9dA3u0MI5S5wtzyYQ_jEACiJew7ayM6l2KtQ",
+  "sid": "a34f0165-8cac-4f84-a4ea-234adb713214",
+  "rid": "0ae50f5d-ae07-4114-bdda-a27de1785573",
+  "hsServerId": "server3",
+  "isUserPwdExpired": "False",
+  "caches": {
+	  "baskets": "1687334141",
+   "lastUpdatedTS": "1687353420",
+   "multiplewatchlists": "1683352919",
+   "techchartpreferences": "1683528608"},
+  "ucc": "YRIJ0",
+  "greetingName": "SHASHWAT",
+  "isTrialAccount": "False",
+  "dataCenter": "gdc",
+  "searchAPIKey": ""}
 }
 ```
 
