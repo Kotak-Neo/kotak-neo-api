@@ -20,7 +20,7 @@ client.session_2fa("")
 try:
     # Place a Order
     client.place_order(exchange_segment='', product='', price='', order_type='', quantity='', validity='', trading_symbol='',
-                       transaction_type='', amo="NO", disclosed_quantity="0", market_protection='0', pf='N',
+                       transaction_type='', amo='NO', disclosed_quantity="0", market_protection='0', pf='N',
                        trigger_price='0', tag=None)
 except Exception as e:
     print("Exception when calling OrderApi->place_order: %s\n" % e)
