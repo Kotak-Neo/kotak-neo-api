@@ -24,7 +24,7 @@ client.session_2fa("")
 try:
     # Modify an existing order
     client.modify_order(instrument_token = "", exchange_segment = "", product = "", price = "", 
-                        order_type = "", quantity= "", validity = "", trading_symbol = "",transaction_type = "", order_id = "")
+                        order_type = "", quantity= "", validity = "", trading_symbol = "",transaction_type = "", order_id = "", amo = "")
 except Exception as e:
     print("Exception when calling OrderApi->modify_order: %s\n" % e)
 
