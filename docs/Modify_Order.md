@@ -7,7 +7,7 @@ Modify an existing order
 client.modify_order(instrument_token = "", exchange_segment = "", product = "", price = "", order_type = "", quantity= "", validity = "", trading_symbol = "", transaction_type = "", order_id = "")
 
 # **Method 2 Delayed method**
-client.modify_order(order_id = "", price = "", quantity = "", disclosed_quantity = "", trigger_price = "", validity = "", order_type = "")
+client.modify_order(order_id = "", price = "", quantity = "", disclosed_quantity = "", trigger_price = "", validity = "", order_type = "", amo = "")
 
 ### Example
 
