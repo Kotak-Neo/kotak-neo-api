@@ -1,13 +1,16 @@
-# **order_report**
-> object order_report()
+# **Order_Report & Order_History**
 
-# Method 1
-Get all order details using order_report
+## Order_Report-<br/>
+Get all order details<br/>
+```python
 client.order_report()
+```
 
-# Method 2 
-Get particular details using order_history
+## Order_History-<br/>
+Get details of a particular order<br/>
+```python
 client.order_history(order_id = "")
+```
 
 ### Example
 
@@ -40,7 +43,7 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
 
         "stat": "Ok",
