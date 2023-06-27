@@ -1,15 +1,16 @@
-# **cancel_order**
-> object cancel_order(order_id)
-
+# **Cancel_Order**
 Cancel an order
 
-# Method 1
+## Method 1 - Quick Method
+```python
 client.cancel_order(order_id = "")
+```
 
-# Method 2 (Delayed)
-This is delay type, if order id along with isVerify as True will be passed then check the status of the given order id and then proceed to further
-
+## Method 2 - Delayed Method
+This method checks the order status first and then cancels the order if it is open.<br/>
+```python
 client.cancel_order(order_id = "", isVerify="True")
+```
 
 ### Example
 
@@ -41,11 +42,11 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
-    'stat': 'Ok',
-    'nOrdNo': '230120000017243',
-    'stCode': 200
+    "stat": "Ok",
+    "nOrdNo": "230120000017243",
+    "stCode": 200
 }
 ```
 
