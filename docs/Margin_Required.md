@@ -1,7 +1,10 @@
 # **Margin_Required**
-> object margin_required(exchange_segment = "", price = "", order_type= "", product = "",   quantity = "", instrument_token = "",  transaction_type = "")
+Get required margin details
 
-Get margin_required details using the NEO API
+```python
+client.margin_required(exchange_segment = "", price = "", order_type= "", product = "", quantity = "", instrument_token = "",
+                       transaction_type = "")
+```
 
 ### Example
 
@@ -22,18 +25,18 @@ except Exception as e:
 
 ### Parameters
 
-| Name               | Description                                                                                               | Type           |
-|--------------------|-----------------------------------------------------------------------------------------------------------|----------------|
-| *exchange_segment* | nse_cm NSE, bse_cm BSE, nse_fo NFO, bse_fo BFO, cde_fo CDS, bcs_fo BCD.                                   | Str            |
-| *price*            |                                                                                                           | Str            |
-| *product*          | NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, CO - Cover Order, BO - Bracket Order | Str            |
-| *order_type*       | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market                                          | Str            |
-| *quantity*         |                                                                                                           | Str            |
-| *instrument_token* | pSymbol in ScripMaster                                                                                    | Str            |
-| *transaction_type* | B(Buy), S(sell)                                                                                           | Str            |
-| *trading_symbol*   |                                                                                                           | Str            |
-| *transaction_type* | B(Buy), S(sell)                                                                                           | Str            |
-| *trigger_price*    |                                                                                                           | Str [Optional] |
+| Name               | Description                                                                                                              | Type           |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
+| *exchange_segment* | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD                        | Str            |
+| *price*            |                                                                                                                          | Str            |
+| *product*          | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>BO - Bracket Order | Str            |
+| *order_type*       | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
+| *quantity*         |                                                                                                                          | Str            |
+| *instrument_token* | pSymbol in ScripMaster                                                                                                   | Str            |
+| *transaction_type* | B(Buy), S(sell)                                                                                                          | Str            |
+| *trading_symbol*   |                                                                                                                          | Str            |
+| *transaction_type* | B(Buy), S(sell)                                                                                                          | Str            |
+| *trigger_price*    |                                                                                                                          | Str [Optional] |
 
 
 ### Return type
@@ -42,21 +45,21 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
-    'data': 
+    "data": 
                 {
-                    'avlCash': '104.96', 
-                    'insufFund': '12520.04', 
-                    'stat': 'Ok', 
-                    'totMrgnUsd': '12625.00', 
-                    'mrgnUsd': '0.00', 
-                    'reqdMrgn': '12625.00', 
-                    'avlMrgn': '104.96', 
-                    'stCode': 200, 
-                    'tid': 'server2_2330220', 
-                    'ordMrgn': '12625.00', 
-                    'rmsVldtd': 78
+                    "avlCash": "104.96", 
+                    "insufFund": "12520.04", 
+                    "stat": "Ok", 
+                    "totMrgnUsd": "12625.00", 
+                    "mrgnUsd": "0.00", 
+                    "reqdMrgn": "12625.00", 
+                    "avlMrgn": "104.96", 
+                    "stCode": 200, 
+                    "tid": "server2_2330220", 
+                    "ordMrgn": "12625.00", 
+                    "rmsVldtd": 78
                 }
 }
 ```
