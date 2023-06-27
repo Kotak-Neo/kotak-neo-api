@@ -1,9 +1,9 @@
 # **Limits**
-> object limits(segment="", exchange="", product="")
+Get Limits details
 
-Get Limits details using the NEO API
-
+```python
 client.limits(segment="", exchange="", product="")
+```
 
 ### Example
 
@@ -23,11 +23,11 @@ except Exception as e:
 ```
 
 ### Parameters
-| Name        | Type           | Description                                 |
-|-------------|----------------|---------------------------------------------|
-| *segment*   | str [Optional] | [CASH, CUR, FO, ALL] Default value - ALL.   |
-| *exchange*  | str [Optional] | [NSE, BSE, ALL] Default value - ALL.        |
-| *product*   | str [Optional] | [CNC, MIS, NRML, ALL] Default value - ALL.  |
+| Name        | Description                                 | Type           | 
+|-------------|---------------------------------------------|----------------|
+| *segment*   | [CASH, CUR, FO, ALL] Default value - ALL    | str [Optional] | 
+| *exchange*  | [NSE, BSE, ALL] Default value - ALL         | str [Optional] | 
+| *product*   | [CNC, MIS, NRML, ALL] Default value - ALL   | str [Optional] | 
  
 
 ### Return type
@@ -36,7 +36,7 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
                   "AddPreExpMrgnMisPrsnt": "0.00",
                   "CurExpMrgnNrmlPrsnt": "0.00",
