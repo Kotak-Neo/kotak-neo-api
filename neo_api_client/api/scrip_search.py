@@ -36,9 +36,14 @@ class ScripSearch(object):
                         {'code': '10300', 'message': "The given segment doesn't have expire and strike price"}]}
 
                 if exchange_segment.endswith('fo'):
-                    df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
-                    df['pExpiryDate'] = df['pExpiryDate'] + pd.DateOffset(years=10)
-                    df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
+                    if not (exchange_segment == 'mcx' or exchange_segment == 'mcx_fo'):
+                        df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
+                        df['pExpiryDate'] = df['pExpiryDate'] + pd.DateOffset(years=10)
+                        df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
+                else:
+                    if exchange_segment == 'mcx' or exchange_segment == 'mcx_fo':
+                        df['pExpiryDate'] = pd.to_datetime(df['pExpiryDate'], unit='s')
+                        df['pExpiryDate'] = df['pExpiryDate'].dt.strftime('%d%b%Y')
 
                 if symbol != '':
                     mask = df["pSymbolName"].str.lower().str.strip().str.contains(symbol)
