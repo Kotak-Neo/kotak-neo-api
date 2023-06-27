@@ -1,9 +1,11 @@
-# neo_api_client.OrderApi
-
-# **place_new_order**
-> object place_order(exchange_segment='', product='', price='', order_type='', quantity='', validity='', trading_symbol='',transaction_type='', amo='NO', disclosed_quantity='0', market_protection='0', pf='N',trigger_price='0', tag=None)
-
+# Place_Order
 Place a New order
+
+```python
+client.place_order(exchange_segment="", product="", price="", order_type="", quantity="", validity="", trading_symbol="",
+                   transaction_type="", amo="NO", disclosed_quantity="0", market_protection="0", pf="N", trigger_price="0",
+                   tag=None)
+```
 
 ### Example
 
@@ -13,37 +15,37 @@ from neo_api_client import NeoAPI
         
 #First initialize session and generate session token
 
-client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment=" ")
 client.login(mobilenumber=" ", password=" ")
-client.session_2fa("")
+client.session_2fa(" ")
 
 try:
     # Place a Order
-    client.place_order(exchange_segment='', product='', price='', order_type='', quantity='', validity='', trading_symbol='',
-                       transaction_type='', amo='NO', disclosed_quantity="0", market_protection='0', pf='N',
-                       trigger_price='0', tag=None)
+    client.place_order(exchange_segment="", product="", price="", order_type="", quantity="", validity="", trading_symbol="",
+                       transaction_type="", amo="NO", disclosed_quantity="0", market_protection="0", pf="N",
+                       trigger_price="0", tag=None)
 except Exception as e:
     print("Exception when calling OrderApi->place_order: %s\n" % e)
 ``` 
 
 ### Parameters
 
-| Name                 | Description                                                                                                    | Type           |
-|----------------------|----------------------------------------------------------------------------------------------------------------|----------------|
-| *amo*                | YES/NO - (Default Value - NO)                                                                                  | Str [optional] |
-| *disclosed_quantity* | (Default Value - 0)                                                                                            | Str [optional] |
-| *exchange_segment*   | nse_cm NSE bse_cm BSE nse_fo NFO bse_fo BFO cde_fo CDS bcs_fo BCD                                              | Str            |
-| *market_protection*  | (Default Value - 0)                                                                                            | Str [optional] |
-| *product*            | NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, <br/>CO - Cover Order, BO - Bracket Order | Str            |
-| *pf*                 | Default Value - “N”                                                                                            | Str [optional] |
-| *price*              |                                                                                                                | Str [optional] |
-| *order_typ*          | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market                                               | Str            |
-| *quantity*           |                                                                                                                | Str            |
-| *validity*           | Validity of the order - DAY, IOC                                                                               | Str            |
-| *trigger_price*      |                                                                                                                | Str [optional] |
-| *trading_symbol*     |                                                                                                                | Str            |
-| *transaction_type*   | B(Buy), S(Sell)                                                                                                | Str            |
-| *tag*                | Tag for this order                                                                                             | Str [optional] |
+| Name                 | Description                                                                                                              | Type           |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
+| *amo*                | YES/NO - (Default Value - NO)                                                                                            | Str [optional] |
+| *disclosed_quantity* | (Default Value - 0)                                                                                                      | Str [optional] |
+| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD                        | Str            |
+| *market_protection*  | (Default Value - 0)                                                                                                      | Str [optional] |
+| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>BO - Bracket Order | Str            |
+| *pf*                 | Default Value - “N”                                                                                                      | Str [optional] |
+| *price*              |                                                                                                                          | Str [optional] |
+| *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
+| *quantity*           |                                                                                                                          | Str            |
+| *validity*           | Validity of the order - DAY, IOC                                                                                         | Str            |
+| *trigger_price*      |                                                                                                                          | Str [optional] |
+| *trading_symbol*     |                                                                                                                          | Str            |
+| *transaction_type*   | B(Buy), S(Sell)                                                                                                          | Str            |
+| *tag*                | Tag for this order                                                                                                       | Str [optional] |
 
 
 ### Return type
@@ -52,11 +54,11 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
-    'stat': 'Ok',
-    'nOrdNo': '230120000017243',
-    'stCode': 200
+    "stat": "Ok",
+    "nOrdNo": "230120000017243",
+    "stCode": 200
 }
 
 ```
@@ -80,7 +82,3 @@ except Exception as e:
 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
-
-
-
-
