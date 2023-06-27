@@ -1,7 +1,7 @@
 # neo_api_client.OrderApi
 
 # **place_new_order**
-> object place_order(exchange_segment='', product='', price='', order_type='', quantity=12, validity='', trading_symbol='',transaction_type='', amo="NO", disclosed_quantity="0", market_protection="0", pf="N",trigger_price="0", tag=None)
+> object place_order(exchange_segment='', product='', price='', order_type='', quantity='', validity='', trading_symbol='',transaction_type='', amo='NO', disclosed_quantity='0', market_protection='0', pf='N',trigger_price='0', tag=None)
 
 Place a New order
 
