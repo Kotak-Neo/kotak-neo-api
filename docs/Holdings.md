@@ -1,5 +1,9 @@
-# **Portfolio holdings**
-> object holdings()
+# **Holdings**
+Current holdings in the portfolio
+
+```python
+client.holdings("")
+```
 
 ### Example
 
@@ -24,7 +28,7 @@ except Exception as e:
 **object**
 
 ### Sample response
-```python
+```json
 {
       "data": [
                     {
