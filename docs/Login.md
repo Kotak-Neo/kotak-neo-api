@@ -1,9 +1,10 @@
-# **login**
-> object login(mobilenumber="", password = "")
+# **Login**
+Login using UserID<br/>
+This is the first step of 2FA login. Authenticate your mobile number(or PAN) and password to generate a view token.
 
-Login using Userid
-
-Authenticate your mobile number(or PAN) and password to generate a view token. This is the first step of 2FA login.
+```python
+client.login(mobilenumber="", password = "")
+```
 
 ### Example
 
