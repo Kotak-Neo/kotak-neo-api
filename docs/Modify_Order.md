@@ -1,13 +1,17 @@
-# **modify_order**
-> object modify_order(order_id, price , quantity , disclosed_quantity, trigger_price)
-
+# **Modify_Order**
 Modify an existing order
 
-# **Method 1 Quick method** 
-client.modify_order(instrument_token = "", exchange_segment = "", product = "", price = "", order_type = "", quantity= "", validity = "", trading_symbol = "", transaction_type = "", order_id = "")
+## **Method 1 - Quick method**
+```python
+client.modify_order(instrument_token = "", exchange_segment = "", product = "", price = "", order_type = "", quantity= "",
+                    validity = "", trading_symbol = "", transaction_type = "", order_id = "")
+````
 
-# **Method 2 Delayed method**
-client.modify_order(order_id = "", price = "", quantity = "", disclosed_quantity = "", trigger_price = "", validity = "", order_type = "", amo = "")
+## **Method 2 - Delayed method**
+This method verifies the order status first and then modifies the order if it is open.
+```python
+client.modify_order(order_id = "", price = "", quantity = "", trigger_price = "", validity = "", order_type = "", amo = "")
+````
 
 ### Example
 
@@ -31,22 +35,21 @@ except Exception as e:
 ```
 ### Parameters
 
-| Name                 | Description                                                                                               | Type           |
-|----------------------|-----------------------------------------------------------------------------------------------------------|----------------|
-| *instrument_token*   | pSymbol in ScripMaster (first Column)                                                                     | Str [optional] |
-| *market_protection*  | String - (Default Value - 0)                                                                              | Str [optional] |
-| *product*            | NRML - Normal, CNC - Cash and Carry, MIS - MIS, INTRADAY - INTRADAY, CO - Cover Order, BO - Bracket Order | Str            |
-| *dd*                 | Default Value - “NA”                                                                                      | Str [optional] |
-| *disclosed_quantity* | (Default Value - 0)                                                                                       | Str            |
-| *filled_quantity*    | (Default Value - 0)                                                                                       | Str [optional] |
-| *validity*           | Validity of the order - DAY, IOC                                                                          | Str [optional] |
-| *trading_symbol*     |                                                                                                           | Str            |
-| *transaction_type*   | B(Buy), S(sell)                                                                                           | Str            |
-| *order_type*         | L - Limit, MKT Market, SL Stop loss limit, SL-M Stop loss market                                          | Str            |
-| *trigger_price*      | (Default Value - 0)                                                                                       | Str [optional] |
-| *quantity*           |                                                                                                           | Str            |
-| *order_id*           |                                                                                                           | Str            |
-| *exchange_segment*   | nse_cm NSE, bse_cm BSE, nse_fo NFO, bse_fo BFO, cde_fo CDS, bcs_fo BCD.                                   | Str [optional] |
+| Name                 | Description                                                                                                              | Type           |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
+| *instrument_token*   | pSymbol in ScripMaster (first Column)                                                                                    | Str [optional] |
+| *market_protection*  | String - (Default Value - 0)                                                                                             | Str [optional] |
+| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>BO - Bracket Order | Str            |
+| *dd*                 | Default Value - “NA”                                                                                                     | Str [optional] |
+| *filled_quantity*    | (Default Value - 0)                                                                                                      | Str [optional] |
+| *validity*           | Validity of the order - DAY, IOC                                                                                         | Str [optional] |
+| *trading_symbol*     |                                                                                                                          | Str            |
+| *transaction_type*   | B(Buy), S(sell)                                                                                                          | Str            |
+| *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
+| *trigger_price*      | (Default Value - 0)                                                                                                      | Str [optional] |
+| *quantity*           |                                                                                                                          | Str            |
+| *order_id*           |                                                                                                                          | Str            |
+| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD                        | Str [optional] |
 
 ### Return type
 
@@ -54,7 +57,7 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
     "stat": "Ok",
     "nOrdNo": "220621000000097",
