@@ -21,7 +21,7 @@ from neo_api_client import NeoAPI
 
 #First initialize session and generate session token
 
-client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment=" ")
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
@@ -37,19 +37,19 @@ except Exception as e:
 
 | Name                 | Description                                                                                                              | Type           |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
-| *instrument_token*   | pSymbol in ScripMaster (first Column)                                                                                    | Str [optional] |
+| *instrument_token*   | pSymbol in ScripMaster file (first Column)                                                                               | Str [optional] |
 | *market_protection*  | String - (Default Value - 0)                                                                                             | Str [optional] |
-| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>BO - Bracket Order | Str            |
+| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order  | Str            |
 | *dd*                 | Default Value - “NA”                                                                                                     | Str [optional] |
 | *filled_quantity*    | (Default Value - 0)                                                                                                      | Str [optional] |
 | *validity*           | Validity of the order - DAY, IOC                                                                                         | Str [optional] |
-| *trading_symbol*     |                                                                                                                          | Str            |
+| *trading_symbol*     | pTrdSymbol in ScripMaster file                                                                                          | Str            |
 | *transaction_type*   | B(Buy), S(sell)                                                                                                          | Str            |
 | *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
 | *trigger_price*      | (Default Value - 0)                                                                                                      | Str [optional] |
-| *quantity*           |                                                                                                                          | Str            |
-| *order_id*           |                                                                                                                          | Str            |
-| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD                        | Str [optional] |
+| *quantity*           | quantity of the order                                                                                        | Str            |
+| *order_id*           | order id of the order you want to modify                                                                                       | Str            |
+| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                        | Str [optional] |
 
 ### Return type
 
@@ -72,15 +72,15 @@ except Exception as e:
  - **Accept**: application/json
 
 ### HTTP response details
-| Status Code | Description                                  | Response headers |
-|-------------|----------------------------------------------|------------------|
-| *200*       | Order modified successfully                  | -                |
-| *400*       | Invalid or missing input parameters          | -                |
-| *403*       | Invalid session, please re-login to continue | -                |
-| *429*       | Too many requests to the API                 | -                |
-| *500*       | Unexpected error                             | -                |
-| *502*       | Not able to communicate with OMS             | -                |
-| *503*       | Trade API service is unavailable             | -                |
-| *504*       | Gateway timeout, trade API is unreachable    | -                |
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| *200*       | Order modified successfully                  |
+| *400*       | Invalid or missing input parameters          |
+| *403*       | Invalid session, please re-login to continue |
+| *429*       | Too many requests to the API                 |
+| *500*       | Unexpected error                             |
+| *502*       | Not able to communicate with OMS             |
+| *503*       | Trade API service is unavailable             |
+| *504*       | Gateway timeout, trade API is unreachable    |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
