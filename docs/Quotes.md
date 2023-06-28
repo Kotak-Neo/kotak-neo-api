@@ -1,7 +1,9 @@
 # **Quotes**
-Get quotes details - quote_type can be market_depth, ohlc, ltp, 52w, circuit_limits, scrip_details<br/>
-By Default quote_type is set as None that means you will get the complete data.<br/>
-Quotes api can be accessed without completing login by passing session_token, sid and server_id.
+Get quotes details - `quote_type` can be `market_depth`, `ohlc`, `ltp`, `52w`, `circuit_limits`, `scrip_details` <br/>
+
+By default, `quote_type` is set as `None`, which means you will get the complete data.<br/>
+
+Quotes API can be accessed without completing login by passing `session_token`, `sid`, and `server_id`.
 
 ```python
 client.quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=False, session_token="", sid="", server_id="")
@@ -20,7 +22,7 @@ def on_error(message):
     result = message
     print('[OnError]: ', result)
 
-client = NeoAPI(consumer_key="", consumer_secret="", environment='uat', on_message=on_message, on_error=on_error)
+client = NeoAPI(consumer_key="", consumer_secret="", environment="prod", on_message=on_message, on_error=on_error)
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
@@ -31,9 +33,9 @@ inst_tokens = [{"instrument_token": "11536", "exchange_segment": "nse_cm"},
 
 try:
     # get LTP and Market Depth Data
-    client.quotes(instrument_tokens=inst_tokens, quote_type="market_depth", isIndex=False)
+    client.quotes(instrument_tokens=inst_tokens, quote_type="", isIndex=False)
     
-   # OR Quotes api can be accessed without completing login by passing session_token, sid and server_id
+   # OR Quotes API can be accessed without completing login by passing session_token, sid, and server_id
     client.quotes(instrument_tokens = inst_tokens, quote_type="", isIndex=False, session_token="", sid="",server_id="")
 except Exception as e:
     print("Exception when calling get Quote api->quotes: %s\n" % e)
@@ -44,9 +46,9 @@ except Exception as e:
 | Name                | Description                                                                                         | Type                   |
 |---------------------|-----------------------------------------------------------------------------------------------------|------------------------|
 | *instrument_tokens* | wToken or instrument Token                                                                          | Str                    |
-| *exchange_segment*  | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD   | Str [optional]         |
-| *quote_type*        | LTP<br/>depth<br/>OHLC<br/>52W<br/>circuit_limits<br/>scrip_details                                 | Str [optional]         |
-| *isIndex*           | Boolean value                                                                                       | True/False [optional]  |
+| *exchange_segment*  | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX   | Str [optional]         |
+| *quote_type*        | ltp - Last Trading Price<br/>market_depth - Market Depth<br/>ohlc - Open, High, Low, Close<br/>52w - 52 week high and low<br/>circuit_limits - Crcuit limits of the day<br/>scrip_details - All Details                                 | Str [optional]         |
+| *isIndex*           | Pass `True` for Indexes                                                                                       | Boolean value [optional]  |
 
 
 ### Return type
@@ -56,90 +58,40 @@ except Exception as e:
 ### Sample response
 
 ```json
-{  
-    "instrument_token": "11915", 
-                    "trading_symbol": "YESBANK-EQ", 
-                    "exchange_segment": "nse_cm", 
-                    "last_trade_time": "19/01/2023 12:34:46", 
-                    "ltp": "20.15", 
-                    "last_traded_quantity": "8", 
-                    "total_buy_quantity": "0", 
-                    "total_sell_quantity": "20", 
-                    "volume": "79640780", 
-                    "average_price": "20.15", 
-                    "oi": "0", 
-                    "change": "-0.20", 
-                    "net_change_percentage": "-0.98", 
-                    "lower_circuit_limit": "16.15", 
-                    "upper_circuit_limit": "24.15", 
-                    "52week_high": "24.75", 
-                    "52week_low": "12.10", 
-                    "ohlc":
-                          { 
-                            "open": "20.25", 
-                            "high": "21.00", 
-                            "low": "19.50", 
-                            "close": "20.50", 
-                          },
-                            "depth": 
-                                   { "buy": 
-                                            [ 
-                                              { 
-                                                "price": "", 
-                                                "quantity": "", 
-                                                "orders": "" 
-                                              },
-                                              { 
-                                                "price": "", 
-                                                "quantity": "",
-                                                "orders": "" 
-                                              },
-                                              { 
-                                                "price": "", 
-                                                "quantity": "", 
-                                                "orders": "" 
-                                              },
-                                              { 
-                                                "price": "", 
-                                                "quantity": "", 
-                                                "orders": "" 
-                                              },
-                                              { 
-                                                "price": "", 
-                                                "quantity": "", 
-                                                "orders": "" 
-                                              }, 
-                                            ],
-                                            "sell": 
-                                                [ 
-                                                  { 
-                                                    "price": "", 
-                                                    "quantity": "", 
-                                                    "orders": "" 
-                                                  },
-                                                  { 
-                                                    "price": "", 
-                                                    "quantity": "", 
-                                                    "orders": "" 
-                                                  },
-                                                  { 
-                                                    "price": "", 
-                                                    "quantity": "", 
-                                                    "orders": "" 
-                                                  },
-                                                  { 
-                                                    "price": "", 
-                                                    "quantity": "", 
-                                                    "orders": "" 
-                                                  },
-                                                  { 
-                                                    "price": "", 
-                                                    "quantity": "", 
-                                                    "orders": "" 
-                                                  }, 
-                                                ] 
-                                   } 
+{
+  "message": [
+    {
+      "last_traded_time": "28/06/2023 15:59:47",
+      "volume": "63502734",
+      "last_traded_price": "16.20",
+      "last_traded_quantity": "3",
+      "total_buy_quantity": "622552",
+      "total_sell_quantity": "0",
+      "buy_price": "16.20",
+      "sell_price": "0.00",
+      "buy_quantity": "622552",
+      "average_price": "16.14",
+      "lower_circuit_limit": "13.00",
+      "upper_circuit_limit": "19.40",
+      "52week_high": "24.75",
+      "52week_low": "12.55",
+      "open_interest": "2147483648",
+      "multiplier": "1",
+      "precision": "2",
+      "change": "0.15",
+      "net_change_percentage": "0.93",
+      "total_traded_value": "1024934126.76",
+      "instrument_token": "11915",
+      "exchange_segment": "nse_cm",
+      "trading_symbol": "YESBANK-EQ",
+      "ohlc": {
+        "open": "16.10",
+        "high": "16.35",
+        "low": "15.95",
+        "close": "16.05"
+      }}]
 }
+
 
 ```
 
@@ -149,15 +101,11 @@ except Exception as e:
  - **Accept**: application/json
 
 ### HTTP response details
-| Status Code | Description                                  | Response headers |
-|-------------|----------------------------------------------|------------------|
-| *200*       | ok                                           | -                |
-| *400*       | Invalid or missing input parameters          | -                |
-| *403*       | Invalid session, please re-login to continue | -                |
-| *429*       | Too many requests to the API                 | -                |
-| *500*       | Unexpected error                             | -                |
-| *502*       | Not able to communicate with OMS             | -                |
-| *503*       | Trade API service is unavailable             | -                |
-| *504*       | Gateway timeout, trade API is unreachable    | -                |
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| *200*       | ok                                           |
+| *400*       | Invalid or missing input parameters          |
+| *403*       | Invalid session, please re-login to continue |
+| *500*       | Unexpected error                             |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
