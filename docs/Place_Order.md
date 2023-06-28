@@ -42,7 +42,7 @@ except Exception as e:
 | *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
 | *quantity*           | quantity of the order                                                                                        | Str            |
 | *validity*           | Validity of the order - DAY, IOC, DAY, IOC, GTC, EOS                                                                     | Str            |
-| *trigger_price*      |                                                                                                                          | Str [optional] |
+| *trigger_price*      | Optional, required for stop loss and cover order                                                                           | Str [optional] |
 | *trading_symbol*     | pTrdSymbol in ScripMaster file                                                                                          | Str            |
 | *transaction_type*   | B(Buy), S(Sell)                                                                                                          | Str            |
 | *tag*                | Tag for this order                                                                                                       | Str [optional] |
@@ -57,7 +57,7 @@ except Exception as e:
 ```json
 {
     "stat": "Ok",
-    "nOrdNo": "230120000017243",
+    "nOrdNo": "237362700735243",
     "stCode": 200
 }
 
@@ -69,16 +69,16 @@ except Exception as e:
 
 ### HTTP response details
 
-| Status Code | Description                                  | Response headers |
-|-------------|----------------------------------------------|------------------|
-| *200*       | Order placed successfully                    | -                |
-| *400*       | Invalid or missing input parameters          | -                |
-| *403*       | Invalid session, please re-login to continue | -                |
-| *429*       | Too many requests to the API                 | -                |
-| *500*       | Unexpected error                             | -                |
-| *502*       | Not able to communicate with OMS             | -                |
-| *503*       | Trade API service is unavailable             | -                |
-| *504*       | Gateway timeout, trade API is unreachable    | -                |
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| *200*       | Order placed successfully                    |
+| *400*       | Invalid or missing input parameters          |
+| *403*       | Invalid session, please re-login to continue |
+| *429*       | Too many requests to the API                 |
+| *500*       | Unexpected error                             |
+| *502*       | Not able to communicate with OMS             |
+| *503*       | Trade API service is unavailable             |
+| *504*       | Gateway timeout, trade API is unreachable    |
 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
