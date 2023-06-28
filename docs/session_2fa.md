@@ -1,11 +1,11 @@
-# **session_2fa**
-> object session_2fa(OTP=""")
-Generate final Session Token
+# **Session_2fa**
+Generate final Session Token for the user
 
-Method to generate final session token for the user
+```python
+client.session_2fa(OTP=""")
+```
 
 ### Example
-
 
 ```python
 from neo_api_client import NeoAPI
