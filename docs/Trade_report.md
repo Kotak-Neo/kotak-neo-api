@@ -1,13 +1,16 @@
-# **order_report**
-> object order_report()
+# **Order_Report**
 
-# Method 1
-Get all Traded order detail
+## Method 1
+Get all traded order details
+```python
 client.trade_report()
+```
 
-# Method 2 
-Get particular traded order details using order_id
+## Method 2 
+Get details of a particular order using order_id
+```python
 client.trade_report(order_id = "")
+```
 
 ### Example
 
@@ -40,7 +43,7 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {
     "stat": "Ok",
     "stCode": 200,
