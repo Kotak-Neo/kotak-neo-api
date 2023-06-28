@@ -49,8 +49,8 @@ except Exception as e:
 
 | Name                | Description                                                                         | Type                   |
 |---------------------|-------------------------------------------------------------------------------------|------------------------|
-| *instrument_tokens* | List of instrument Token(wToken) to be passed                                       | Str                    |
-| *exchange_segment*  | nse_cm NSE, bse_cm BSE, nse_fo NFO, bse_fo BFO, cde_fo CDS, bcs_fo BCD, Index INDEX | Str                    |
+| *instrument_tokens* | List of instrument Token (wToken) to be passed                                       | Str                    |
+| *exchange_segment*  | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD<br/>Index -  INDEX | Str                    |
 | *isDepth*           | Boolean value                                                                       | True/False [optional]  |
 | *isIndex*           | Boolean value                                                                       | True/False [optional]  |
 
