@@ -19,7 +19,7 @@ from neo_api_client import NeoAPI
 
 #First initialize session and generate session token
 
-client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment=" ")
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
@@ -33,9 +33,9 @@ except Exception as e:
 ```
 
 ### Parameters
-| Name        | Type  | Description |
-|-------------|-------|-------------|
-| *order_id*  | str   | Order ID    |
+| Name        | Description | Type  |
+|-------------|-------------|-------|
+| *order_id*  | Order ID    | str   |
 
 ### Return type
 
@@ -95,7 +95,7 @@ except Exception as e:
                       "trnsTp": "B",
                       "refLmtPrc": 0,
                       "coPct": 0,
-                      "nOrdNo": "220621000000098",
+                      "nOrdNo": "292837000456098",
                       "ordAutSt": "NA",
                       "rejRsn": "RMS:Rule: Check circuit limit including square off order exceeds  for entity account-TESTYA24 across exchange across segment across product ",
                       "boeSec": 1655803172,
@@ -165,7 +165,7 @@ except Exception as e:
                       "trnsTp": "B",
                       "refLmtPrc": 0,
                       "coPct": 0,
-                      "nOrdNo": "220621000000097",
+                      "nOrdNo": "220287600096097",
                       "ordAutSt": "NA",
                       "rejRsn": "RMS:Rule: Check circuit limit including square off order exceeds  for entity account-TESTYA24 across exchange across segment across product ",
                       "boeSec": 1655803119,
@@ -198,15 +198,15 @@ except Exception as e:
  - **Accept**: application/json
 
 ### HTTP response details
-| Status Code | Description                                  | Response headers |
-|-------------|----------------------------------------------|------------------|
-| *200*       | Order canceled successfully                  | -                |
-| *400*       | Invalid or missing input parameters          | -                |
-| *403*       | Invalid session, please re-login to continue | -                |
-| *429*       | Too many requests to the API                 | -                |
-| *500*       | Unexpected error                             | -                |
-| *502*       | Not able to communicate with OMS             | -                |
-| *503*       | Trade API service is unavailable             | -                |
-| *504*       | Gateway timeout, trade API is unreachable    | -                |
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| *200*       | Order canceled successfully                  |
+| *400*       | Invalid or missing input parameters          |
+| *403*       | Invalid session, please re-login to continue |
+| *429*       | Too many requests to the API                 |
+| *500*       | Unexpected error                             |
+| *502*       | Not able to communicate with OMS             |
+| *503*       | Trade API service is unavailable             |
+| *504*       | Gateway timeout, trade API is unreachable    |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
