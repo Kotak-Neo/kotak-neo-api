@@ -1,11 +1,11 @@
 # **Quotes**
-> object quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=False, session_token="", sid="",server_id="")
+Get quotes details - quote_type can be market_depth, ohlc, ltp, 52w, circuit_limits, scrip_details<br/>
+By Default quote_type is set as None that means you will get the complete data.<br/>
+Quotes api can be accessed without completing login by passing session_token, sid and server_id.
 
-# Get quotes details
-
-quote_type can be market_depth, ohlc, ltp, 52w, circuit_limits, scrip_details
-By Default quote_type is set as None that means you will get the complete data.
-Quotes api can be accessed without completing login by passing session_token, sid and server_id
+```python
+client.quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=False, session_token="", sid="", server_id="")
+```
 
 ### Example
 
