@@ -1,7 +1,9 @@
 # **Scrip Master**
-> object scrip_master()
-> 
-# Get Scrip Master CSV file
+Get Scrip Master CSV file
+
+```python
+client.scripmaster()
+```
 
 ### Example
 
