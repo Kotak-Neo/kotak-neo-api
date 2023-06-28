@@ -1,4 +1,4 @@
-# **Order_Report**
+# **Trade_Report**
 
 ## Method 1
 Get all traded order details
@@ -6,7 +6,7 @@ Get all traded order details
 client.trade_report()
 ```
 
-## Method 2 
+## Method 2
 Get details of a particular order using order_id
 ```python
 client.trade_report(order_id = "")
@@ -19,7 +19,7 @@ from neo_api_client import NeoAPI
 
 #First initialize session and generate session token
 
-client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment=" ")
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
@@ -33,10 +33,9 @@ except Exception as e:
 ```
 
 ### Parameters
-| Name        | Type  | Description |
+| Name        | Description | Type  |
 |-------------|-------|-------------|
-| *order_id*  | str   | Order ID.   |
-
+| *order_id*  | Order ID.   | str   |
 ### Return type
 
 **object**
@@ -74,7 +73,7 @@ except Exception as e:
                       "flId": "42857",
                       "flTm": "14:30:38",
                       "trnsTp": "B",
-                      "nOrdNo": "220621000000085",
+                      "nOrdNo": "220621300000085",
                       "algCat": "NA",
                       "ordDur": "DAY",
                       "boeSec": 1655802038,
@@ -121,7 +120,7 @@ except Exception as e:
                       "flId": "41349",
                       "flTm": "14:21:07",
                       "trnsTp": "B",
-                      "nOrdNo": "220621000000077",
+                      "nOrdNo": "220621400000077",
                       "algCat": "NA",
                       "ordDur": "DAY",
                       "boeSec": 1655801467,
@@ -168,7 +167,7 @@ except Exception as e:
                       "flId": "35790",
                       "flTm": "14:07:50",
                       "trnsTp": "B",
-                      "nOrdNo": "220621000000062",
+                      "nOrdNo": "220621400000062",
                       "algCat": "NA",
                       "ordDur": "DAY",
                       "boeSec": 1655800670,
@@ -198,15 +197,15 @@ except Exception as e:
  - **Accept**: application/json
 
 ### HTTP response details
-| Status Code | Description                                  | Response headers |
-|-------------|----------------------------------------------|------------------|
-| *200*       | ok                                           | -                |
-| *400*       | Invalid or missing input parameters          | -                |
-| *403*       | Invalid session, please re-login to continue | -                |
-| *429*       | Too many requests to the API                 | -                |
-| *500*       | Unexpected error                             | -                |
-| *502*       | Not able to communicate with OMS             | -                |
-| *503*       | Trade API service is unavailable             | -                |
-| *504*       | Gateway timeout, trade API is unreachable    | -                |
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| *200*       | ok                                           |
+| *400*       | Invalid or missing input parameters          |
+| *403*       | Invalid session, please re-login to continue |
+| *429*       | Too many requests to the API                 |
+| *500*       | Unexpected error                             |
+| *502*       | Not able to communicate with OMS             |
+| *503*       | Trade API service is unavailable             |
+| *504*       | Gateway timeout, trade API is unreachable    | 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
