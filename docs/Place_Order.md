@@ -3,8 +3,8 @@ Place a New order
 
 ```python
 client.place_order(exchange_segment="", product="", price="", order_type="", quantity="", validity="", trading_symbol="",
-                   transaction_type="", amo="NO", disclosed_quantity="0", market_protection="0", pf="N", trigger_price="0",
-                   tag=None)
+                   transaction_type="", amo="", disclosed_quantity="", market_protection="", pf="", trigger_price="",
+                   tag=)
 ```
 
 ### Example
@@ -34,16 +34,16 @@ except Exception as e:
 |----------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
 | *amo*                | YES/NO - (Default Value - NO)                                                                                            | Str [optional] |
 | *disclosed_quantity* | (Default Value - 0)                                                                                                      | Str [optional] |
-| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD                        | Str            |
+| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                        | Str            |
 | *market_protection*  | (Default Value - 0)                                                                                                      | Str [optional] |
-| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>BO - Bracket Order | Str            |
+| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>                   | Str            |
 | *pf*                 | Default Value - “N”                                                                                                      | Str [optional] |
-| *price*              |                                                                                                                          | Str [optional] |
+| *price*              | price of the order                                                                                             | Str [optional] |
 | *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
-| *quantity*           |                                                                                                                          | Str            |
-| *validity*           | Validity of the order - DAY, IOC                                                                                         | Str            |
+| *quantity*           | quantity of the order                                                                                        | Str            |
+| *validity*           | Validity of the order - DAY, IOC, DAY, IOC, GTC, EOS                                                                     | Str            |
 | *trigger_price*      |                                                                                                                          | Str [optional] |
-| *trading_symbol*     |                                                                                                                          | Str            |
+| *trading_symbol*     | pTrdSymbol in ScripMaster file                                                                                          | Str            |
 | *transaction_type*   | B(Buy), S(Sell)                                                                                                          | Str            |
 | *tag*                | Tag for this order                                                                                                       | Str [optional] |
 
