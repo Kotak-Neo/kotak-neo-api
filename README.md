@@ -155,6 +155,6 @@ client.logout()
 | *Margin Required* | [**neo_api_client.margin_required**](docs/Margin_Required.md#margin_required) | Margin Required    |
 | *Scrip Master*    | [**neo_api_client.scrip_master**](docs/Scrip_Master.md#scrip_master)          | Scrip Master       |
 | *Search Scrip*    | [**neo_api_client.scrip_search**](docs/Scrip_Search.md#scrip_search)          | Scrip Search       |
-| *Quotes*          | [**neo_api_client.quotes**](docs/quotes.md#quotes)                            | Quotes             |
+| *Quotes*          | [**neo_api_client.quotes**](docs/Quotes.md#quotes)                            | Quotes             |
 | *Subscribe*       | [**neo_api_client.subscribe**](docs/socket.md#subscribe)                      | Subscribe          |
 
