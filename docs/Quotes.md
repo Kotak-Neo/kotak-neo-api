@@ -41,12 +41,12 @@ except Exception as e:
 ```
 ### Parameters
 
-| Name                | Description                                                        | Type                   |
-|---------------------|--------------------------------------------------------------------|------------------------|
-| *instrument_tokens* | wToken or instrument Token                                         | Str                    |
-| *exchange_segment*  | nse_cm NSE bse_cm BSE nse_fo NFO bse_fo BFO cde_fo CDS bcs_fo BCD  | Str [optional]         |
-| *quote_type*        | LTP, depth, OHLC, 52W, circuit_limits, scrip_details               | Str [optional]         |
-| *isIndex*           | Boolean value                                                      | True/False [optional]  |
+| Name                | Description                                                                                         | Type                   |
+|---------------------|-----------------------------------------------------------------------------------------------------|------------------------|
+| *instrument_tokens* | wToken or instrument Token                                                                          | Str                    |
+| *exchange_segment*  | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD   | Str [optional]         |
+| *quote_type*        | LTP<br/>depth<br/>OHLC<br/>52W<br/>circuit_limits<br/>scrip_details                                 | Str [optional]         |
+| *isIndex*           | Boolean value                                                                                       | True/False [optional]  |
 
 
 ### Return type
@@ -55,7 +55,7 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 {  
     "instrument_token": "11915", 
                     "trading_symbol": "YESBANK-EQ", 
