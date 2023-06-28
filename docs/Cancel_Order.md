@@ -9,7 +9,7 @@ client.cancel_order(order_id = "")
 ## Method 2 - Delayed Method
 This method checks the order status first and then cancels the order if it is open.<br/>
 ```python
-client.cancel_order(order_id = "", isVerify="True")
+client.cancel_order(order_id = "", isVerify=True)
 ```
 
 ### Example
@@ -32,9 +32,11 @@ except Exception as e:
 ```
 
 ### Parameters
-| Name        | Type  | Description         |
-|-------------|-------|---------------------|
-| *order_id*  | str   | Order ID to cancel. |
+| Name        | Description         | Type      |
+|-------------|---------------------|-----------|
+| *order_id*  | Order ID to cancel | str       | 
+| *isVerify*  | Flag to check the status of order (Delayed method) | boolean   |
+| *amo*       | After market order - YES, NO (optional, Default Value - NO) | str   |
 
 ### Return type
 
