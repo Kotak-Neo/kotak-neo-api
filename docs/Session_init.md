@@ -1,7 +1,10 @@
-# **session_init**
-> object NeoAPI(consumer_key="",consumer_secret="",environment='uat',on_message=None, on_error=None, on_close=None, on_open=None, neo_fin_key=None)
+# **Session_Init**
+Initiate trading session for a User
 
-API to initiate trading session for a User.
+```python
+client = NeoAPI(consumer_key="",consumer_secret="",environment='uat',on_message=None, on_error=None, on_close=None,
+                on_open=None, neo_fin_key=None)
+```
 
 ### Example
 
