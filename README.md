@@ -146,7 +146,7 @@ client.logout()
 | *LoginAPI*        | [**neo_api_client.2FA**](docs/session_2fa.md#2fa)                             | Session 2FA        |
 | *Place Order*     | [**neo_api_client.placeorder**](docs/Place_Order.md#place_order)              | Place Order        |
 | *Modify Order*    | [**neo_api_client.modifyorder**](docs/Modify_Order.md#modify_order)           | Modify Order       |
-| *Cancel Order*    | [**neo_api_client.cancelorder**](docs/cancel_Order.md#cancel_order)           | Cancel Order       |
+| *Cancel Order*    | [**neo_api_client.cancelorder**](docs/Cancel_Order.md#cancel_order)           | Cancel Order       |
 | *Order Report*    | [**neo_api_client.orderreport**](docs/Order_report.md#order_report)           | Order Report       |
 | *Trade Report*    | [**neo_api_client.tradereport**](docs/Trade_report.md#trade_report)           | Trade Report       |
 | *Positions*       | [**neo_api_client.positions**](docs/Positions.md#positions)                   | Positions          |
@@ -156,5 +156,5 @@ client.logout()
 | *Scrip Master*    | [**neo_api_client.scrip_master**](docs/Scrip_Master.md#scrip_master)          | Scrip Master       |
 | *Search Scrip*    | [**neo_api_client.scrip_search**](docs/Scrip_Search.md#scrip_search)          | Scrip Search       |
 | *Quotes*          | [**neo_api_client.quotes**](docs/Quotes.md#quotes)                            | Quotes             |
-| *Subscribe*       | [**neo_api_client.subscribe**](docs/socket.md#subscribe)                      | Subscribe          |
+| *Subscribe*       | [**neo_api_client.subscribe**](docs/webSocket.md#subscribe)                      | Subscribe          |
 
