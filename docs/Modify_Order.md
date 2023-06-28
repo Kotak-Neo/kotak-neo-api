@@ -46,7 +46,7 @@ except Exception as e:
 | *trading_symbol*     | pTrdSymbol in ScripMaster file                                                                                          | Str            |
 | *transaction_type*   | B(Buy), S(sell)                                                                                                          | Str            |
 | *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
-| *trigger_price*      | (Default Value - 0)                                                                                                      | Str [optional] |
+| *trigger_price*      | Optional, required for stop loss and cover order                                                          | Str [optional] |
 | *quantity*           | quantity of the order                                                                                        | Str            |
 | *order_id*           | order id of the order you want to modify                                                                                       | Str            |
 | *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                        | Str [optional] |
