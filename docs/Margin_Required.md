@@ -13,7 +13,7 @@ from neo_api_client import NeoAPI
 
 #First initialize session and generate session token
 
-client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment=" ")
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
@@ -27,11 +27,11 @@ except Exception as e:
 
 | Name               | Description                                                                                                              | Type           |
 |--------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
-| *exchange_segment* | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>bcs_fo - BCD                        | Str            |
-| *price*            |                                                                                                                          | Str            |
-| *product*          | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>BO - Bracket Order | Str            |
+| *exchange_segment* | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                      | Str            |
+| *price*            | Price of the order                                                                                                           | Str            |
+| *product*          | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order | Str            |
 | *order_type*       | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
-| *quantity*         |                                                                                                                          | Str            |
+| *quantity*         | Quantity of the order                                                                                    | Str            |
 | *instrument_token* | pSymbol in ScripMaster                                                                                                   | Str            |
 | *transaction_type* | B(Buy), S(sell)                                                                                                          | Str            |
 | *trading_symbol*   |                                                                                                                          | Str            |
