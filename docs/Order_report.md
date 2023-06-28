@@ -200,7 +200,7 @@ except Exception as e:
 ### HTTP response details
 | Status Code | Description                                  |
 |-------------|----------------------------------------------|
-| *200*       | Order canceled successfully                  |
+| *200*       | Order cancelled successfully                 |
 | *400*       | Invalid or missing input parameters          |
 | *403*       | Invalid session, please re-login to continue |
 | *429*       | Too many requests to the API                 |
