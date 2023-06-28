@@ -5,7 +5,7 @@ Get ScripMaster CSV file
 client.scrip_master()
 ```
 
-To get ScripMaster file of a particular segment, pass the exchange segment within bracket for example - `client.scripmaster(nse_cm)`
+To get ScripMaster file of a particular segment, pass the exchange segment within bracket. For example - `client.scripmaster(nse_cm)`
 
 ### Example
 
