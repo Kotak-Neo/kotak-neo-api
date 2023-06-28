@@ -1,5 +1,9 @@
-# **scrip_search**
-> object search_scrip(exchange_segment = "nse_cm", symbol = "YESBANK",  expiry = "", option_type = "", strike_price = "")
+# **Scrip_Search**
+Get the scrip details
+
+```python
+client.search_scrip(exchange_segment = "", symbol = "",  expiry = "", option_type = "", strike_price = "")
+```
 
 ### Example
 
@@ -37,7 +41,7 @@ except Exception as e:
 
 ### Sample response
 
-```python
+```json
 { 
     "instrument_token": "11915", 
     "trading_symbol": "YESBANK-EQ", 
