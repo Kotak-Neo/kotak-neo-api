@@ -2,7 +2,7 @@
 Generate final Session Token for the user
 
 ```python
-client.session_2fa(OTP=""")
+client.session_2fa(OTP="")
 ```
 
 ### Example
@@ -10,7 +10,7 @@ client.session_2fa(OTP=""")
 ```python
 from neo_api_client import NeoAPI
 
-client = NeoAPI(consumer_key="",consumer_secret="",environment='uat')
+client = NeoAPI(consumer_key="",consumer_secret="",environment="uat")
 				
 try:
     # Login using password
@@ -25,7 +25,6 @@ except Exception as e:
 
 ### Parameters
 
-### Parameters
 
 | Name           | Description                                                        | Type   |
 |----------------|--------------------------------------------------------------------|--------|
@@ -44,21 +43,24 @@ object
 
 ```json
 {
-  "data": {"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJUcmFkZSJdLCJleHAiOjE2ODc1NDUwMDAsImp0aSI6ImFlOTYyMGMyLWIyZWItNDM2Zi04NWViLTU3NDhlYzBhNzY5NyIsImlhdCI6MTY4NzUxNDIyOCwiaXNzIjoibG9naW4tc2VydmljZSIsInN1YiI6ImZmZmMyMDgyLTdiMTktNGFkOC1iY2Q5LTdiNWM0NWZhMzZhZiIsInVjYyI6IllSSUowIiwibmFwIjoiSExQUEs4OTM2TCIsImZldGNoY2FjaGluZ3J1bGUiOjAsImNhdGVnb3Jpc2F0aW9uIjoiIn0.Epq8jKxbXVQTvcSlW7GIVSmtAvWr_Zt0riRKN8zUh2Wvn6XGkiQRY5Ts1hIbcnJ0s2Jclh6Ig4C6UFz_P_Ar4dhcQf-x4EV8FtuKz1-HAnjwXZ_OTHn4Xrlq7tcpouGT9dbi4nt38UYcab9iMnEiMgtqQxbz042ub1WqrZEWABiZ2kOBBaksHmgEKsTe2iqNwa4fN-DoItqFhOu6DkcPz90lb1JmAbovwpu7TqOK30bHcjIJjDKQKBlHuw9_4ZbuAb4wSdQQwXxYYyXOZGM_HLIjinwnYJpxRpeG5eQigNkXO-VcyC9dA3u0MI5S5wtzyYQ_jEACiJew7ayM6l2KtQ",
-  "sid": "a34f0165-8cac-4f84-a4ea-234adb713214",
-  "rid": "0ae50f5d-ae07-4114-bdda-a27de1785573",
-  "hsServerId": "server3",
-  "isUserPwdExpired": "False",
-  "caches": {
-	  "baskets": "1687334141",
-   "lastUpdatedTS": "1687353420",
-   "multiplewatchlists": "1683352919",
-   "techchartpreferences": "1683528608"},
-  "ucc": "YRIJ0",
-  "greetingName": "SHASHWAT",
-  "isTrialAccount": "False",
-  "dataCenter": "gdc",
-  "searchAPIKey": ""}
+        "data": {
+        "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJWaWV3Il0sImV4cCI6MTY4Nzk3NzAwMCwianRpIjoiYzgyMzY2NjAtODkyNy00NzQ0LTk5YmQtMTAyNmRkYTA3MzUzIiwiaWF0IjoxNjg3OTQ2NDQyLCJpc3MiOiJsb2dpbi1zZXJ2aWNlIiwic3ViIjoiYTRlOGE5YzAtZmYyZi0xMWViLTlhMDMtMDI0MmFjMTMwMDAzIiwidWNjIjoiRDIwMTQiLCJuYXAiOiJEVU1NWTExMDVBIiwiZmV0Y2hjYWNoaW5ncnVsZSI6MCwiY2F0ZWdvcmlzYXRpb24iOiIifQ.PRDxhHjdAD2Z_hl3BF_-72l2uds5TzlAEyk57v9BgSnlUZrZ6S9khLi4l8Nfz1zNvwYHqwMPe4Gto6sXnbzbwim-U5c5dDey1hklLTD3kAb6y3bqSR-JcpdvpSGQQ6JVkxckKs_4qDgKEY-0qwnF6jtpB2D_CV0LCKMXfYWNBadZW9-cLLZkIc_C8n6DksyLQF2BWXbTUl6fEb9zSW7GYqI40YLB0q-FZgrOR7dfb3mNtJ4R4oQbeKf0GmR726JWcd3iOqVfFIzHUJvAeVu8FrjWEJfkxjPWf71BU5d_YAUYgtHvRxCweetuZqwa2HNN9xHTsNqr6FJdo3W4lhMp1g",
+        "sid": "8f8cd1ab-46e6-41cc-9bdd-9412c5fd4fb7",
+        "rid": "69404582-871b-4de8-8fdd-e3e6a5e15bbf",
+        "hsServerId": "server2",
+        "isUserPwdExpired": false,
+        "caches": {
+        "baskets": "1687845385",
+        "lastUpdatedTS": "1687845385",
+        "multiplewatchlists": "1683352919",
+        "techchartpreferences": "1683528608"
+        },
+        "ucc": "ABCD0",
+        "greetingName": "DUMMY",
+        "isTrialAccount": false,
+        "dataCenter": "gdc",
+        "searchAPIKey": ""
+        }
 }
 ```
 
@@ -69,15 +71,15 @@ object
 
 ### HTTP response details
 
-| Status Code | Description                               | Response headers |
-|-------------|-------------------------------------------|------------------|
-| *200*       | User session validated successfully       | -                |
-| *400*       | Invalid or missing input parameters       | -                |
-| *401*       | Verify resource and path of the request   | -                |
-| *429*       | Too many requests to the API              | -                |
-| *500*       | Unexpected error                          | -                |
-| *502*       | Not able to communicate with OMS          | -                |
-| *503*       | Trade API service is unavailable          | -                |
-| *504*       | Gateway timeout, trade API is unreachable | -                |
+| Status Code | Description                               |
+|-------------|-------------------------------------------|
+| *200*       | User session validated successfully       |
+| *400*       | Invalid or missing input parameters       |
+| *401*       | Verify resource and path of the request   |
+| *429*       | Too many requests to the API              |
+| *500*       | Unexpected error                          |
+| *502*       | Not able to communicate with OMS          |
+| *503*       | Trade API service is unavailable          |
+| *504*       | Gateway timeout, trade API is unreachable |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
