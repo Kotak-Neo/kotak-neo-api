@@ -2,7 +2,7 @@
 Get Scrip Master CSV file
 
 ```python
-client.scripmaster()
+client.scrip_master()
 ```
 
 ### Example
