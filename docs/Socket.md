@@ -1,13 +1,14 @@
-****
 # **Socket**
+Get live feed details of the given tokens
+```python
+client.subscribe(instrument_tokens = instrument_tokens, isIndex=False, isDepth=False) 
+```
 
-Subscribe method will get you the live feed details of the given tokens.
-> object subscribe(instrument_tokens = instrument_tokens, isIndex=False, isDepth=False) 
-
-Un_Subscribes the given tokens. First the tokens will be checked weather that is subscribed. If not Subscribed we will send you the error message else we will unsubscribe the give tokens
-> object un_subscribe(instrument_tokens, isIndex=False, isDepth=False):
-
-# Get live Feed Subscription
+Un_Subscribe method first checks weather the token is already subscribed.<br/>
+If not Subscribed you will see an error message else the given tokens will be unsubscribed.
+```python
+client.un_subscribe(instrument_tokens, isIndex=False, isDepth=False):
+```
 
 ### Example
 
