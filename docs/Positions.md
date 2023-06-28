@@ -1,7 +1,9 @@
-# **positions**
-> object positions()
+# **Positions**
+Get's positions
 
-Get's positions.
+```python
+client.positions()
+```
 
 ### Example
 
@@ -26,7 +28,7 @@ except Exception as e:
 **object**
 
 ### Sample response
-```python
+```json
 {
     "stat": "Ok",
     "stCode": 200,
