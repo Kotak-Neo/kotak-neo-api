@@ -27,16 +27,16 @@ except Exception as e:
 
 | Name               | Description                                                                                                              | Type           |
 |--------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
-| *exchange_segment* | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                      | Str            |
-| *price*            | Price of the order                                                                                                           | Str            |
-| *product*          | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order | Str            |
+| *exchange_segment* | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                        | Str            |
+| *price*            | Price of the order                                                                                                       | Str            |
+| *product*          | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order              | Str            |
 | *order_type*       | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
 | *quantity*         | Quantity of the order                                                                                    | Str            |
-| *instrument_token* | pSymbol in ScripMaster                                                                                                   | Str            |
+| *instrument_token* | pSymbol in ScripMaster files                                                                                              | Str            |
 | *transaction_type* | B(Buy), S(sell)                                                                                                          | Str            |
-| *trading_symbol*   |                                                                                                                          | Str            |
+| *trading_symbol*   | pTrdSymbol in ScripMaster files                                                                                  | Str            |
 | *transaction_type* | B(Buy), S(sell)                                                                                                          | Str            |
-| *trigger_price*    |                                                                                                                          | Str [Optional] |
+| *trigger_price*    | Optional, required for stop loss and cover order                                                    | Str        |
 
 
 ### Return type
@@ -69,15 +69,15 @@ except Exception as e:
  - **Accept**: application/json
 
 ### HTTP response details
-| Status Code | Description                                           | Response headers |
-|-------------|-------------------------------------------------------|------------------|
-| *200*       | Gets the margin_required data for a client account    | -                |
-| *400*       | Invalid or missing input parameters                   | -                |
-| *403*       | Invalid session, please re-login to continue          | -                |
-| *429*       | Too many requests to the API                          | -                |
-| *500*       | Unexpected error                                      | -                |
-| *502*       | Not able to communicate with OMS                      | -                |
-| *503*       | Trade API service is unavailable                      | -                |
-| *504*       | Gateway timeout, trade API is unreachable             | -                |
+| Status Code | Description                                           |
+|-------------|-------------------------------------------------------|
+| *200*       | Gets the margin_required data for a client account    |
+| *400*       | Invalid or missing input parameters                   |
+| *403*       | Invalid session, please re-login to continue          |
+| *429*       | Too many requests to the API                          |
+| *500*       | Unexpected error                                      |
+| *502*       | Not able to communicate with OMS                      |
+| *503*       | Trade API service is unavailable                      |
+| *504*       | Gateway timeout, trade API is unreachable             |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)  [[Back to README]](../README.md)
