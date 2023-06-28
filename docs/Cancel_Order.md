@@ -20,7 +20,7 @@ from neo_api_client import NeoAPI
 
 #First initialize session and generate session token
 
-client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment='')
+client = NeoAPI(consumer_key=" ",consumer_secret=" ",environment=" ")
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
