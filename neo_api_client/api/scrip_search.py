@@ -31,7 +31,7 @@ class ScripSearch(object):
                 csv_text = response.text
                 df = pd.read_csv(io.StringIO(csv_text))
                 df = df.rename(columns=lambda x: x.strip())
-                if expiry and strike_price and not exchange_segment.endswith('fo'):
+                if expiry and strike_price and not exchange_segment.endswith('fo') and exchange_segment != 'mcx':
                     return {'error': [
                         {'code': '10300', 'message': "The given segment doesn't have expire and strike price"}]}
 
