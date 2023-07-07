@@ -4,7 +4,7 @@ from neo_api_client.settings import exchange_segment_allowed_values, product_all
     order_type_allowed_values, segment_limits, exchange_limits, product_limits
 
 
-def login_params_validation(mobilenumber=None, userid=None, pan=None):
+def login_params_validation(mobilenumber=None, userid=None, pan=None, mpin=None, password=None):
     out_dict = {}
     if mobilenumber:
         if not isinstance(mobilenumber, str):
@@ -47,6 +47,11 @@ def login_params_validation(mobilenumber=None, userid=None, pan=None):
         error = {
             'error': [{'code': '10300', 'message': 'Validation Errors! Pass any of Mobile Number, User ID  or Pan'}]}
         return error
+
+    if mpin:
+        out_dict["mpin"] = mpin
+    elif password:
+        out_dict["password"] = password
     return out_dict
 
 
