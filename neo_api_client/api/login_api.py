@@ -39,7 +39,7 @@ class LoginAPI(object):
             return json.dumps({"data": {"Code": session_init.status_code, "Message": "Error occurred to initialise the "
                                                                                      "session"}})
 
-    def generate_view_token(self, password, mobilenumber=None, userid=None, pan=None):
+    def generate_view_token(self, password=None, mobilenumber=None, userid=None, pan=None, mpin=None):
         """
         This function generates a view token for a given mobile number and password.
 
@@ -56,8 +56,7 @@ class LoginAPI(object):
             :param mobilenumber:
         """
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token}
-        body_params = req_data_validation.login_params_validation(mobilenumber=mobilenumber, userid=userid, pan=pan)
-        body_params["password"] = password
+        body_params = req_data_validation.login_params_validation(mobilenumber=mobilenumber, userid=userid, pan=pan, password=password, mpin=mpin)
         self.api_client.configuration.login_params = body_params
         URL = self.api_client.configuration.get_url_details("view_token")
         generate_view_token = self.rest_client.request(
