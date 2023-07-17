@@ -83,6 +83,9 @@ client.cancel_order(order_id = "", isVerify=True)
 # Get Order Book
 client.order_report()
 
+# Get Order History
+client.order_history(order_id = "")
+
 # Get Trade Book
 client.trade_report()
 
