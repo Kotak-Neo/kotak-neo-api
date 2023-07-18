@@ -33,7 +33,6 @@ except Exception as e:
 | *password*     | Your trading password                                              | Str    |
 | *otp*          | The 4-digit code you receive on registered mobile number           | Str    | 
 
-Note: You can pass your 6 digit mpin instead of otp as well to complete the 2fa login. For example, `client.session_2fa("123456")`
 
 ### Return type
 
