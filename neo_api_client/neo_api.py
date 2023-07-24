@@ -83,7 +83,7 @@ class NeoAPI:
         self.on_open = on_open
         self.configuration.neo_fin_key = neo_fin_key
 
-    def login(self, password, mobilenumber=None, userid=None, pan=None):
+    def login(self, password=None, mobilenumber=None, userid=None, pan=None, mpin=None):
         """
         Logs in to the system by generating a view token using the provided mobile number and password.
         Generates an OTP (One-Time Password) for the user's session.
@@ -114,15 +114,13 @@ class NeoAPI:
                                                        'to pass as part of login'}]}
             return error
 
-        view_token = neo_api_client.LoginAPI(self.api_client).generate_view_token(password, mobilenumber=mobilenumber,
-                                                                                  userid=userid, pan=pan)
-        # print(view_token)
+        view_token = neo_api_client.LoginAPI(self.api_client).generate_view_token(password=password, mobilenumber=mobilenumber,
+                                                                                  userid=userid, pan=pan, mpin=mpin)
         if "error" not in view_token:
             gen_otp = neo_api_client.LoginAPI(self.api_client).generate_otp()
             # print(gen_otp)
         else:
             gen_otp = {'error': [{'code': '10522', 'message': 'Issues while generating OTP! Try to login again.'}]}
-        print(gen_otp)
         return view_token
 
     def session_2fa(self, OTP):
