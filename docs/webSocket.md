@@ -125,6 +125,7 @@ except Exception as e:
 | *tk* | instrument_token
 | *e* | exchange_segment
 | *ts* | trading_symbol
+| *oi* | Open Interest
 
 #### For Depth
 
