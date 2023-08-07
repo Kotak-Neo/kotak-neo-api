@@ -68,6 +68,85 @@ except Exception as e:
 }
 
 ```
+### Response Parameters
+
+#### For Index
+
+| Name                | Description                                                                         |
+|---------------------|-------------------------------------------------------------------------------------|
+| *ftm0* | Ignore this value                                                
+| *dtm1*  | Ignore this value
+| *iv*           | last_traded_price
+| *ic*           | prev_day_close
+| *tvalue*           | timestamp
+| *highPrice*           | high_price
+| *lowPrice*           | low_price
+| *openingPrice*           | open
+| *mul*           | multiplier
+| *prec*           | precision
+| *cng*           | change
+| *nc*           | net_change_percentage
+| *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
+| *tk*           | instrument_token
+| *e*           | exchange_segment
+
+#### For Stocks
+
+| Name                | Description                                                                         |
+|---------------------|-------------------------------------------------------------------------------------|
+| *ftm0* | Ignore this value                                                
+| *dtm1*  | Ignore this value
+| *ftdm*  | Exchng Feeder Time
+| *ltt*  | last_traded_time
+| *v*  | volume
+| *ltp*           | last_traded_price
+| *ltq*           | last_traded_quantity
+| *tbq*           | total_buy_quantity
+| *tsq*           | total_sell_quantity
+| *bp*           | buy_price
+| *sp*           | sell_price
+| *bq*           | buy_quantity
+| *bs*           | sell_quantity
+| *ap*           | average_price
+| *lo*           | low
+| *h*           | high
+| *lcl*           | lower_circuit_limit
+| *ucl*           | upper_circuit_limit
+| *yh*           | 52week_high
+| *yl*           | 52week_low
+| *op*           | open
+| *c*           | close
+| *mul* | multiplier
+| *prec* | precision
+| *cng* | change
+| *nc* | net_change_percentage
+| *to* | total_traded_value
+| *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
+| *tk* | instrument_token
+| *e* | exchange_segment
+| *ts* | trading_symbol
+
+#### For Depth
+
+| Name                | Description                                                                         |
+|---------------------|-------------------------------------------------------------------------------------|
+| *ftm0* | Ignore this value                                                
+| *dtm1*  | Ignore this value
+| *bp, bp1,2,3,4* | buy_price
+| *sp, sp1,2,3,4* | sell_price
+| *bq, bq1,2,3,4* | buy_quantity
+| *bs, bs1,2,3,4* | sell_quantity
+| *bno1,2,3,4,5* | buy_orders
+| *sno1,2,3,4,5* | sell_orders
+| *mul* | multiplier
+| *prec* | precision
+| *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
+| *tk* | instrument_token
+| *e* | exchange_segment
+| *ts* | trading_symbol
+
+
+
 
 ### HTTP request headers
 
