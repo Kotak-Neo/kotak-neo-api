@@ -76,19 +76,19 @@ except Exception as e:
 |---------------------|-------------------------------------------------------------------------------------|
 | *ftm0* | Ignore this value                                                
 | *dtm1*  | Ignore this value
-| *iv*           | last_traded_price
-| *ic*           | prev_day_close
+| *iv*           | Last Traded Price
+| *ic*           | Previous Day Close
 | *tvalue*           | Index exchange feed time
-| *highPrice*           | high_price
-| *lowPrice*           | low_price
-| *openingPrice*           | open
-| *mul*           | multiplier
-| *prec*           | precision
-| *cng*           | change
-| *nc*           | net_change_percentage
+| *highPrice*           | High Price
+| *lowPrice*           | Low Price
+| *openingPrice*           | Open Price
+| *mul*           | Multiplier
+| *prec*           | Precision
+| *cng*           | Change
+| *nc*           | Net Change in Percentage
 | *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
-| *tk*           | instrument_token
-| *e*           | exchange_segment
+| *tk*           | Intrument Token
+| *e*           | Exchange Segment
 
 #### For Stocks
 
@@ -96,35 +96,35 @@ except Exception as e:
 |---------------------|-------------------------------------------------------------------------------------|
 | *ftm0* | Ignore this value                                                
 | *dtm1*  | Ignore this value
-| *ftdm*  | Exchng Feeder Time
-| *ltt*  | last_traded_time
-| *v*  | volume
-| *ltp*           | last_traded_price
-| *ltq*           | last_traded_quantity
-| *tbq*           | total_buy_quantity
-| *tsq*           | total_sell_quantity
-| *bp*           | buy_price
-| *sp*           | sell_price
-| *bq*           | buy_quantity
-| *bs*           | sell_quantity
-| *ap*           | average_price
-| *lo*           | low
-| *h*           | high
-| *lcl*           | lower_circuit_limit
-| *ucl*           | upper_circuit_limit
-| *yh*           | 52week_high
-| *yl*           | 52week_low
-| *op*           | open
-| *c*           | close
-| *mul* | multiplier
-| *prec* | precision
-| *cng* | change
-| *nc* | net_change_percentage
+| *ftdm*  | Exchange Feeder Time
+| *ltt*  | Last Traded Time
+| *v*  | Volume
+| *ltp*           | Last Traded Price
+| *ltq*           | Last Traded Quantity
+| *tbq*           | Total Buy Quantity
+| *tsq*           | Total Sell Quantity
+| *bp*           | Bid Price 1
+| *sp*           | Offer Price 1
+| *bq*           | Bid Size 1
+| *bs*           | Offer Size 1
+| *ap*           | Average Price
+| *lo*           | Low Price
+| *h*           | High Price
+| *lcl*           | Lower Circuit Limit
+| *ucl*           | Upper Circuit Limit
+| *yh*           | 52 Week High
+| *yl*           | 52 Week Low
+| *op*           | Open Price
+| *c*           | Closing Price
+| *mul* | Multiplier
+| *prec* | Precision
+| *cng* | Change
+| *nc* | Net Change in Percentage
 | *to* | Turn Over
 | *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
-| *tk* | instrument_token
-| *e* | exchange_segment
-| *ts* | trading_symbol
+| *tk* | Instrument Token
+| *e* | Exchange Segment
+| *ts* | Trading Symbol
 | *oi* | Open Interest
 
 #### For Depth
@@ -133,18 +133,18 @@ except Exception as e:
 |---------------------|-------------------------------------------------------------------------------------|
 | *ftm0* | Ignore this value                                                
 | *dtm1*  | Ignore this value
-| *bp, bp1,2,3,4* | buy_price
-| *sp, sp1,2,3,4* | sell_price
-| *bq, bq1,2,3,4* | buy_quantity
-| *bs, bs1,2,3,4* | sell_quantity
-| *bno1,2,3,4,5* | buy_orders
-| *sno1,2,3,4,5* | sell_orders
-| *mul* | multiplier
-| *prec* | precision
+| *bp, bp1,2,3,4* | Bid Price
+| *sp, sp1,2,3,4* | Offfer Price
+| *bq, bq1,2,3,4* | Bid Size
+| *bs, bs1,2,3,4* | Offer Size
+| *bno1,2,3,4,5* | Bid Orders
+| *sno1,2,3,4,5* | Offer Orders
+| *mul* | Multiplier
+| *prec* | Precision
 | *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
-| *tk* | instrument_token
-| *e* | exchange_segment
-| *ts* | trading_symbol
+| *tk* | Instrument Token
+| *e* | Exchange Segment
+| *ts* | Trading Symbol
 
 
 
