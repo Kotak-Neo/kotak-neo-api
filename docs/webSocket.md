@@ -78,7 +78,7 @@ except Exception as e:
 | *dtm1*  | Ignore this value
 | *iv*           | last_traded_price
 | *ic*           | prev_day_close
-| *tvalue*           | timestamp
+| *tvalue*           | Index exchange feed time
 | *highPrice*           | high_price
 | *lowPrice*           | low_price
 | *openingPrice*           | open
@@ -120,7 +120,7 @@ except Exception as e:
 | *prec* | precision
 | *cng* | change
 | *nc* | net_change_percentage
-| *to* | total_traded_value
+| *to* | Turn Over
 | *name*           | if - Index <br/> sf - Stock <br/> dp - Depth
 | *tk* | instrument_token
 | *e* | exchange_segment
