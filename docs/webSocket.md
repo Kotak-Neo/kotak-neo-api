@@ -114,7 +114,7 @@ For Example - `inst_tokens = [{"instrument_token": "Nifty 50", "exchange_segment
 | *tk*           | Intrument Token
 | *e*           | Exchange Segment
 
-#### For Stocks
+#### For Stocks and Derivatives
 
 | Name                | Description                                                                         |
 |---------------------|-------------------------------------------------------------------------------------|
