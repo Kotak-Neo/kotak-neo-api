@@ -55,6 +55,30 @@ except Exception as e:
 | *isDepth*           | Pass True if want to subscribe Market Depth                                                                       | Boolean value [optional]  |
 | *isIndex*           | Pass True if want to subscribe Index                                                                       | Boolean value [optional]  |
 
+### For Indexes
+Exchange Identifier is not a number in case of Indexes. Below is the Index Names that should be used in place of instrument token. 
+For Example - `inst_tokens = [{"instrument_token": "Nifty 50", "exchange_segment": "nse_cm"}]`
+
+| Exchange Identifier   |
+|--------|
+| Nifty 50<br/> |
+| Nifty Bank<br/> |
+| Nifty Fin Service<br/> |
+| SENSEX<br/> |
+| INDIA VIX<br/> |
+| NIFTY MIDCAP 100<br/> |
+| Nifty 100<br/> |
+| Nifty PSU Bank<br/> |
+| Nifty Pharma<br/> |
+| Nifty IT<br/> |
+| Nifty PSE<br/> |
+| Nifty FMCG<br/> |
+| Nifty 500<br/> |
+| Nifty Auto<br/> |
+| Nifty CPSE<br/> |
+| Nifty 200<br/> |
+| Nifty Next 50<br/> |
+
 
 ### Return type
 
