@@ -78,6 +78,7 @@ For Example - `inst_tokens = [{"instrument_token": "Nifty 50", "exchange_segment
 | Nifty CPSE<br/> |
 | Nifty 200<br/> |
 | Nifty Next 50<br/> |
+| NIFTY MID SELECT <br/> |
 
 
 ### Return type
