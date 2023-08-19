@@ -15,7 +15,7 @@ UAT_URL = {
     "positions": "orderapi/1.0/quick/user/positions",
     "holdings": "portfolio/1.0/portfolio/v1/holdings",
     "margin": "orderapi/1.0/quick/user/check-margin",
-    "scrip_master": "scrip/1.0/masterscrip/file-paths",
+    "scrip_master": "files/1.0/masterscrip/v2/file-paths",
     "limits": "orderapi/1.0/quick/user/limits",
     "logout": "api/1.0/logout"
 }
