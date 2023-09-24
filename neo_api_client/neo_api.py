@@ -613,7 +613,7 @@ class NeoAPI:
         if self.on_error:
             self.on_error(error)
 
-    def __on_message(self, message):
+    def on_message(self, message):
         # print('[NEO_API]: "In-side NeoAPI Class')
         if self.on_message:
             self.on_message(message)
