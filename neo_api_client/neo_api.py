@@ -77,6 +77,7 @@ class NeoAPI:
             self.api_client = ApiClient(self.configuration)
 
         self.NeoWebSocket = None
+        self.ConnectHSM = neo_api_client.ConnectHSM()
         self.on_message = on_message
         self.on_error = on_error
         self.on_close = on_close
@@ -714,7 +715,7 @@ class NeoAPI:
         """
         if self.configuration.edit_token and self.configuration.edit_sid:
             url = "wss://lhsi.kotaksecurities.com/realtime?sId="
-            neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
+            self.ConnectHSM.hsm_connection(url=url, token=self.configuration.edit_token,
                                                        sid=self.configuration.edit_sid,
                                                        server_id=self.configuration.serverId)
         else:
