@@ -600,16 +600,16 @@ class NeoAPI:
 
         return response
 
-    def __on_open(self):
+    def on_open(self):
         if self.on_open:
             self.on_open("The Session has been Opened!")
 
-    def __on_close(self):
+    def on_close(self):
         # print("[Socket]: Disconnected Demo Func !")
         if self.on_close:
             self.on_close("The Session has been Closed!")
 
-    def __on_error(self, error):
+    def on_error(self, error):
         print("[Socket]: Error !")
         if self.on_error:
             self.on_error(error)
@@ -643,8 +643,8 @@ class NeoAPI:
                                                                 self.configuration.serverId)
 
             self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
-                                            onerror=self.__on_error, onclose=self.__on_close,
-                                            onopen=self.__on_open, isIndex=isIndex, isDepth=isDepth)
+                                            onerror=self.on_error, onclose=self.on_close,
+                                            onopen=self.on_open, isIndex=isIndex, isDepth=isDepth)
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")
 
