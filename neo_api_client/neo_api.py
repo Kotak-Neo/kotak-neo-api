@@ -642,7 +642,7 @@ class NeoAPI:
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
 
-            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
+            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.on_message,
                                             onerror=self.on_error, onclose=self.on_close,
                                             onopen=self.on_open, isIndex=isIndex, isDepth=isDepth)
         else:
@@ -655,7 +655,7 @@ class NeoAPI:
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
 
-            self.NeoWebSocket.un_subscribe_list(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
+            self.NeoWebSocket.un_subscribe_list(instrument_tokens=instrument_tokens, onmessage=self.on_message,
                                                 isIndex=isIndex, isDepth=isDepth)
             print("The Data has been Un-Subscribed")
         else:
