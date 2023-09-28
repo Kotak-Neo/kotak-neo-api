@@ -67,14 +67,32 @@ class NeoAPI:
             self.configuration = neo_api_client.NeoUtility(consumer_key=consumer_key, consumer_secret=consumer_secret,
                                                            host=environment)
             self.api_client = ApiClient(self.configuration)
+
             try:
                 session_init = neo_api_client.LoginAPI(self.api_client).session_init()
                 print(json.dumps({"data": session_init}))
             except ApiException as ex:
                 error = ex
+
+        if reuse_session:
+            self.configuration = neo_api_client.NeoUtility(access_token=access_token, host=environment)
+            self.api_client = ApiClient(self.configuration)
+            self.configuration.bearer_token = reuse_session.get("access_token")
+            self.configuration.edit_token = reuse_session.get("session_token")
+            self.configuration.edit_sid = reuse_session.get("sid")
+            self.configuration.serverId = reuse_session.get("serverId")
+
         elif access_token:
             self.configuration = neo_api_client.NeoUtility(access_token=access_token, host=environment)
             self.api_client = ApiClient(self.configuration)
+
+        
+
+        self.reuse_session = {"access_token":f"{self.configuration.bearer_token}",
+                            "session_token":f'{self.configuration.edit_token}',
+                            "sid":f"{self.configuration.edit_sid}",
+                            "serverId" : f"{self.configuration.serverId}",
+                            }
 
         self.NeoWebSocket = None
         self.on_message = on_message
@@ -138,6 +156,12 @@ class NeoAPI:
             edit_token: sets the edit token obtained from the API response.
         """
         edit_token = neo_api_client.LoginAPI(self.api_client).login_2fa(OTP)
+
+        self.reuse_session = {"access_token":f"{self.configuration.bearer_token}",
+                            "session_token":f'{self.configuration.edit_token}',
+                            "sid":f"{self.configuration.edit_sid}",
+                            "serverId" : f"{self.configuration.serverId}",
+                            }
         return edit_token
 
     def place_order(self, exchange_segment, product, price, order_type, quantity, validity, trading_symbol,
