@@ -39,6 +39,7 @@ class NeoAPI:
     """
 
     def __init__(self, environment="uat", access_token=None, consumer_key=None, consumer_secret=None,
+                 reuse_session=None,
                  on_message=None, on_error=None, on_close=None, on_open=None, neo_fin_key=None):
         """
     Initializes the class and sets up the necessary configurations for the API client.
