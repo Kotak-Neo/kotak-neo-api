@@ -40,44 +40,32 @@ class RESTClientObject(object):
         :raises: ApiException in case of a request error
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
-                          'PATCH', 'OPTIONS']
+        assert method in ['GET','POST','PUT','DELETE','HEAD','OPTIONS','PATCH']
 
         headers = headers or {}
 
         if 'Content-Type' not in headers:
             headers['Content-Type'] = 'application/json'
+        
+        #add query_params if any required
+        if query_param:
+            url += '?' + urlencode(query_param)
 
-        try:
-            if method in ['POST', 'PUT', 'PATCH', 'DELETE']:
-                if query_params:
-                    url += '?' + urlencode(query_params)
-                if re.search('json', headers['Content-Type'], re.IGNORECASE):
-                    request_body = None
-                    if body is not None:
-                        request_body = json.dumps(body)
-                    response = requests.post(url=url, headers=headers, data=request_body)
-                elif re.search('x-www-form-urlencoded', headers['Content-Type'], re.IGNORECASE):
-                    request_body = {}
-                    if body is not None:
-                        request_body["jData"] = json.dumps(body)
-                    response = requests.post(url=url, headers=headers, data=request_body)
-                else:
-                    msg = """In-Valid Content-Type in the Header Parameters"""
-                    raise ApiException(status=0, reason=msg)
-            elif method in ['GET']:
-                if query_params:
-                    url += '?' + urlencode(query_params)
-                response = requests.get(url=url, headers=headers)
-            else:
-                msg = """Cannot call the API with the provided HTTP Method"""
-                raise ApiException(status=0, reason=msg)
-        except Exception as e:
-            msg = "{0}\n{1}".format(type(e).__name__, str(e))
-            raise ApiException(status=0, reason=msg)
+        request_body = {}
 
-        # if not 200 <= response.status_code <= 299:
-        #     raise ApiException(status=response.status_code, reason=response.reason, body=response.text)
+        json_in_content = re.search('json',headers['Content-Type'],re.IGNORECASE)
+        urlencoding_in_content = re.search('x-www-form-urlencoded',headers['Content-Type'],re.IGNORECASE)
+
+        if json_in_content and body:
+            request_body = json.dumps(body)
+        elif urlencoding_in_content and body:
+            request_body['jData'] = json.dumps(body)
+        elif not json_in_content and not urlencoding_in_content:
+            raise ValueError('Expected json/x-www-form-urlencoded in Content-Type')
+
+        
+        response = requests.request(method,url,headers=headers,data=request_body)
         return response
+        
 
 
