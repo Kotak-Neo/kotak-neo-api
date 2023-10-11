@@ -77,6 +77,7 @@ class NeoAPI:
             self.api_client = ApiClient(self.configuration)
 
         self.NeoWebSocket = None
+        self.ConnectHSM = neo_api_client.ConnectHSM()
         self.on_message = on_message
         self.on_error = on_error
         self.on_close = on_close
@@ -599,21 +600,21 @@ class NeoAPI:
 
         return response
 
-    def __on_open(self):
+    def on_open(self):
         if self.on_open:
             self.on_open("The Session has been Opened!")
 
-    def __on_close(self):
+    def on_close(self):
         # print("[Socket]: Disconnected Demo Func !")
         if self.on_close:
             self.on_close("The Session has been Closed!")
 
-    def __on_error(self, error):
+    def on_error(self, error):
         print("[Socket]: Error !")
         if self.on_error:
             self.on_error(error)
 
-    def __on_message(self, message):
+    def on_message(self, message):
         # print('[NEO_API]: "In-side NeoAPI Class')
         if self.on_message:
             self.on_message(message)
@@ -641,9 +642,9 @@ class NeoAPI:
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
 
-            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
-                                            onerror=self.__on_error, onclose=self.__on_close,
-                                            onopen=self.__on_open, isIndex=isIndex, isDepth=isDepth)
+            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.on_message,
+                                            onerror=self.on_error, onclose=self.on_close,
+                                            onopen=self.on_open, isIndex=isIndex, isDepth=isDepth)
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")
 
@@ -654,7 +655,7 @@ class NeoAPI:
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
 
-            self.NeoWebSocket.un_subscribe_list(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
+            self.NeoWebSocket.un_subscribe_list(instrument_tokens=instrument_tokens, onmessage=self.on_message,
                                                 isIndex=isIndex, isDepth=isDepth)
             print("The Data has been Un-Subscribed")
         else:
@@ -714,7 +715,7 @@ class NeoAPI:
         """
         if self.configuration.edit_token and self.configuration.edit_sid:
             url = "wss://lhsi.kotaksecurities.com/realtime?sId="
-            neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
+            self.ConnectHSM.hsm_connection(url=url, token=self.configuration.edit_token,
                                                        sid=self.configuration.edit_sid,
                                                        server_id=self.configuration.serverId)
         else:
