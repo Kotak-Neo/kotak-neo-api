@@ -557,9 +557,12 @@ class ConnectHSM:
         self.token = None
         self.hsw = None
 
-    def hsm_connection(self, url, token, sid, server_id):
+    def hsm_connection(self, url, token, sid, server_id, on_message, on_close, on_error):
         self.token = token
         self.sid = sid
+        self.on_message = on_message
+        self.on_close = on_close
+        self.on_error = on_error
         from neo_api_client import HSIWebSocket
         url = str(url) + str(server_id)
         self.hsw = HSIWebSocket()
@@ -574,12 +577,3 @@ class ConnectHSM:
         json_d = {"type": "CONNECTION", "Authorization": auth, "Sid": sid, "source": server}
         json_d = json.dumps(json_d)
         self.hsw.send(json_d)
-
-    def on_message(self, message):
-        print("INTO ON Message", message)
-
-    def on_close(self):
-        print("INTO ON Close")
-
-    def on_error(self, error):
-        print("INTO ON Error", error)
