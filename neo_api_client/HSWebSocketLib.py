@@ -965,7 +965,7 @@ class HSWrapper:
                             print("Invalid topic feed type !")
                     else:
                         if c == ResponseTypes.get("UPDATE"):
-                            print("updates ......")
+                            # print("updates ......")
                             f = buf2long(e[pos: pos + 4])
                             # print("topic Id:", f)
                             pos += 4
