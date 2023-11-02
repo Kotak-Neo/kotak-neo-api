@@ -71,6 +71,33 @@ except Exception as e:
 
 ```
 
+### Positions Calculations
+#### Quantity Fields
+1. Total Buy Qty = (`cfBuyQty` + `flBuyQty`) 
+2. Total Sell qty = (`cfSellQty` + `flSellQty`) 
+3. Carry Fwd Qty = (`cfBuyQty` - `cfSellQty`) 
+4. Net qty = Total Buy Qty - Total Sell qty </br>
+For FnO Scrips, divide all the parameters from Positions API response(`cfBuyQty`, `flBuyQty`, `cfSellQty`, `flSellQty`)  by `lotSz`
+
+#### Amount Fields
+1. Total Buy Amt = (`cfBuyAmt` + `buyAmt`)
+2. Total Sell Amt = (`cfSellAmt` + `sellAmt`)
+
+#### Avg Price Fields
+1. Buy Avg Price = <sup>Total Buy Amt</sup>/<sub>(Total Buy Qty * `multiplier` * (`genNum`/`genDen`) * (`prcNum`/ `prcDen`))</sub>
+
+2. Sell Avg Price = <sup>Total Sell Amt</sup>/<sub>(Total Sell qty * `multiplier` * (`genNum`/ `genDen`) * (`prcNum`/ `prcDen`))</sub>
+3. Avg Price </br>
+    a. If Total Buy Qty > Total Sell qty, then Buy Avg Price </br>
+    b. If Total Buy Qty < Total Sell qty, then Sell Avg Price </br>
+    c. If Total Buy Qty = Total Sell qty, then 0 </br>
+You need to calculate the average price to a specific number of decimal places that is decided by `precision` field.
+
+#### Profit N Loss
+
+PnL = (Total Sell Amt - Total Buy Amt) + (Net qty * LTP *  `multiplier` * (<sup>`genNum`</sup>/<sub>`genDen`</sub>) * (<sup>`prcNum`</sup>/<sub>`prcDen`</sub>) )
+
+
 ### HTTP request headers
 
  - **Accept**: application/json
