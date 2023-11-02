@@ -1110,7 +1110,7 @@ class StartServer:
         else:
             print("WebSocket not initialized!")
 
-        ws.run_forever()
+        ws.run_forever(ping_interval = 30)
 
     def on_open(self, ws):
         # print("[OnOpen]: Function is running in HSWebscoket")
