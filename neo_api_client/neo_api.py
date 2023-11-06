@@ -738,7 +738,7 @@ class NeoAPI:
                 Order Feed information.
         """
         if self.configuration.edit_token and self.configuration.edit_sid:
-            url = "wss://lhsi.kotaksecurities.com/realtime?sId="
+            url = "wss://mlhsi.kotaksecurities.com/realtime?sId="
             neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
                                                        sid=self.configuration.edit_sid,
                                                        server_id=self.configuration.serverId)
