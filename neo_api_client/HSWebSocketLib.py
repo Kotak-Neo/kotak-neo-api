@@ -742,7 +742,7 @@ class ScripTopicData(TopicData):
                 change = ltp - close
                 self.fieldDataArray[SCRIP_INDEX["CHANGE"]] = change
                 self.updatedFieldsArray[SCRIP_INDEX["CHANGE"]] = True
-                self.fieldDataArray[SCRIP_INDEX["PERCHANGE"]] = "{:.2f}".format((change / close * 100))
+                self.fieldDataArray[SCRIP_INDEX["PERCHANGE"]] = "{:.4f}".format((change / close * 100))
                 self.updatedFieldsArray[SCRIP_INDEX["PERCHANGE"]] = True
         if self.updatedFieldsArray[SCRIP_INDEX["VOLUME"]] or self.updatedFieldsArray[SCRIP_INDEX["VWAP"]]:
             volume = self.fieldDataArray[SCRIP_INDEX["VOLUME"]]
@@ -757,7 +757,7 @@ class ScripTopicData(TopicData):
             val = self.fieldDataArray[index]
             if self.updatedFieldsArray[index] and val is not None and dataType:
                 if dataType["type"] == FieldTypes["FLOAT32"]:
-                    val = "{:.2f}".format(val / (self.multiplier * self.precisionValue))
+                    val = "{:.4f}".format(val / (self.multiplier * self.precisionValue))
                 elif dataType["type"] == FieldTypes["DATE"]:
                     val = getFormatDate(val)
                 # print(str(index) + ":" + dataType["name"] + ":" + str(val))
