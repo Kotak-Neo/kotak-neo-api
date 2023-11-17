@@ -1110,7 +1110,7 @@ class StartServer:
         else:
             print("WebSocket not initialized!")
 
-        ws.run_forever()
+        ws.run_forever(ping_interval = 30)
 
     def on_open(self, ws):
         # print("[OnOpen]: Function is running in HSWebscoket")
@@ -1344,7 +1344,7 @@ class StartHSIServer:
                                            on_close=self.on_close)
         except Exception:
             print("WebSocket not supported!")
-        hsiws.run_forever()
+        hsiws.run_forever(ping_interval = 30)
 
     def on_message(self, ws, message):
         # print("Received message:", message)

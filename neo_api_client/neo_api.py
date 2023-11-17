@@ -702,7 +702,7 @@ class NeoAPI:
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
-    def subscribe_to_orderfeed(self):
+    def subscribe_to_orderfeed(self, on_message, on_close, on_error):
         """
             Subscribe To OrderFeed
 
@@ -716,6 +716,10 @@ class NeoAPI:
             url = "wss://mlhsi.kotaksecurities.com/realtime?sId="
             neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
                                                        sid=self.configuration.edit_sid,
-                                                       server_id=self.configuration.serverId)
+                                                       server_id=self.configuration.serverId,
+                                                       on_message=on_message,
+                                                       on_close=on_close,
+                                                       on_error=on_error)
+                                            
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
