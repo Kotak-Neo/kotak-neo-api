@@ -36,12 +36,12 @@ except Exception as e:
 | *disclosed_quantity* | (Default Value - 0)                                                                                                      | Str [optional] |
 | *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                        | Str            |
 | *market_protection*  | (Default Value - 0)                                                                                                      | Str [optional] |
-| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>INTRADAY - INTRADAY<br/>CO - Cover Order<br/>                   | Str            |
+| *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>CO - Cover Order<br/>                   | Str            |
 | *pf*                 | Default Value - “N”                                                                                                      | Str [optional] |
 | *price*              | price of the order                                                                                             | Str [optional] |
 | *order_type*         | L - Limit<br/>MKT - Market<br/>SL - Stop loss limit<br/>SL-M - Stop loss market                                          | Str            |
 | *quantity*           | quantity of the order                                                                                        | Str            |
-| *validity*           | Validity of the order - DAY, IOC, DAY, IOC, GTC, EOS                                                                     | Str            |
+| *validity*           | Validity of the order - DAY, IOC, GTC, EOS                                                                     | Str            |
 | *trigger_price*      | Optional, required for stop loss and cover order                                                                           | Str [optional] |
 | *trading_symbol*     | pTrdSymbol in ScripMaster file                                                                                          | Str            |
 | *transaction_type*   | B(Buy), S(Sell)                                                                                                          | Str            |
