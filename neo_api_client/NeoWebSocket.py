@@ -1,5 +1,7 @@
 import copy
 import json
+import threading
+
 import neo_api_client
 from neo_api_client.settings import stock_key_mapping, MarketDepthResp, QuotesChannel, \
     ReqTypeValues, index_key_mapping
@@ -31,6 +33,16 @@ class NeoWebSocket:
         self.un_sub_list_count = 0
         self.un_sub_channel = None
         self.token_limit_reached = False
+        self.thread = None
+
+    def start_websocket(self):
+        self.hsWebsocket = neo_api_client.HSWebSocket()
+        self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
+                                         self.on_open, self.on_message, self.on_error, self.on_close)
+
+    def start_websocket_thread(self):
+        self.thread = threading.Thread(target=self.start_websocket)
+        self.thread.start()
 
     def on_open(self):
         # print("On Open Function in Neo Websocket")
@@ -66,16 +78,16 @@ class NeoWebSocket:
                     message = self.response_format(out_list, quote_type=quote_type)
                     self.quotes_api_callback(message)
                     self.quotes_arr = []
-                    self.on_close()
                 elif len(self.sub_list) >= 1:
                     self.live_message(message)
 
     def on_close(self):
-        #print("On Close Function is running!")
+        # print("On Close Function is running!")
         self.OPEN = 0
         self.hsWebsocket.close()
 
     def on_error(self, error):
+        # print("on error method called  ", error)
         self.OPEN = 0
         if self.quotes_arr:
             self.quotes_api_callback(error)
@@ -83,25 +95,26 @@ class NeoWebSocket:
             self.live_error(error)
         else:
             print("Some Error! From Websocket")
-        self.hsWebsocket.close()
+
+        self.on_close()
 
     def remove_items(self, un_sub_json):
         for unsubscribe_token in un_sub_json:
             token_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['instrument_token']
             segment_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['exchange_segment']
             sub_type_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['subscription_type']
+
+            self.sub_list = [token for token in self.sub_list if str(list(token.keys())[0]) != str(token_value)]
             for channel_token_list in self.channel_tokens.values():
                 for channel_token_dict in channel_token_list:
                     for channel_token_key, channel_token_value in channel_token_dict.items():
-                        for dictionary in self.sub_list:
-                            if list(dictionary.keys())[0] == channel_token_key and dictionary.get(
-                                    channel_token_key) == channel_token_value:
-                                self.sub_list.remove(dictionary)
+
                         if token_value == channel_token_value['instrument_token'] and segment_value == \
                                 channel_token_value['exchange_segment'] and sub_type_value == \
                                 channel_token_value['subscription_type']:
                             channel_token_list.remove(channel_token_dict)
                             break
+
         return
 
     def input_validation(self, instrument_tokens):
@@ -197,9 +210,8 @@ class NeoWebSocket:
                 if self.hsWebsocket and self.OPEN == 1:
                     self.call_quotes()
                 else:
-                    self.hsWebsocket = neo_api_client.HSWebSocket()
-                    self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
-                                                     self.on_open, self.on_message, self.on_error, self.on_close)
+                    self.start_websocket_thread()
+
             else:
                 callback(Exception("Invalid Inputs"))
         else:
@@ -304,14 +316,12 @@ class NeoWebSocket:
             # print("channel_tokens newly adding ", self.sub_list)
             # print("Total Channel Tokens ", self.channel_tokens)
             if self.hsWebsocket and self.OPEN == 1:
-                # print("Websocket is opened and subscribing the scripts.............")
+                # onmessage("Websocket is opened and subscribing the scripts.............")
                 self.subscribe_scripts(channel_tokens)
+
             else:
-                # print("Websocket is connection is not there.............")
-                # print("Opening the Websocket connection and subscribing the scripts.............")
-                self.hsWebsocket = neo_api_client.HSWebSocket()
-                self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
-                                                 self.on_open, self.on_message, self.on_error, self.on_close)
+                self.start_websocket_thread()
+
         else:
             onerror(Exception("Invalid Inputs"))
 
@@ -521,6 +531,7 @@ class NeoWebSocket:
                                  'exchange_segment': item[key]['exchange_segment'],
                                  'subscription_type': item[key]['subscription_type']}
                                 for item in self.sub_list for key in item]
+
             for token in instrument_tokens:
                 token["subscription_type"] = subscription_type
                 if token in extracted_tokens:
@@ -535,19 +546,20 @@ class NeoWebSocket:
                                 if key not in self.un_sub_channel_token:
                                     self.un_sub_channel_token[key] = []
                                 self.un_sub_channel_token[key].append({in_key: value})
+
                 else:
                     print("The Given Token is not in Subscription list")
-            # print("self.un_sub_channel_token", self.un_sub_channel_token)
             if self.hsWebsocket and self.OPEN == 1:
                 self.un_subscription()
+
+            else:
+                print("Socket Connection has been closed, So! The scripts are already un-subscribed!")
+
             # else:
             #     self.un_sub_token = True
             #     self.hsWebsocket = neo_api_client.HSWebSocket()
             #     self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
             #                                      self.on_open, self.on_message, self.on_error, self.on_close)
-
-            else:
-                print("Socket Connection has been closed, So! The scripts are already un-subscribed!")
 
 
 class ConnectHSM:
