@@ -549,7 +549,7 @@ class NeoWebSocket:
 
                 else:
                     print("The Given Token is not in Subscription list")
-            if self.hsWebsocket and self.OPEN == 1:
+            if self.hsWebsocket and self.Is_HSI_OPEN == 1:
                 self.un_subscription()
 
             else:
@@ -561,6 +561,34 @@ class NeoWebSocket:
             #     self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
             #                                      self.on_open, self.on_message, self.on_error, self.on_close)
 
+    def get_order_feed(self,on_message, on_close, on_error):
+        #TODO add code like subscribe
+        if self.hsiWebsocket and self.OPEN == 1:
+           self.subscribe_to_order_feed()    
+
+        else:
+            self.start_hsi_websocket_thread()
+
+    def subscribe_to_order_feed(self):
+        auth = self.token
+        sid = self.sid
+        server = 'WEB'
+        json_d = {"type": "CONNECTION", "Authorization": auth, "Sid": sid, "source": server}
+        json_d = json.dumps(json_d)
+        self.hsw.send(json_d)
+
+    def start_hsi_websocket(self,):
+        url = str(neo_api_client.ORDER_FEED_URL) + str(server_id)
+        self.hsw = neo_api_client.HSIWebSocket()
+        self.hsw.open_connection(url=url, onopen=self.on_open, onmessage=self.on_message, onclose=self.on_close,
+                                 onerror=self.on_error)
+        self.hsWebsocket = neo_api_client.HSWebSocket()
+        self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
+                                         self.on_open, self.on_message, self.on_error, self.on_close)
+
+    def start_hsi_websocket_thread(self):
+        self.thread = threading.Thread(target=self.start_hsi_websocket)
+        self.thread.start()
 
 class ConnectHSM:
 
@@ -575,17 +603,12 @@ class ConnectHSM:
         self.on_message = on_message
         self.on_close = on_close
         self.on_error = on_error
-        from neo_api_client import HSIWebSocket
-        url = str(url) + str(server_id)
+        
+        
         self.hsw = HSIWebSocket()
         self.hsw.open_connection(url=url, onopen=self.on_open, onmessage=self.on_message, onclose=self.on_close,
                                  onerror=self.on_error)
         # print("IN HSM Connetion", self.hsw)
 
     def on_open(self):
-        auth = self.token
-        sid = self.sid
-        server = 'WEB'
-        json_d = {"type": "CONNECTION", "Authorization": auth, "Sid": sid, "source": server}
-        json_d = json.dumps(json_d)
-        self.hsw.send(json_d)
+       

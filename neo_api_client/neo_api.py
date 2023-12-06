@@ -38,8 +38,7 @@ class NeoAPI:
                 Sets the edit token, SID, RID, and server ID in the configuration.
     """
 
-    def __init__(self, environment="uat", access_token=None, consumer_key=None, consumer_secret=None,
-                 on_message=None, on_error=None, on_close=None, on_open=None, neo_fin_key=None):
+    def __init__(self, environment="uat", access_token=None, consumer_key=None, consumer_secret=None, neo_fin_key=None):
         """
     Initializes the class and sets up the necessary configurations for the API client.
 
@@ -62,6 +61,12 @@ class NeoAPI:
     Raises:
     ApiException: if the session initiation fails.
     """
+
+        self.on_message = None
+        self.on_error = None
+        self.on_close = None
+        self.on_open = None
+
         if not access_token:
             neo_api_client.req_data_validation.validate_configuration(consumer_key, consumer_secret)
             self.configuration = neo_api_client.NeoUtility(consumer_key=consumer_key, consumer_secret=consumer_secret,
@@ -77,10 +82,6 @@ class NeoAPI:
             self.api_client = ApiClient(self.configuration)
 
         self.NeoWebSocket = None
-        self.on_message = on_message
-        self.on_error = on_error
-        self.on_close = on_close
-        self.on_open = on_open
         self.configuration.neo_fin_key = neo_fin_key
 
     def login(self, password=None, mobilenumber=None, userid=None, pan=None, mpin=None):
@@ -619,6 +620,8 @@ class NeoAPI:
             self.on_message(message)
 
     def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+
+
         """
             Subscribe to live feeds for the given instrument tokens.
 
@@ -635,6 +638,14 @@ class NeoAPI:
 
             The function establishes a WebSocket connection to the trading platform and subscribes to live feeds for the specified instrument tokens. When a new feed is received, the function's internal callback functions are called with the feed data as their arguments. If an error occurs, the on_error function is called with the error message as its argument.
         """
+
+        #TODO give warning if user hasn't set the callbacks 
+        #on_message
+        #on_error
+        #on_close
+        #on_open
+
+
         if self.configuration.edit_token and self.configuration.edit_sid:
             if not self.NeoWebSocket:
                 self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
@@ -712,7 +723,13 @@ class NeoAPI:
             Returns:
                 Order Feed information.
         """
+
+
+
         if self.configuration.edit_token and self.configuration.edit_sid:
+
+
+            
             url = "wss://mlhsi.kotaksecurities.com/realtime?sId="
             neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
                                                        sid=self.configuration.edit_sid,
