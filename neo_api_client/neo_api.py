@@ -546,7 +546,7 @@ class NeoAPI:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
     def quotes(self, instrument_tokens, quote_type=None, isIndex=False, session_token=None, sid=None,
-               server_id=None, on_error=None):
+               server_id=None):
         """
             Subscribe to real-time quotes for the given instrument tokens.
 
