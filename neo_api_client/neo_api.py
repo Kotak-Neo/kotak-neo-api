@@ -610,7 +610,7 @@ class NeoAPI:
             self.on_close("The Session has been Closed!")
 
     def __on_error(self, error):
-        print("[Socket]: Error !")
+        # print("[Socket]: Error !")
         if self.on_error:
             self.on_error(error)
 
@@ -619,8 +619,30 @@ class NeoAPI:
         if self.on_message:
             self.on_message(message)
 
-    def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
+    def check_callbacks(self):
+        show_warning = self.on_close or self.on_open or self.on_message or self.on_error
+        if show_warning:
+            warnings = "Warning!\n"
+            if self.on_message is None:
+                warnings += "on_message callback is not Set\n"
+            if self.on_error is None:
+                warnings += "on_error callback is not Set\n"
+            if self.on_close is None:
+                warnings += "on_close callback is not Set\n"
+            if self.on_open is None:
+                warnings += "on_open callback is not Set\n"
 
+            warnings += "It is recommended to set callbacks to handle your own logic on events."
+            print(warnings)
+
+    def set_neowebsocket_callbacks(self):
+        if self.NeoWebSocket is not None:
+            self.NeoWebSocket.on_message = self.__on_message
+            self.NeoWebSocket.on_error = self.__on_error
+            self.NeoWebSocket.on_open = self.__on_open
+            self.NeoWebSocket.on_close = self.__on_close
+
+    def subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
 
         """
             Subscribe to live feeds for the given instrument tokens.
@@ -639,22 +661,15 @@ class NeoAPI:
             The function establishes a WebSocket connection to the trading platform and subscribes to live feeds for the specified instrument tokens. When a new feed is received, the function's internal callback functions are called with the feed data as their arguments. If an error occurs, the on_error function is called with the error message as its argument.
         """
 
-        #TODO give warning if user hasn't set the callbacks 
-        #on_message
-        #on_error
-        #on_close
-        #on_open
-
-
+        self.check_callbacks()
         if self.configuration.edit_token and self.configuration.edit_sid:
             if not self.NeoWebSocket:
                 self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
 
-            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
-                                            onerror=self.__on_error, onclose=self.__on_close,
-                                            onopen=self.__on_open, isIndex=isIndex, isDepth=isDepth)
+            self.set_neowebsocket_callbacks()
+            self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, isIndex=isIndex, isDepth=isDepth)
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")
 
@@ -665,7 +680,8 @@ class NeoAPI:
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
 
-            self.NeoWebSocket.un_subscribe_list(instrument_tokens=instrument_tokens, onmessage=self.__on_message,
+            self.set_neowebsocket_callbacks()
+            self.NeoWebSocket.un_subscribe_list(instrument_tokens=instrument_tokens,
                                                 isIndex=isIndex, isDepth=isDepth)
             print("The Data has been Un-Subscribed")
         else:
@@ -713,7 +729,7 @@ class NeoAPI:
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}
 
-    def subscribe_to_orderfeed(self, on_message, on_close, on_error):
+    def subscribe_to_orderfeed(self):
         """
             Subscribe To OrderFeed
 
@@ -723,20 +739,14 @@ class NeoAPI:
             Returns:
                 Order Feed information.
         """
-
-
-
         if self.configuration.edit_token and self.configuration.edit_sid:
-
-
-            
-            url = "wss://mlhsi.kotaksecurities.com/realtime?sId="
-            neo_api_client.ConnectHSM().hsm_connection(url=url, token=self.configuration.edit_token,
-                                                       sid=self.configuration.edit_sid,
-                                                       server_id=self.configuration.serverId,
-                                                       on_message=on_message,
-                                                       on_close=on_close,
-                                                       on_error=on_error)
+            self.check_callbacks()
+            if not self.NeoWebSocket:
+                self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
+                                                                self.configuration.edit_token,
+                                                                self.configuration.serverId)
+            self.set_neowebsocket_callbacks()
+            self.NeoWebSocket.get_order_feed()
                                             
         else:
             return {"Error Message": "Complete the 2fa process before accessing this application"}

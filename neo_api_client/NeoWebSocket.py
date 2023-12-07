@@ -5,6 +5,7 @@ import threading
 import neo_api_client
 from neo_api_client.settings import stock_key_mapping, MarketDepthResp, QuotesChannel, \
     ReqTypeValues, index_key_mapping
+from neo_api_client.urls import ORDER_FEED_URL
 
 
 # from neo_api_client.logger import logger
@@ -12,11 +13,13 @@ from neo_api_client.settings import stock_key_mapping, MarketDepthResp, QuotesCh
 
 class NeoWebSocket:
     def __init__(self, sid, token, server_id):
+        self.hsiWebsocket = None
+        self.is_hsi_open = 0
         self.un_sub_token = False
         self.sid = sid
         self.access_token = token
         self.server_id = server_id
-        self.OPEN = 0
+        self.is_hsw_open = 0
         self.quotes_arr = []
         self.sub_list = []
         self.un_sub_list = []
@@ -25,38 +28,52 @@ class NeoWebSocket:
         self.hsWebsocket = None
         self.channel_tokens = {}
         self.live_scrip_type = None
-        self.live_message = None
-        self.live_error = None
-        self.live_close = None
-        self.live_open = None
+        self.on_message = None
+        self.on_error = None
+        self.on_close = None
+        self.on_open = None
         self.quotes_index = None
         self.un_sub_list_count = 0
         self.un_sub_channel = None
         self.token_limit_reached = False
-        self.thread = None
+        self.hsw_thread = None
+        self.hsi_thread = None
 
     def start_websocket(self):
         self.hsWebsocket = neo_api_client.HSWebSocket()
         self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
-                                         self.on_open, self.on_message, self.on_error, self.on_close)
+                                         self.on_hsm_open, self.on_hsm_message,
+                                         self.on_hsm_error, self.on_hsm_close)
 
     def start_websocket_thread(self):
-        self.thread = threading.Thread(target=self.start_websocket)
-        self.thread.start()
+        self.hsw_thread = threading.Thread(target=self.start_websocket)
+        self.hsw_thread.start()
+        print("HSW thread count == ", threading.active_count(), threading.enumerate())
 
-    def on_open(self):
+    def on_hsm_open(self):
         # print("On Open Function in Neo Websocket")
         req_params = {"type": "cn", "Authorization": self.access_token, "Sid": self.sid}
         self.hsWebsocket.hs_send(json.dumps(req_params))
 
-    def on_message(self, message):
+    def on_hsi_open(self):
+        print("HSI on open called")
+
+        # print("On Open Function in Neo Websocket")
+        server = 'WEB'
+        json_d = {"type": "CONNECTION", "Authorization": self.access_token,
+                  "Sid": self.sid,
+                  "source": server}
+        json_d = json.dumps(json_d)
+        self.hsiWebsocket.send(json_d)
+
+    def on_hsm_message(self, message):
         # print("on Message Func in NeoWebsocket", message)
         if message:
             if type(message) == str:
                 req_type = json.loads(message)[0]["type"]
                 if req_type == 'cn':
                     # print("INSIDE CONNECTION")
-                    self.OPEN = 1
+                    self.is_hsw_open = 1
                     if len(self.quotes_arr) >= 1:
                         self.call_quotes()
                     if len(self.sub_list) >= 1:
@@ -71,32 +88,64 @@ class NeoWebSocket:
                             self.sub_list = []
                             self.channel_tokens = {}
                             self.un_sub_channel_token = {}
-                    self.live_message("Un-Subscribed Successfully!")
+                    self.on_message("Un-Subscribed Successfully!")
             elif type(message) == list:
-                if len(self.quotes_arr) >= 1:
-                    out_list, quote_type = self.quote_response_formatter(message)
-                    message = self.response_format(out_list, quote_type=quote_type)
-                    self.quotes_api_callback(message)
-                    self.quotes_arr = []
-                elif len(self.sub_list) >= 1:
-                    self.live_message(message)
+                    if len(self.quotes_arr) >= 1:
+                        out_list, quote_type = self.quote_response_formatter(message)
+                        message = self.response_format(out_list, quote_type=quote_type)
+                        self.quotes_api_callback(message)
+                        self.quotes_arr = []
+                    elif len(self.sub_list) >= 1:
+                        self.on_message(message)
 
-    def on_close(self):
+    def on_hsi_message(self, message):
+        print("HSI on message called")
+        if message:
+            if isinstance(message, str):
+                req = json.loads(message)
+                if req["type"] == 'cn':
+                    self.is_hsi_open = 1
+        self.on_message(message)
+
+    def on_hsm_close(self):
         # print("On Close Function is running!")
-        self.OPEN = 0
-        self.hsWebsocket.close()
+        if self.is_hsw_open == 1:
+            self.is_hsw_open = 0
+            self.hsWebsocket.close()
 
-    def on_error(self, error):
-        # print("on error method called  ", error)
-        self.OPEN = 0
-        if self.quotes_arr:
-            self.quotes_api_callback(error)
-        elif self.live_error:
-            self.live_error(error)
+    def on_hsi_close(self):
+        print("HSI on close called")
+
+        # print("On Close Function is running!")
+        if self.is_hsi_open == 1:
+            self.is_hsi_open = 0
+            self.hsiWebsocket.close()
+
+    def on_hsm_error(self, error):
+        if self.is_hsw_open == 1:
+            self.is_hsw_open = 0
+            if self.quotes_arr:
+                self.quotes_api_callback(error)
+
+        if self.on_error:
+            self.on_error(error)
         else:
-            print("Some Error! From Websocket")
+            print("Error Occurred in Websocket! Error Message ", error)
 
-        self.on_close()
+        self.on_hsm_close()
+
+    def on_hsi_error(self, error):
+        print("HSI on error called")
+
+        if self.is_hsi_open == 1:
+            self.is_hsi_open = 0
+
+        if self.on_error:
+            self.on_error(error)
+        else:
+            print("Error Occurred in Websocket! Error Message ", error)
+
+        self.on_hsi_close()
 
     def remove_items(self, un_sub_json):
         for unsubscribe_token in un_sub_json:
@@ -207,7 +256,7 @@ class NeoWebSocket:
                         index = [list(x.keys())[0] for x in self.quotes_arr].index(key)
                         self.quotes_arr[index][key].update(value)
 
-                if self.hsWebsocket and self.OPEN == 1:
+                if self.hsWebsocket and self.is_hsw_open == 1:
                     self.call_quotes()
                 else:
                     self.start_websocket_thread()
@@ -275,17 +324,12 @@ class NeoWebSocket:
         #     self.un_sub_channel_token[key].append(value)
         # return
 
-    def get_live_feed(self, instrument_tokens, onmessage, onerror, onopen, onclose, isIndex, isDepth):
+    def get_live_feed(self, instrument_tokens, isIndex, isDepth):
         if len(self.sub_list) + len(instrument_tokens) > 3000:
             self.token_limit_reached = True
             self.prepare_un_sub()
             self.un_subscription()
 
-        # print("INTO LIVE FEED")
-        self.live_message = onmessage
-        self.live_error = onerror
-        self.live_open = onopen
-        self.live_close = onclose
         tmp_token_list = []
         subscription_type = ReqTypeValues.get("SCRIP_SUBS")
         if isIndex:
@@ -313,17 +357,14 @@ class NeoWebSocket:
                     else:
                         self.sub_list[index][key].update(value)
             channel_tokens = self.channel_segregation(tmp_token_list)
-            # print("channel_tokens newly adding ", self.sub_list)
-            # print("Total Channel Tokens ", self.channel_tokens)
-            if self.hsWebsocket and self.OPEN == 1:
-                # onmessage("Websocket is opened and subscribing the scripts.............")
+            if self.hsWebsocket and self.is_hsw_open == 1:
                 self.subscribe_scripts(channel_tokens)
 
             else:
                 self.start_websocket_thread()
 
         else:
-            onerror(Exception("Invalid Inputs"))
+            self.on_error(Exception("Invalid Inputs"))
 
     def append_ohlc_data(self, new_dict):
         new_dict["ohlc"] = {}
@@ -514,9 +555,8 @@ class NeoWebSocket:
                 {"type": sub_type, "scrips": scrips, "channelnum": channel})
             self.hsWebsocket.hs_send(req_params1)
 
-    def un_subscribe_list(self, instrument_tokens, onmessage=None, isIndex=False, isDepth=False):
+    def un_subscribe_list(self, instrument_tokens, isIndex=False, isDepth=False):
         # print("INTO UNSUBSCRIBE", instrument_tokens)
-        self.live_message = onmessage
         un_subscription_type = ReqTypeValues.get("SCRIP_UNSUBS")
         subscription_type = ReqTypeValues.get("SCRIP_SUBS")
         if isIndex:
@@ -549,7 +589,7 @@ class NeoWebSocket:
 
                 else:
                     print("The Given Token is not in Subscription list")
-            if self.hsWebsocket and self.Is_HSI_OPEN == 1:
+            if self.hsWebsocket and self.is_hsi_open == 1:
                 self.un_subscription()
 
             else:
@@ -561,54 +601,44 @@ class NeoWebSocket:
             #     self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
             #                                      self.on_open, self.on_message, self.on_error, self.on_close)
 
-    def get_order_feed(self,on_message, on_close, on_error):
-        #TODO add code like subscribe
-        if self.hsiWebsocket and self.OPEN == 1:
-           self.subscribe_to_order_feed()    
-
-        else:
-            self.start_hsi_websocket_thread()
-
-    def subscribe_to_order_feed(self):
-        auth = self.token
-        sid = self.sid
-        server = 'WEB'
-        json_d = {"type": "CONNECTION", "Authorization": auth, "Sid": sid, "source": server}
-        json_d = json.dumps(json_d)
-        self.hsw.send(json_d)
-
-    def start_hsi_websocket(self,):
-        url = str(neo_api_client.ORDER_FEED_URL) + str(server_id)
-        self.hsw = neo_api_client.HSIWebSocket()
-        self.hsw.open_connection(url=url, onopen=self.on_open, onmessage=self.on_message, onclose=self.on_close,
-                                 onerror=self.on_error)
-        self.hsWebsocket = neo_api_client.HSWebSocket()
-        self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
-                                         self.on_open, self.on_message, self.on_error, self.on_close)
+    def start_hsi_websocket(self):
+        url = ORDER_FEED_URL.format(server_id=self.server_id)
+        self.hsiWebsocket = neo_api_client.HSIWebSocket()
+        self.hsiWebsocket.open_connection(url=url, onopen=self.on_hsi_open,
+                                          onmessage=self.on_hsi_message,
+                                          onclose=self.on_hsi_close,
+                                          onerror=self.on_hsi_error)
 
     def start_hsi_websocket_thread(self):
-        self.thread = threading.Thread(target=self.start_hsi_websocket)
-        self.thread.start()
+        self.hsi_thread = threading.Thread(target=self.start_hsi_websocket)
+        self.hsi_thread.start()
+        print("thread count == ", threading.active_count())
 
-class ConnectHSM:
+    def get_order_feed(self):
+        if self.hsiWebsocket is None or self.is_hsi_open == 0:
+            self.start_hsi_websocket_thread()
+            self.is_hsi_open = 1
 
-    def __init__(self):
-        self.sid = None
-        self.token = None
-        self.hsw = None
-
-    def hsm_connection(self, url, token, sid, server_id, on_message, on_close, on_error):
-        self.token = token
-        self.sid = sid
-        self.on_message = on_message
-        self.on_close = on_close
-        self.on_error = on_error
-        
-        
-        self.hsw = HSIWebSocket()
-        self.hsw.open_connection(url=url, onopen=self.on_open, onmessage=self.on_message, onclose=self.on_close,
-                                 onerror=self.on_error)
-        # print("IN HSM Connetion", self.hsw)
-
-    def on_open(self):
+#
+# class ConnectHSM:
+#
+#     def __init__(self):
+#         self.sid = None
+#         self.token = None
+#         self.hsw = None
+#
+#     def hsm_connection(self, url, token, sid, server_id, on_message, on_close, on_error):
+#         self.token = token
+#         self.sid = sid
+#         self.on_message = on_message
+#         self.on_close = on_close
+#         self.on_error = on_error
+#
+#
+#         # self.hsw = HSIWebSocket()
+#         # self.hsw.open_connection(url=url, onopen=self.on_open, onmessage=self.on_message, onclose=self.on_close,
+#         #                          onerror=self.on_error)
+#         # print("IN HSM Connetion", self.hsw)
+#
+#     # def on_open(self):
        
