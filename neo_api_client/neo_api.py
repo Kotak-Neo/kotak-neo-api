@@ -597,9 +597,8 @@ class NeoAPI:
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
         self.set_neowebsocket_callbacks()
 
-        print("calling get quotes")
         response = self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, isIndex=isIndex)
-        print(response)
+      
         return response
         
     def __on_open(self):

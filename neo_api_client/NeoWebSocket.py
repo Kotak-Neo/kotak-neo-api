@@ -89,7 +89,7 @@ class NeoWebSocket:
         #every 29 sec
 
     def on_hsm_message(self, message):
-        print("on Message Func in NeoWebsocket", message)
+        # print("on Message Func in NeoWebsocket", message)
         if message:
             if type(message) == str:
                 req_type = json.loads(message)[0]["type"]
@@ -110,7 +110,8 @@ class NeoWebSocket:
                             self.sub_list = []
                             self.channel_tokens = {}
                             self.un_sub_channel_token = {}
-                    self.on_message("Un-Subscribed Successfully!")
+                    if self.on_message:
+                        self.on_message("Un-Subscribed Successfully!")
             elif type(message) == list:
                     if len(self.quotes_arr) >= 1:
                         out_list, quote_type = self.quote_response_formatter(message)
@@ -161,8 +162,6 @@ class NeoWebSocket:
         else:
             print("Error Occurred in Websocket! Error Message ", error)
 
-        self.on_hsm_close()
-
     def on_hsi_error(self, error):
         print("HSI on error called")
 
@@ -174,7 +173,6 @@ class NeoWebSocket:
         else:
             print("Error Occurred in Websocket! Error Message ", error)
 
-        self.on_hsi_close()
 
     def remove_items(self, un_sub_json):
         for unsubscribe_token in un_sub_json:
@@ -251,20 +249,12 @@ class NeoWebSocket:
         scrip_type = ReqTypeValues.get("SNAP_MW")
         if self.quotes_index:
             scrip_type = ReqTypeValues.get("SNAP_IF")
-
-            # req_params = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
-            # self.hsWebsocket.hs_send(req_params)
-
         else:
             if quote_type:
                 if quote_type.strip().lower() == 'market_depth':
                     scrip_type = ReqTypeValues.get("SNAP_DP")
-
-            # req_params1 = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
-            # self.hsWebsocket.hs_send(req_params1)
         
         req_params = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
-        print("request params ",req_params)
         self.hsWebsocket.hs_send(req_params)
 
     def quote_type_validation(self, quote_type):
@@ -296,7 +286,7 @@ class NeoWebSocket:
                     self.start_websocket_thread()
 
             else:
-                return (Exception("Invalid Inputs"))
+                return Exception("Invalid Inputs")
         else:
             try:
                 raise ValueError(json.dumps({"Error": "Quote Type which is given is not matching",

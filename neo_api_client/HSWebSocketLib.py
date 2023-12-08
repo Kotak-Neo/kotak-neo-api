@@ -18,7 +18,7 @@ FieldTypes = {
     'DATE': 3,
     'STRING': 4
 }
-TRASH_VAL = -2147483648
+TRASH_VAL = 2147483648
 STRING_INDEX = {
     'NAME': 51,
     'SYMBOL': 52,
@@ -735,6 +735,8 @@ class ScripTopicData(TopicData):
 
     def prepareData(self):
         self.prepareCommonData()
+        #hardcoded formatting is removed and made it dynamic
+        precesionFormat="{:."+str(self.precision)+"f}"
         if self.updatedFieldsArray[SCRIP_INDEX["LTP"]] or self.updatedFieldsArray[SCRIP_INDEX["CLOSE"]]:
             ltp = self.fieldDataArray[SCRIP_INDEX["LTP"]]
             close = self.fieldDataArray[SCRIP_INDEX["CLOSE"]]
@@ -742,7 +744,7 @@ class ScripTopicData(TopicData):
                 change = ltp - close
                 self.fieldDataArray[SCRIP_INDEX["CHANGE"]] = change
                 self.updatedFieldsArray[SCRIP_INDEX["CHANGE"]] = True
-                self.fieldDataArray[SCRIP_INDEX["PERCHANGE"]] = "{:.4f}".format((change / close * 100))
+                self.fieldDataArray[SCRIP_INDEX["PERCHANGE"]] = precesionFormat.format((change / close * 100))
                 self.updatedFieldsArray[SCRIP_INDEX["PERCHANGE"]] = True
         if self.updatedFieldsArray[SCRIP_INDEX["VOLUME"]] or self.updatedFieldsArray[SCRIP_INDEX["VWAP"]]:
             volume = self.fieldDataArray[SCRIP_INDEX["VOLUME"]]
@@ -757,7 +759,9 @@ class ScripTopicData(TopicData):
             val = self.fieldDataArray[index]
             if self.updatedFieldsArray[index] and val is not None and dataType:
                 if dataType["type"] == FieldTypes["FLOAT32"]:
-                    val = "{:.4f}".format(val / (self.multiplier * self.precisionValue))
+                   
+                    val = precesionFormat.format(val / (self.multiplier * self.precisionValue))
+                    # val = "{:.4f}".format(val / (self.multiplier * self.precisionValue))
                 elif dataType["type"] == FieldTypes["DATE"]:
                     val = getFormatDate(val)
                 # print(str(index) + ":" + dataType["name"] + ":" + str(val))
@@ -946,6 +950,7 @@ class HSWrapper:
                                 fvalue = buf2long(e[pos: pos + 4])
                                 d.setLongValues(index, fvalue)
                                 pos += 4
+                                # print("index:", index, "val:", fvalue)
                             # print("Able to set ")
                             d.setMultiplierAndPrec()
                             fcount = buf2long(e[pos: pos + 1])
@@ -960,6 +965,7 @@ class HSWrapper:
                                 pos += data_len
                                 d.setStringValues(fid, str_val)
                                 # print(fid, ":", str_val)
+                                # print("index:", index, "fid:",fid, "val:", str_val)
                             h.append(d.prepareData())
                         else:
                             print("Invalid topic feed type !")
