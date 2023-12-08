@@ -1,6 +1,7 @@
 import inspect
 import json
 import asyncio
+import time
 import neo_api_client
 from neo_api_client.api_client import ApiClient
 from neo_api_client.exceptions import ApiException, ApiValueError
@@ -575,31 +576,32 @@ class NeoAPI:
         if not session_token and not self.configuration.edit_token:
             raise ValueError("Error! Login or pass the Session Token and SID")
 
-        if session_token and not sid:
-            raise ValueError("Kindly pass the SID token to proceed further")
-
-        if self.configuration.edit_token and self.configuration.edit_sid:
+        if not sid and not self.configuration.edit_sid:
+            raise ValueError("Error! Login or Kindly pass the SID token to proceed further")
+        
+        if not server_id and not self.configuration.serverId:
+            raise ValueError("Error! Login or Kindly pass the server ID token to proceed further")
+        
+        if(not session_token and self.configuration.edit_token):
             session_token = self.configuration.edit_token
+
+        if(not sid and self.configuration.edit_sid):
             sid = self.configuration.edit_sid
+        
+        if(not server_id and self.configuration.serverId):
             server_id = self.configuration.serverId
+        self.check_callbacks()
+        
 
         if not self.NeoWebSocket:
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
+        self.set_neowebsocket_callbacks()
 
-        response = {}
-
-        def callback(message):
-            nonlocal response
-            response = {'message': message}
-
-        self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, isIndex=isIndex,
-                                     callback=callback)
-
-        if not response:
-            pass
-
+        print("calling get quotes")
+        response = self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, isIndex=isIndex)
+        print(response)
         return response
-
+        
     def __on_open(self):
         if self.on_open:
             self.on_open("The Session has been Opened!")

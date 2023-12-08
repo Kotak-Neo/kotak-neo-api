@@ -25,7 +25,7 @@ class NeoWebSocket:
         self.sub_list = []
         self.un_sub_list = []
         self.un_sub_channel_token = {}
-        self.quotes_api_callback = None
+        # self.quotes_api_callback = None
         self.hsWebsocket = None
         self.channel_tokens = {}
         self.live_scrip_type = None
@@ -67,6 +67,8 @@ class NeoWebSocket:
         # print("On Open Function in Neo Websocket")
         req_params = {"type": "cn", "Authorization": self.access_token, "Sid": self.sid}
         self.hsWebsocket.hs_send(json.dumps(req_params))
+        if self.on_open:
+            self.on_open()
 
     def on_hsi_open(self):
         # print("HSI on open called")
@@ -78,12 +80,16 @@ class NeoWebSocket:
                   "source": server}
         json_d = json.dumps(json_d)
         self.hsiWebsocket.send(json_d)
+
+        if self.on_open:
+            self.on_open()
+            
         #TODO start heartbeat task 
         # which will send json {"type":"hb"}
         #every 29 sec
 
     def on_hsm_message(self, message):
-        # print("on Message Func in NeoWebsocket", message)
+        print("on Message Func in NeoWebsocket", message)
         if message:
             if type(message) == str:
                 req_type = json.loads(message)[0]["type"]
@@ -109,10 +115,13 @@ class NeoWebSocket:
                     if len(self.quotes_arr) >= 1:
                         out_list, quote_type = self.quote_response_formatter(message)
                         message = self.response_format(out_list, quote_type=quote_type)
-                        self.quotes_api_callback(message)
+                        # self.quotes_api_callback(message)
+                        if self.on_message:
+                            self.on_message(message)
                         self.quotes_arr = []
                     if len(self.sub_list) >= 1:
-                        self.on_message(message)
+                        if self.on_message:
+                            self.on_message(message)
 
     def on_hsi_message(self, message):
         print("HSI on message called")
@@ -122,27 +131,30 @@ class NeoWebSocket:
                 if req["type"] == 'cn':
                     self.is_hsi_open = 1
                     threading.Thread(target=self.start_hsi_ping_thread()).start()
-        self.on_message(message)
+        if self.on_message:
+           self.on_message(message)
 
     def on_hsm_close(self):
         # print("On Close Function is running!")
         if self.is_hsw_open == 1:
             self.is_hsw_open = 0
-            self.hsWebsocket.close()
+        if self.on_close:
+            self.on_close()
 
     def on_hsi_close(self):
-        print("HSI on close called")
+        # print("HSI on close called")
 
         # print("On Close Function is running!")
         if self.is_hsi_open == 1:
             self.is_hsi_open = 0
-            self.hsiWebsocket.close()
+        if self.on_close:
+            self.on_close()
 
     def on_hsm_error(self, error):
         if self.is_hsw_open == 1:
             self.is_hsw_open = 0
-            if self.quotes_arr:
-                self.quotes_api_callback(error)
+            # if self.quotes_arr:
+            #     self.quotes_api_callback(error)
 
         if self.on_error:
             self.on_error(error)
@@ -239,16 +251,21 @@ class NeoWebSocket:
         scrip_type = ReqTypeValues.get("SNAP_MW")
         if self.quotes_index:
             scrip_type = ReqTypeValues.get("SNAP_IF")
-            req_params = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
-            self.hsWebsocket.hs_send(req_params)
+
+            # req_params = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
+            # self.hsWebsocket.hs_send(req_params)
 
         else:
             if quote_type:
                 if quote_type.strip().lower() == 'market_depth':
                     scrip_type = ReqTypeValues.get("SNAP_DP")
 
-            req_params1 = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
-            self.hsWebsocket.hs_send(req_params1)
+            # req_params1 = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
+            # self.hsWebsocket.hs_send(req_params1)
+        
+        req_params = json.dumps({"type": scrip_type, "scrips": scrips, "channelnum": QuotesChannel})
+        print("request params ",req_params)
+        self.hsWebsocket.hs_send(req_params)
 
     def quote_type_validation(self, quote_type):
         Q_type = True
@@ -258,10 +275,10 @@ class NeoWebSocket:
                 Q_type = False
         return Q_type
 
-    def get_quotes(self, instrument_tokens, callback, quote_type=None, isIndex=None):
+    def get_quotes(self, instrument_tokens, quote_type=None, isIndex=None):
         if self.quote_type_validation(quote_type):
             self.quotes_index = isIndex
-            self.quotes_api_callback = callback
+            # self.quotes_api_callback = callback
             if self.input_validation(instrument_tokens):
                 for item in instrument_tokens:
                     key = item['instrument_token']
@@ -279,7 +296,7 @@ class NeoWebSocket:
                     self.start_websocket_thread()
 
             else:
-                callback(Exception("Invalid Inputs"))
+                return (Exception("Invalid Inputs"))
         else:
             try:
                 raise ValueError(json.dumps({"Error": "Quote Type which is given is not matching",
@@ -381,7 +398,8 @@ class NeoWebSocket:
                 self.start_websocket_thread()
 
         else:
-            self.on_error(Exception("Invalid Inputs"))
+            if self.on_error:
+                self.on_error(Exception("Invalid Inputs"))
 
     def append_ohlc_data(self, new_dict):
         new_dict["ohlc"] = {}
