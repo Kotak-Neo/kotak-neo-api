@@ -1,6 +1,7 @@
 import copy
 import json
 import threading
+import time
 
 import neo_api_client
 from neo_api_client.settings import stock_key_mapping, MarketDepthResp, QuotesChannel, \
@@ -39,6 +40,18 @@ class NeoWebSocket:
         self.hsw_thread = None
         self.hsi_thread = None
 
+    def start_hsi_ping_thread(self):
+        while self.hsiWebsocket and self.is_hsi_open:
+            time.sleep(29)
+            payload = {"type": "hb"}
+            self.hsiWebsocket.send(json.dumps(payload))
+
+    def start_hsm_ping_thread(self):
+        while self.hsWebsocket and self.is_hsw_open:
+            time.sleep(29)
+            payload = {"type": "hb"}
+            self.hsiWebsocket.send(json.dumps(payload))
+
     def start_websocket(self):
         self.hsWebsocket = neo_api_client.HSWebSocket()
         self.hsWebsocket.open_connection(neo_api_client.WEBSOCKET_URL, self.access_token, self.sid,
@@ -48,7 +61,7 @@ class NeoWebSocket:
     def start_websocket_thread(self):
         self.hsw_thread = threading.Thread(target=self.start_websocket)
         self.hsw_thread.start()
-        print("HSW thread count == ", threading.active_count(), threading.enumerate())
+        threading.Thread(target=self.start_hsm_ping_thread()).start()
 
     def on_hsm_open(self):
         # print("On Open Function in Neo Websocket")
@@ -612,7 +625,7 @@ class NeoWebSocket:
     def start_hsi_websocket_thread(self):
         self.hsi_thread = threading.Thread(target=self.start_hsi_websocket)
         self.hsi_thread.start()
-        print("thread count == ", threading.active_count())
+        threading.Thread(target=self.start_hsi_ping_thread()).start()
 
     def get_order_feed(self):
         if self.hsiWebsocket is None or self.is_hsi_open == 0:
