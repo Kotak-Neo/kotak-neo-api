@@ -69,7 +69,7 @@ class NeoWebSocket:
         self.hsWebsocket.hs_send(json.dumps(req_params))
 
     def on_hsi_open(self):
-        print("HSI on open called")
+        # print("HSI on open called")
 
         # print("On Open Function in Neo Websocket")
         server = 'WEB'
@@ -78,6 +78,9 @@ class NeoWebSocket:
                   "source": server}
         json_d = json.dumps(json_d)
         self.hsiWebsocket.send(json_d)
+        #TODO start heartbeat task 
+        # which will send json {"type":"hb"}
+        #every 29 sec
 
     def on_hsm_message(self, message):
         # print("on Message Func in NeoWebsocket", message)
@@ -108,7 +111,7 @@ class NeoWebSocket:
                         message = self.response_format(out_list, quote_type=quote_type)
                         self.quotes_api_callback(message)
                         self.quotes_arr = []
-                    elif len(self.sub_list) >= 1:
+                    if len(self.sub_list) >= 1:
                         self.on_message(message)
 
     def on_hsi_message(self, message):
@@ -632,26 +635,4 @@ class NeoWebSocket:
             self.start_hsi_websocket_thread()
             self.is_hsi_open = 1
 
-#
-# class ConnectHSM:
-#
-#     def __init__(self):
-#         self.sid = None
-#         self.token = None
-#         self.hsw = None
-#
-#     def hsm_connection(self, url, token, sid, server_id, on_message, on_close, on_error):
-#         self.token = token
-#         self.sid = sid
-#         self.on_message = on_message
-#         self.on_close = on_close
-#         self.on_error = on_error
-#
-#
-#         # self.hsw = HSIWebSocket()
-#         # self.hsw.open_connection(url=url, onopen=self.on_open, onmessage=self.on_message, onclose=self.on_close,
-#         #                          onerror=self.on_error)
-#         # print("IN HSM Connetion", self.hsw)
-#
-#     # def on_open(self):
        
