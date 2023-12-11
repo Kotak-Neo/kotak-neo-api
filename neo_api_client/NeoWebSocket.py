@@ -83,10 +83,6 @@ class NeoWebSocket:
 
         if self.on_open:
             self.on_open()
-            
-        #TODO start heartbeat task 
-        # which will send json {"type":"hb"}
-        #every 29 sec
 
     def on_hsm_message(self, message):
         # print("on Message Func in NeoWebsocket", message)
