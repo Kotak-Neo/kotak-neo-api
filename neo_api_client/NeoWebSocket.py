@@ -121,6 +121,7 @@ class NeoWebSocket:
                 req = json.loads(message)
                 if req["type"] == 'cn':
                     self.is_hsi_open = 1
+                    threading.Thread(target=self.start_hsi_ping_thread()).start()
         self.on_message(message)
 
     def on_hsm_close(self):
@@ -628,11 +629,9 @@ class NeoWebSocket:
     def start_hsi_websocket_thread(self):
         self.hsi_thread = threading.Thread(target=self.start_hsi_websocket)
         self.hsi_thread.start()
-        threading.Thread(target=self.start_hsi_ping_thread()).start()
 
     def get_order_feed(self):
         if self.hsiWebsocket is None or self.is_hsi_open == 0:
             self.start_hsi_websocket_thread()
-            self.is_hsi_open = 1
 
        
