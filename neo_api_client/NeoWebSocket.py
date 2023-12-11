@@ -42,8 +42,8 @@ class NeoWebSocket:
 
     def start_hsi_ping_thread(self):
         while self.hsiWebsocket and self.is_hsi_open:
-            time.sleep(29)
-            payload = {"type": "hb"}
+            time.sleep(30)
+            payload = {"type": "HB"}
             self.hsiWebsocket.send(json.dumps(payload))
 
     def start_hsm_ping_thread(self):
@@ -64,7 +64,7 @@ class NeoWebSocket:
         threading.Thread(target=self.start_hsm_ping_thread()).start()
 
     def on_hsm_open(self):
-        # print("On Open Function in Neo Websocket")
+        print("On Open Function in Neo Websocket")
         req_params = {"type": "cn", "Authorization": self.access_token, "Sid": self.sid}
         self.hsWebsocket.hs_send(json.dumps(req_params))
         if self.on_open:
@@ -637,5 +637,7 @@ class NeoWebSocket:
     def get_order_feed(self):
         if self.hsiWebsocket is None or self.is_hsi_open == 0:
             self.start_hsi_websocket_thread()
+        else:
+            print("you had already subscribed for order feed")
 
        

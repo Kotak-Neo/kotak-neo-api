@@ -1368,7 +1368,7 @@ class StartHSIServer:
         self.onclose()
 
     def on_open(self, ws):
-        print("Connection established HSWebSocket")
+        # print("Connection established HSWebSocket")
         self.OPEN = 1
         self.readyState = 1
         self.onopen()
@@ -1418,6 +1418,12 @@ class HSIWebSocket:
                     self.reqData = req
                 else:
                     print("Invalid connection mode !")
+        elif reqJson['type'] == 'HB':
+            # self.reqData=reqJson
+            req = {
+                    'type': 'hb'
+                }
+            self.reqData = req
         else:
             if reqJson['type'] == 'FORCE_CONNECTION':
                 self.reqData = self.reqData['type'] = 'fcn'
