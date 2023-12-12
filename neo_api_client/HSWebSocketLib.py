@@ -18,7 +18,7 @@ FieldTypes = {
     'DATE': 3,
     'STRING': 4
 }
-TRASH_VAL = 2147483648
+TRASH_VAL = -2147483648
 STRING_INDEX = {
     'NAME': 51,
     'SYMBOL': 52,
@@ -710,7 +710,8 @@ def buf2long(a):
     for i in range(leng):
         j = leng - 1 - i
         val += b[j] << (i * 8)
-    return val
+    # return val
+    return val if val < 2 ** 31 else val - 2 ** 32
 
 
 def buf2string(a):
