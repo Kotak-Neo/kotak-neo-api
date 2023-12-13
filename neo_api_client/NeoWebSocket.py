@@ -50,7 +50,7 @@ class NeoWebSocket:
         while self.hsWebsocket and self.is_hsw_open:
             time.sleep(29)
             payload = {"type": "hb"}
-            self.hsiWebsocket.send(json.dumps(payload))
+            self.hsWebsocket.hs_send(json.dumps(payload))
 
     def start_websocket(self):
         self.hsWebsocket = neo_api_client.HSWebSocket()
@@ -61,7 +61,6 @@ class NeoWebSocket:
     def start_websocket_thread(self):
         self.hsw_thread = threading.Thread(target=self.start_websocket)
         self.hsw_thread.start()
-        threading.Thread(target=self.start_hsm_ping_thread()).start()
 
     def on_hsm_open(self):
         print("On Open Function in Neo Websocket")
@@ -92,6 +91,10 @@ class NeoWebSocket:
                 if req_type == 'cn':
                     # print("INSIDE CONNECTION")
                     self.is_hsw_open = 1
+                    # Uncomment this to start HSM ping thread
+                    # And add logic to send binary data to websocket
+                    # threading.Thread(target=self.start_hsm_ping_thread).start()
+
                     if len(self.quotes_arr) >= 1:
                         self.call_quotes()
                     if len(self.sub_list) >= 1:
@@ -114,22 +117,24 @@ class NeoWebSocket:
                         message = self.response_format(out_list, quote_type=quote_type)
                         # self.quotes_api_callback(message)
                         if self.on_message:
-                            self.on_message(message)
+                            self.on_message({"type": "quotes", "data": message})
                         self.quotes_arr = []
                     if len(self.sub_list) >= 1:
                         if self.on_message:
-                            self.on_message(message)
+                            self.on_message({"type": "stock_feed", "data": message})
 
     def on_hsi_message(self, message):
-        print("HSI on message called")
+        print("HSI on message called here")
         if message:
             if isinstance(message, str):
                 req = json.loads(message)
                 if req["type"] == 'cn':
                     self.is_hsi_open = 1
-                    threading.Thread(target=self.start_hsi_ping_thread()).start()
+                    threading.Thread(target=self.start_hsi_ping_thread).start()
+
+        print("on message callback, ", self.on_message)
         if self.on_message:
-           self.on_message(message)
+            self.on_message({"type": "order_feed", "data": message})
 
     def on_hsm_close(self):
         # print("On Close Function is running!")

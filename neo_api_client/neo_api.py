@@ -591,7 +591,6 @@ class NeoAPI:
         if(not server_id and self.configuration.serverId):
             server_id = self.configuration.serverId
         self.check_callbacks()
-        
 
         if not self.NeoWebSocket:
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
