@@ -34,7 +34,7 @@ except Exception as e:
 |----------------------|--------------------------------------------------------------------------------------------------------------------------|----------------|
 | *amo*                | YES/NO - (Default Value - NO)                                                                                            | Str [optional] |
 | *disclosed_quantity* | (Default Value - 0)                                                                                                      | Str [optional] |
-| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>mcx_fo - MCX                        | Str            |
+| *exchange_segment*   | nse_cm - NSE<br/>bse_cm - BSE<br/>nse_fo - NFO<br/>bse_fo - BFO<br/>cde_fo - CDS<br/>                        | Str            |
 | *market_protection*  | (Default Value - 0)                                                                                                      | Str [optional] |
 | *product*            | NRML - Normal<br/>CNC - Cash and Carry<br/>MIS - MIS<br/>CO - Cover Order<br/>                   | Str            |
 | *pf*                 | Default Value - “N”                                                                                                      | Str [optional] |
