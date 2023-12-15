@@ -734,7 +734,7 @@ class ScripTopicData(TopicData):
         if self.updatedFieldsArray[SCRIP_INDEX["MULTIPLIER"]]:
             self.multiplier = self.fieldDataArray[SCRIP_INDEX["MULTIPLIER"]]
 
-    def prepareData(self):
+    def prepareData(self,type=None):
         self.prepareCommonData()
         #hardcoded formatting is removed and made it dynamic
         precesionFormat="{:."+str(self.precision)+"f}"
@@ -768,6 +768,9 @@ class ScripTopicData(TopicData):
                 # print(str(index) + ":" + dataType["name"] + ":" + str(val))
                 jsonRes[dataType["name"]] = str(val)
         self.updatedFieldsArray = [None] * 100
+        if type is not None:
+            jsonRes["request_type"]=type
+        
         return jsonRes
 
 
@@ -965,7 +968,7 @@ class HSWrapper:
                                 d.setStringValues(fid, str_val)
                                 # print(fid, ":", str_val)
                                 # print("index:", index, "fid:",fid, "val:", str_val)
-                            h.append(d.prepareData())
+                            h.append(d.prepareData("SNAP"))
                         else:
                             print("Invalid topic feed type !")
                     else:
@@ -988,9 +991,10 @@ class HSWrapper:
                                     # d[index] = fvalue
                                     # print("index:", index, "val:", fvalue)
                                     pos += 4
-                            h.append(d.prepareData())
+                            h.append(d.prepareData("SUB"))
                         else:
                             print("Invalid ResponseType: " + c)
+                # print("Final resoonse ",h)
                 return h
             else:
                 if type == BinRespTypes.get("SUBSCRIBE_TYPE") or type == BinRespTypes.get("UNSUBSCRIBE_TYPE"):
@@ -1018,6 +1022,7 @@ class HSWrapper:
 
                 else:
                     if type == BinRespTypes.get("SNAPSHOT"):
+                        # print("type is snapshot ")
                         status = self.getStatus(e, pos)
                         json_res = {}
                         if status == BinRespStat.get("OK"):
@@ -1115,7 +1120,7 @@ class StartServer:
         else:
             print("WebSocket not initialized!")
 
-        ws.run_forever(ping_interval=0, reconnect=5)
+        ws.run_forever(ping_interval=0, reconnect=5,sslopt={"cert_reqs": ssl.CERT_NONE})
 
     def on_open(self, ws):
         # print("[OnOpen]: Function is running in HSWebscoket")
@@ -1135,13 +1140,13 @@ class StartServer:
             self.onmessage(outData)
 
     def on_close(self, ws, close_status_code, close_msg):
-        print("[OnClose]: Function is running HSWebsocket", close_status_code)
+        # print("[OnClose]: Function is running HSWebsocket", close_status_code)
         if(self.on_close):
             self.onclose()
 
     def on_error(self, ws, error):
         self.onerror(error)
-        print('ERROR in HSWebscoket', error)
+        # print('ERROR in HSWebscoket', error)
 
 
 SCRIP_PREFIX = "sf"
@@ -1260,17 +1265,18 @@ class StartHSIServer:
         self.onerror = onerror
         self.onclose = onclose
         # self.token, self.sid = token, sid
-        global hsiws
+        global hsiWs
         try:
             # websocket.enableTrace(True)
-            hsiws = websocket.WebSocketApp(self.url,
+            hsiWs = websocket.WebSocketApp(self.url,
                                            on_open=self.on_open,
                                            on_message=self.on_message,
                                            on_error=self.on_error,
                                            on_close=self.on_close)
+            hsiWs.run_forever(ping_interval=5,reconnect=5,sslopt={"cert_reqs": ssl.CERT_NONE})
         except Exception:
             print("WebSocket not supported!")
-        hsiws.run_forever(ping_interval=0)
+        
 
     def on_message(self, ws, message):
         # print("Received message:", message)
@@ -1284,8 +1290,8 @@ class StartHSIServer:
         print("Connection closed")
         self.OPEN = 0
         self.readyState = 0
-        hsiWs.close()
-        hsiWs = None
+        if hsiWs:
+            hsiWs.close()
         self.onclose()
 
     def on_open(self, ws):
@@ -1351,13 +1357,14 @@ class HSIWebSocket:
                 req = self.reqData
             else:
                 print("Invalid Request !")
-        if hsiws and req:
+        if hsiWs and req:
             js_obj = json.dumps(req)
-            hsiws.send(js_obj)
+            hsiWs.send(js_obj)
         else:
             print("Unable to send request! Reason: Connection faulty or request not valid!")
 
     def close(self):
         self.OPEN = 0
         self.readyState = 0
-        hsiws.close()
+        if hsiWs:
+            hsiWs.close()

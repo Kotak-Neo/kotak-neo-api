@@ -93,7 +93,8 @@ stock_key_mapping = {
     'to': "total_traded_value",
     'tk': "instrument_token",
     'e': "exchange_segment",
-    'ts': "trading_symbol"
+    'ts': "trading_symbol",
+    'request_type':"request_type"
 }
 
 index_key_mapping = {

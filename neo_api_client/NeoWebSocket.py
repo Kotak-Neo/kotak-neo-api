@@ -63,7 +63,7 @@ class NeoWebSocket:
         self.hsw_thread.start()
 
     def on_hsm_open(self):
-        print("On Open Function in Neo Websocket")
+        # print("On Open Function in Neo Websocket")
         req_params = {"type": "cn", "Authorization": self.access_token, "Sid": self.sid}
         self.hsWebsocket.hs_send(json.dumps(req_params))
         if self.on_open:
@@ -112,14 +112,21 @@ class NeoWebSocket:
                     if self.on_message:
                         self.on_message("Un-Subscribed Successfully!")
             elif type(message) == list:
-                    if len(self.quotes_arr) >= 1:
+
+                    # print("raw message ",message)
+
+                    # print("quotes ",self.quotes_arr)
+                    request_type=message[0]['request_type']
+                    if request_type and request_type == "SNAP" and (len(self.quotes_arr) >= 1):
+                        
                         out_list, quote_type = self.quote_response_formatter(message)
-                        message = self.response_format(out_list, quote_type=quote_type)
-                        # self.quotes_api_callback(message)
-                        if self.on_message:
-                            self.on_message({"type": "quotes", "data": message})
-                        self.quotes_arr = []
-                    if len(self.sub_list) >= 1:
+                        if len(out_list)>0:
+                            # print("length greater than 0 ")
+                            quote_message = self.response_format(out_list, quote_type=quote_type)
+                            if self.on_message:
+                                self.on_message({"type": "quotes", "data": quote_message})
+                            self.quotes_arr = []
+                    if len(self.sub_list) >= 1 and self.is_message_for_subscription(message):
                         if self.on_message:
                             self.on_message({"type": "stock_feed", "data": message})
                     
@@ -128,8 +135,24 @@ class NeoWebSocket:
                     if(len(self.sub_list)<=0):
                         self.hsWebsocket.close()
 
+
+    def is_message_for_subscription(self,message):
+        # print("message ==== ",message)
+        is_for_sub = False
+        keys_in_sublist = list({outer_key for data_dict in self.sub_list for outer_key in data_dict})
+        # print("sublist keys ",keys_in_sublist)
+        for item in message:
+            if 'tk' in item:
+                if item['tk'] in keys_in_sublist:
+                    is_for_sub = True
+
+            if is_for_sub:
+                break
+        return is_for_sub
+        
+
     def on_hsi_message(self, message):
-        print("HSI on message called here")
+        # print("HSI on message called here")
         if message:
             if isinstance(message, str):
                 req = json.loads(message)
@@ -137,12 +160,12 @@ class NeoWebSocket:
                     self.is_hsi_open = 1
                     threading.Thread(target=self.start_hsi_ping_thread).start()
 
-        print("on message callback, ", self.on_message)
+        # print("on message callback, ", self.on_message)
         if self.on_message:
             self.on_message({"type": "order_feed", "data": message})
 
     def on_hsm_close(self):
-        print("On Close Function is running!")
+        # print("On Close Function is running!")
         if self.is_hsw_open == 1:
             self.is_hsw_open = 0
         if self.on_close:
@@ -333,27 +356,6 @@ class NeoWebSocket:
                 else:
                     self.un_sub_channel_token[new_key] = new_value
 
-        # print("IN Prepare UNSUB")
-        # un_sub = copy.deepcopy(self.channel_tokens)
-        # for key, value in un_sub.items():
-        #     for item in value:
-        #         for sub_key, sub_value in item.items():
-        #             sub_value['subscription_type'] = sub_value['subscription_type'].replace('s', 'u')
-        #
-        # un_sub_list = []
-        # for channel, data in un_sub.items():
-        #     for items in data:
-        #         list(items.values())[0]["channelnum"] = channel
-        #         un_sub_list.append(list(items.values())[0])
-        #
-        # for items in un_sub_list:
-        #     key = str(items["channelnum"]) + '-' + items["subscription_type"]
-        #     del items["channelnum"]
-        #     value = {items["instrument_token"]: items}
-        #     if key not in self.un_sub_channel_token:
-        #         self.un_sub_channel_token[key] = []
-        #     self.un_sub_channel_token[key].append(value)
-        # return
 
     def get_live_feed(self, instrument_tokens, isIndex, isDepth):
         if len(self.sub_list) + len(instrument_tokens) > 3000:
@@ -508,9 +510,11 @@ class NeoWebSocket:
         return out_resp
 
     def quote_response_formatter(self, message):
+        # print("quote response formatter ",message)
         quote_type = ''
         out_list = []
         quotes_arr_list = list(set().union(*(d.keys() for d in self.quotes_arr)))
+        # print("quotes arr list ",quotes_arr_list)
         if "quote_type" in quotes_arr_list:
             quotes_arr_list.remove("quote_type")
         for item in message:
@@ -520,12 +524,15 @@ class NeoWebSocket:
                     for i in range(len(self.quotes_arr)):
                         if self.quotes_arr[i].get(item['tk']):
                             quote_type = self.quotes_arr[i]["quote_type"]
+                            # print("quote type --- ",self.quotes_arr)
                         if self.quotes_arr[i].get(item['tk']):
                             del self.quotes_arr[i]
                             break
         return out_list, quote_type
 
     def response_format(self, response_data, quote_type):
+        # print("response formatter ",response_data)
+        # print("quote type ",quote_type)
         out_resp = []
         if self.quotes_index:
             if len(response_data) >= 1:
