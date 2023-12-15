@@ -10,7 +10,7 @@ class LoginAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
         self.base64_token = api_client.configuration.base64_token
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def session_init(self):
         """

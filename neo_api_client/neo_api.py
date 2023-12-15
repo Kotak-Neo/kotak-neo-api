@@ -1,7 +1,5 @@
 import inspect
 import json
-import asyncio
-import time
 import neo_api_client
 from neo_api_client.api_client import ApiClient
 from neo_api_client.exceptions import ApiException, ApiValueError
@@ -590,12 +588,13 @@ class NeoAPI:
         
         if(not server_id and self.configuration.serverId):
             server_id = self.configuration.serverId
-        self.check_callbacks()
+       
         
 
         if not self.NeoWebSocket:
+            self.check_callbacks()
             self.NeoWebSocket = neo_api_client.NeoWebSocket(sid, session_token, server_id)
-        self.set_neowebsocket_callbacks()
+            self.set_neowebsocket_callbacks()
 
         response = self.NeoWebSocket.get_quotes(instrument_tokens=instrument_tokens, quote_type=quote_type, isIndex=isIndex)
       
@@ -662,14 +661,14 @@ class NeoAPI:
             The function establishes a WebSocket connection to the trading platform and subscribes to live feeds for the specified instrument tokens. When a new feed is received, the function's internal callback functions are called with the feed data as their arguments. If an error occurs, the on_error function is called with the error message as its argument.
         """
 
-        self.check_callbacks()
+        
         if self.configuration.edit_token and self.configuration.edit_sid:
             if not self.NeoWebSocket:
+                self.check_callbacks()
                 self.NeoWebSocket = neo_api_client.NeoWebSocket(self.configuration.edit_sid,
                                                                 self.configuration.edit_token,
                                                                 self.configuration.serverId)
-
-            self.set_neowebsocket_callbacks()
+                self.set_neowebsocket_callbacks()
             self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, isIndex=isIndex, isDepth=isDepth)
         else:
             print("Please complete the Login Flow to Subscribe the Scrips")

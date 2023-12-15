@@ -61,7 +61,7 @@ class NeoWebSocket:
     def start_websocket_thread(self):
         self.hsw_thread = threading.Thread(target=self.start_websocket)
         self.hsw_thread.start()
-        threading.Thread(target=self.start_hsm_ping_thread()).start()
+        # threading.Thread(target=self.start_hsm_ping_thread()).start()
 
     def on_hsm_open(self):
         print("On Open Function in Neo Websocket")
@@ -119,6 +119,11 @@ class NeoWebSocket:
                     if len(self.sub_list) >= 1:
                         if self.on_message:
                             self.on_message(message)
+                    
+                    # If there is no other tokens in quotes_arr and sub_list. disconnect the socket
+                    # print("sublist size ",len(self.sub_list))
+                    if(len(self.sub_list)<=0):
+                        self.hsWebsocket.close()
 
     def on_hsi_message(self, message):
         print("HSI on message called")
@@ -132,7 +137,7 @@ class NeoWebSocket:
            self.on_message(message)
 
     def on_hsm_close(self):
-        # print("On Close Function is running!")
+        print("On Close Function is running!")
         if self.is_hsw_open == 1:
             self.is_hsw_open = 0
         if self.on_close:
@@ -152,7 +157,8 @@ class NeoWebSocket:
             self.is_hsw_open = 0
             # if self.quotes_arr:
             #     self.quotes_api_callback(error)
-
+        if self.hsWebsocket:
+            self.hsWebsocket.close()
         if self.on_error:
             self.on_error(error)
         else:
@@ -610,7 +616,7 @@ class NeoWebSocket:
 
                 else:
                     print("The Given Token is not in Subscription list")
-            if self.hsWebsocket and self.is_hsi_open == 1:
+            if self.hsWebsocket and self.is_hsw_open == 1:
                 self.un_subscription()
 
             else:

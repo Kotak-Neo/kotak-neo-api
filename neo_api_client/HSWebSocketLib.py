@@ -1138,12 +1138,12 @@ class StartServer:
 
     def on_close(self, ws, close_status_code, close_msg):
         print("[OnClose]: Function is running HSWebsocket", close_status_code)
-        self.onclose()
+        if(self.on_close):
+            self.onclose()
 
     def on_error(self, ws, error):
         self.onerror(error)
         print('ERROR in HSWebscoket', error)
-        print("[OnError]: Function is running HSWebsocket")
 
 
 SCRIP_PREFIX = "sf"
@@ -1248,87 +1248,8 @@ class HSWebSocket:
 
     def close(self):
         ws.close()
-
-
-#
-# import json
-# import websocket
-#
-#
-# class HSIWebSocket:
-#     def __init__(self, url):
-#         self.hsiSocket = None
-#         self.reqData = None
-#         self.hsiWs = None
-#         self.OPEN = 0
-#         self.readyState = 0
-#         self.url = url
-#         self.start_hsi_server(self.url)
-#
-#     def start_hsi_server(self, url):
-#         self.hsiWs = websocket.WebSocketApp(url,
-#                                             on_message=self.on_message,
-#                                             on_error=self.on_error,
-#                                             on_close=self.on_close)
-#         self.hsiWs.on_open = self.on_open
-#         self.hsiWs.run_forever()
-#
-#     def on_message(self, ws, message):
-#         print("Received message:", message)
-#
-#     def on_error(self, ws, error):
-#         print("Error:", error)
-#
-#     def on_close(self, ws):
-#         print("Connection closed")
-#         self.OPEN = 0
-#         self.readyState = 0
-#         self.hsiWs = None
-#
-#     def on_open(self, ws):
-#         print("Connection established")
-#         self.OPEN = 1
-#         self.readyState = 1
-#
-#     def send(self, d):
-#         reqJson = json.loads(d)
-#         req = None
-#         if reqJson['type'] == 'CONNECTION':
-#             if 'Authorization' in reqJson and 'Sid' in reqJson and 'src' in reqJson:
-#                 req = {
-#                     'type': 'cn',
-#                     'Authorization': reqJson['Authorization'],
-#                     'Sid': reqJson['Sid'],
-#                     'src': reqJson['src']
-#                 }
-#                 self.reqData = req
-#             else:
-#                 if 'x-access-token' in reqJson and 'src' in reqJson:
-#                     req = {
-#                         'type': 'cn',
-#                         'x-access-token': reqJson['x-access-token'],
-#                         'src': reqJson['src']
-#                     }
-#                     self.reqData = req
-#                 else:
-#                     print("Invalid connection mode !")
-#         else:
-#             if reqJson['type'] == 'FORCE_CONNECTION':
-#                 self.reqData = self.reqData['type'] = 'fcn'
-#                 req = self.reqData
-#             else:
-#                 print("Invalid Request !")
-#         if self.hsiWs and req:
-#             print("REQ", req)
-#             self.hsiWs.send(json.dumps(req))
-#         else:
-#             print("Unable to send request! Reason: Connection faulty or request not valid!")
-#
-#     def close(self):
-#         self.hsiWs.close()
-#         self.OPEN = 0
-#         self.readyState = 0
-#         self.hsiWs = None
+        if self.onclose:
+            self.onclose()
 
 
 class StartHSIServer:
@@ -1365,6 +1286,7 @@ class StartHSIServer:
         print("Connection closed")
         self.OPEN = 0
         self.readyState = 0
+        hsiWs.close()
         hsiWs = None
         self.onclose()
 
