@@ -588,8 +588,6 @@ class NeoAPI:
         
         if(not server_id and self.configuration.serverId):
             server_id = self.configuration.serverId
-       
-        
 
         if not self.NeoWebSocket:
             self.check_callbacks()

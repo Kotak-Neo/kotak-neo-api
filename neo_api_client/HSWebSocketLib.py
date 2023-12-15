@@ -946,12 +946,10 @@ class HSWrapper:
                             topic_list[f] = d
                             fcount = buf2long(e[pos: pos + 1])
                             pos += 1
-                            # print("fcount1:", fcount)
                             for index in range(fcount):
                                 fvalue = buf2long(e[pos: pos + 4])
                                 d.setLongValues(index, fvalue)
                                 pos += 4
-                                # print("index:", index, "val:", fvalue)
                             # print("Able to set ")
                             d.setMultiplierAndPrec()
                             fcount = buf2long(e[pos: pos + 1])
