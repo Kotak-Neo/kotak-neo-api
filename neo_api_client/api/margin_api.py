@@ -6,7 +6,7 @@ from neo_api_client.exceptions import ApiException
 class MarginAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def margin_init(self, exchange_segment, price, order_type, product, quantity, instrument_token, transaction_type,
                     trigger_price, broker_name, branch_id, stop_loss_type, stop_loss_value,

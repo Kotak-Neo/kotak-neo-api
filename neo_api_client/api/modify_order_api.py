@@ -6,7 +6,7 @@ from neo_api_client.exceptions import ApiException
 class ModifyOrder(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def quick_modification(self, order_id, price, order_type, quantity, validity, instrument_token,
                            exchange_segment, product, trading_symbol, transaction_type, trigger_price,

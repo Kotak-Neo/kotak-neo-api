@@ -6,7 +6,7 @@ from neo_api_client.exceptions import ApiException
 class ScripMasterAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def scrip_master_init(self, exchange_segment=None):
         URL = self.rest_client.configuration.get_url_details("scrip_master")

@@ -5,7 +5,7 @@ from neo_api_client.exceptions import ApiException
 class LogoutAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def logging_out(self):
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token,

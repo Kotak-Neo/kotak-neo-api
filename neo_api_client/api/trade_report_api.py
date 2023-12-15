@@ -5,7 +5,7 @@ from neo_api_client import rest
 class TradeReportAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def trading_report(self, order_id):
         header_params = {

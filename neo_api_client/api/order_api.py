@@ -6,7 +6,7 @@ from neo_api_client.exceptions import ApiException
 class OrderAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def order_placing(self, exchange_segment, product, price, order_type, quantity, validity, trading_symbol,
                       transaction_type, amo=None, disclosed_quantity=None, market_protection=None, pf=None,

@@ -10,7 +10,7 @@ import pandas as pd
 class ScripSearch(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def scrip_search(self, symbol, exchange_segment, expiry, option_type, strike_price,
                      ignore_50multiple):

@@ -6,7 +6,7 @@ from neo_api_client.exceptions import ApiException
 class LimitsAPI(object):
     def __init__(self, api_client):
         self.api_client = api_client
-        self.rest_client = rest.RESTClientObject(api_client.configuration)
+        self.rest_client = api_client.rest_client
 
     def limit_init(self, segment=None, exchange=None, product=None):
         header_params = {'Authorization': "Bearer " + self.api_client.configuration.bearer_token,
