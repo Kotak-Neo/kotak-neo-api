@@ -423,7 +423,7 @@ class DepthTopicData(TopicData):
         if self.updatedFieldsArray[DEPTH_INDEX['MULTIPLIER']]:
             self.multiplier = self.fieldDataArray[DEPTH_INDEX['MULTIPLIER']]
 
-    def prepareData(self):
+    def prepareData(self, type=None):
         # print("INSIDE prepareData")
         self.prepareCommonData()
         # print("\nDepth:", self.feedType, self.exchange, self.symbol)
@@ -440,6 +440,9 @@ class DepthTopicData(TopicData):
                 json_res[c["name"]] = str(e)
         self.updatedFieldsArray = [None] * 100
         # print("INSIDE Parse Data", json_res)
+        if type is not None:
+            json_res["request_type"] = type
+
         return json_res
 
 
@@ -790,7 +793,7 @@ class IndexTopicData(TopicData):
         if self.updatedFieldsArray[INDEX_INDEX["MULTIPLIER"]]:
             self.multiplier = self.fieldDataArray[INDEX_INDEX["MULTIPLIER"]]
 
-    def prepareData(self):
+    def prepareData(self, type=None):
         self.prepareCommonData()
         if self.updatedFieldsArray[INDEX_INDEX["LTP"]] or self.updatedFieldsArray[INDEX_INDEX["CLOSE"]]:
             ltp = self.fieldDataArray[INDEX_INDEX["LTP"]]
@@ -815,6 +818,9 @@ class IndexTopicData(TopicData):
                 # print(str(index) + ":" + data_type["name"] + ":" + str(val))
                 json_res[data_type["name"]] = str(val)
         self.updatedFieldsArray = [None] * 100
+        if type is not None:
+            json_res["request_type"] = type
+
         return json_res
 
 

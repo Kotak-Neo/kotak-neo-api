@@ -116,7 +116,7 @@ class NeoWebSocket:
                     # print("raw message ",message)
 
                     # print("quotes ",self.quotes_arr)
-                    request_type=message[0]['request_type']
+                    request_type=message[0].get('request_type')
                     if request_type and request_type == "SNAP" and (len(self.quotes_arr) >= 1):
                         
                         out_list, quote_type = self.quote_response_formatter(message)
@@ -210,7 +210,9 @@ class NeoWebSocket:
             segment_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['exchange_segment']
             sub_type_value = unsubscribe_token[list(unsubscribe_token.keys())[0]]['subscription_type']
 
-            self.sub_list = [token for token in self.sub_list if str(list(token.keys())[0]) != str(token_value)]
+            # self.sub_list = [token for token in self.sub_list if str(list(token.keys())[0]) != str(token_value)]
+            self.sub_list = [token for token in self.sub_list if token != unsubscribe_token]
+
             for channel_token_list in self.channel_tokens.values():
                 for channel_token_dict in channel_token_list:
                     for channel_token_key, channel_token_value in channel_token_dict.items():
@@ -378,17 +380,24 @@ class NeoWebSocket:
                          'subscription_type': subscription_type}
                 if 'subscription_type' not in item:
                     item['subscription_type'] = subscription_type
-                if key not in [list(x.keys())[0] for x in self.sub_list]:
+                # if key not in [list(x.keys())[0] for x in self.sub_list]:
+                if {key: value} not in self.sub_list:
                     self.sub_list.append({key: value})
                     tmp_token_list.append({key: value})
-                else:
-                    index = [list(x.keys())[0] for x in self.sub_list].index(key)
-                    if self.sub_list[index][key]['exchange_segment'] != item['exchange_segment'] or \
-                            self.sub_list[index][key]['subscription_type'] != item['subscription_type']:
-                        self.sub_list.append({key: value})
-                        tmp_token_list.append({key: value})
-                    else:
-                        self.sub_list[index][key].update(value)
+                # else:
+                #     index = [list(x.keys())[0] for x in self.sub_list].index(key)
+                #     print("index, key === ", index, key)
+                #     print("sub list item === ", self.sub_list[index][key], item)
+                #     if self.sub_list[index][key]['exchange_segment'] != item['exchange_segment'] or \
+                #             self.sub_list[index][key]['subscription_type'] != item['subscription_type']:
+                #         self.sub_list.append({key: value})
+                #         tmp_token_list.append({key: value})
+                #         print("here 2")
+                #
+                #     else:
+                #         self.sub_list[index][key].update(value)
+                #         print("here 3 ")
+
             channel_tokens = self.channel_segregation(tmp_token_list)
             if self.hsWebsocket and self.is_hsw_open == 1:
                 self.subscribe_scripts(channel_tokens)
