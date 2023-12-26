@@ -9,7 +9,7 @@ client.subscribe(instrument_tokens = inst_tokens, isIndex=False, isDepth=False)
 Un_Subscribe method first checks whether the token is already subscribed.<br/>
 If not Subscribed you will see an error message else; the given tokens will be unsubscribed.
 ```python
-client.un_subscribe(instrument_tokens, isIndex=False, isDepth=False):
+client.un_subscribe(instrument_tokens, isIndex=False, isDepth=False)
 ```
 
 ### Example
@@ -30,9 +30,15 @@ def on_open(message):
 def on_close(message):
     print('[OnClose]: ', message)
 
-client = NeoAPI(consumer_key="", consumer_secret="", environment="prod", on_message=on_message, on_error=on_error, on_open=on_open, on_close=on_close)
+client = NeoAPI(consumer_key="", consumer_secret="", environment="prod", access_token=None, neo_fin_key=None)
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
+
+# Setup Callbacks for websocket events (Optional)
+client.on_message = on_message  # called when message is received from websocket
+client.on_error = on_error  # called when any error or exception occurs in code or websocket
+client.on_close = on_close  # called when websocket connection is closed
+client.on_open = on_open  # called when websocket successfully connects
 
 inst_tokens = [{"instrument_token": "11536", "exchange_segment": "nse_cm"},
                {"instrument_token": "1594", "exchange_segment": "nse_cm"},

@@ -22,9 +22,15 @@ def on_error(message):
     result = message
     print('[OnError]: ', result)
 
-client = NeoAPI(consumer_key="", consumer_secret="", environment="prod", on_message=on_message, on_error=on_error)
+client = NeoAPI(consumer_key="", consumer_secret="", environment="prod", access_token=None, neo_fin_key=None)
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
+
+# Setup Callbacks for websocket events (Optional)
+client.on_message = on_message  # called when message is received from websocket
+client.on_error = on_error  # called when any error or exception occurs in code or websocket
+client.on_close = None  # called when websocket connection is closed
+client.on_open = None  # called when websocket successfully connects
 
 inst_tokens = [{"instrument_token": "11536", "exchange_segment": "nse_cm"},
                {"instrument_token": "1594", "exchange_segment": "nse_cm"},
