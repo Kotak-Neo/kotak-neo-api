@@ -52,6 +52,12 @@ def on_message(message):
     
 def on_error(error_message):
     print(error_message)
+
+def on_close(message):
+    print(message)
+    
+def on_open(message):
+    print(message)
     
 #on_message, on_open, on_close and on_error is a call back function we will provide the response for the subscribe method.
 # access_token is an optional one. If you have barrier token then pass and consumer_key and consumer_secret will be optional.
@@ -69,8 +75,8 @@ client.session_2fa(OTP="")
 # Setup Callbacks for websocket events (Optional)
 client.on_message = on_message  # called when message is received from websocket
 client.on_error = on_error  # called when any error or exception occurs in code or websocket
-client.on_close = None  # called when websocket connection is closed
-client.on_open = None  # called when websocket successfully connects
+client.on_close = on_close  # called when websocket connection is closed
+client.on_open = on_open  # called when websocket successfully connects
 
 # Once 2FA has you can place the order by using below function
 client.place_order(exchange_segment='', product='', price='', order_type='', quantity=12, validity='', trading_symbol='',
@@ -139,7 +145,7 @@ client.quotes(instrument_tokens = instrument_tokens, quote_type="", isIndex=Fals
 client.subscribe(instrument_tokens = instrument_tokens, isIndex=False, isDepth=False)
 
 # Un_Subscribes the given tokens. First the tokens will be checked weather that is subscribed. If not Subscribed we will send you the error message else we will unsubscribe the give tokens
-client.un_subscribe(instrument_tokens=instrument_tokens)
+client.un_subscribe(instrument_tokens=instrument_tokens, isIndex=False, isDepth=False)
 
 #Order Feed 
 client.subscribe_to_orderfeed()
