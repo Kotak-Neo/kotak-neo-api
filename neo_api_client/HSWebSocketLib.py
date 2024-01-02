@@ -1293,7 +1293,7 @@ class StartHSIServer:
         self.onerror(error)
 
     def on_close(self, ws, close_status_code, close_msg):
-        print("Connection closed")
+        # print("Connection closed")
         self.OPEN = 0
         self.readyState = 0
         if hsiWs:

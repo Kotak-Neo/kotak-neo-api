@@ -193,7 +193,7 @@ class NeoWebSocket:
             print("Error Occurred in Websocket! Error Message ", error)
 
     def on_hsi_error(self, error):
-        print("HSI on error called")
+        # print("HSI on error called")
 
         if self.is_hsi_open == 1:
             self.is_hsi_open = 0
