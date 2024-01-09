@@ -42,14 +42,11 @@ class NeoAPI:
     Initializes the class and sets up the necessary configurations for the API client.
 
     Parameters:
-    environment (str): The environment has to pass by user to connect 'UAT' or 'LIVE'.
+    environment (str): The environment has to pass by user to connect 'UAT' or 'PROD'.
     access_token (str, optional): The access token used for authentication. Defaults to None.
     consumer_key (str, optional): The consumer key used for authentication. Defaults to None.
     consumer_secret (str, optional): The consumer secret used for authentication. Defaults to None.
-    on_message (function, optional): The function to be called when a message is received. Defaults to None.
-    on_error (function, optional): The function to be called when an error occurs. Defaults to None.
-    on_close (function, optional): The function to be called when the connection is closed. Defaults to None.
-    on_open (function, optional): The function to be called when the connection is established. Defaults to None.
+    neo_fin_key (str, optional): Finkey for tracking purpose
 
     Updates:
     self.on_message: sets the callback function for incoming messages for Websocket.
