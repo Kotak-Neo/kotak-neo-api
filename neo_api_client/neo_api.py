@@ -615,7 +615,7 @@ class NeoAPI:
             self.on_message(message)
 
     def check_callbacks(self):
-        show_warning = self.on_close or self.on_open or self.on_message or self.on_error
+        show_warning = not self.on_close or not self.on_open or not self.on_message or not self.on_error
         if show_warning:
             warnings = "Warning!\n"
             if self.on_message is None:
