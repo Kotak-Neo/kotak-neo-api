@@ -1,7 +1,7 @@
 # Kotak Neo Python SDK Development
 
 - API version: 1.0.1
-- Package version: 1.1.0
+- Package version: 1.2.0
 
 ## Requirements.
 
@@ -57,7 +57,11 @@ def on_error(error_message):
 # access_token is an optional one. If you have barrier token then pass and consumer_key and consumer_secret will be optional.
 # environment by default uat you can pass prod to connect to live server
 client = NeoAPI(consumer_key="", consumer_secret="", 
-                environment='uat', on_message=on_message, on_error=on_error, on_close=None, on_open=None)
+                environment='uat')
+client.on_message = on_message
+client.on_error = on_error
+client.on_close = None
+client.on_open = None
 
 # Initiate login by passing any of the combinations mobilenumber & password (or) pan & password (or) userid & password
 # Also this will generate the OTP to complete 2FA
