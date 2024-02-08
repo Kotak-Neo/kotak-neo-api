@@ -30,7 +30,13 @@ def on_open(message):
 def on_close(message):
     print('[OnClose]: ', message)
 
-client = NeoAPI(consumer_key="", consumer_secret="", environment="prod", on_message=on_message, on_error=on_error, on_open=on_open, on_close=on_close)
+client = NeoAPI(consumer_key="", consumer_secret="", environment="prod")
+client.on_message = on_message
+client.on_error = on_error
+client.on_open = on_open
+client.on_close = on_close
+
+
 client.login(mobilenumber=" ", password=" ")
 client.session_2fa("")
 
