@@ -1,7 +1,7 @@
 # Kotak Neo Python SDK Development
 
 - API version: 1.0.1
-- Package version: 1.2.0
+- Package version: 1.2.1
 
 ## Requirements.
 
