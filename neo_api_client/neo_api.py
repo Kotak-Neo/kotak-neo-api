@@ -666,7 +666,7 @@ class NeoAPI:
                 self.set_neowebsocket_callbacks()
             self.NeoWebSocket.get_live_feed(instrument_tokens=instrument_tokens, isIndex=isIndex, isDepth=isDepth)
         else:
-            print("Please complete the Login Flow to Subscribe the Scrips")
+            raise ValueError("Please complete the Login Flow to Subscribe the Scrips")
 
     def un_subscribe(self, instrument_tokens, isIndex=False, isDepth=False):
         if self.configuration.edit_token and self.configuration.edit_sid:
