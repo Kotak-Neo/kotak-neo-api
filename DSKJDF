@@ -1,0 +1,61 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to implement Alfa Trend strategy with horizontal line filtering
+def alfa_trend_strategy(data, trend_threshold=0, horizontal_threshold=0.2):
+    signals = pd.DataFrame(index=data.index)
+    signals['signal'] = 0.0
+    
+    # Assume 'Alfa Trend' indicator calculation (replace with actual indicator logic)
+    # Here, generating random signals for demonstration
+    signals['alfa_trend'] = np.random.randn(len(data))
+    
+    # Filter out horizontal lines (straight lines)
+    signals['is_horizontal'] = signals['alfa_trend'].rolling(window=20, min_periods=1).std() < horizontal_threshold
+    signals.loc[signals['is_horizontal'], 'signal'] = np.nan
+    
+    # Generate signals based on Alfa Trend indicator
+    signals['signal'][signals['alfa_trend'] > trend_threshold] = 1.0  # Buy signal
+    signals['signal'][signals['alfa_trend'] < -trend_threshold] = -1.0  # Sell signal
+    
+    # Exit trades just before horizontal lines
+    signals['exit_signal'] = signals['is_horizontal'].shift(1) & ~signals['is_horizontal']
+    signals.loc[signals['exit_signal'], 'signal'] = 0.0
+    
+    # Generate trading orders
+    signals['positions'] = signals['signal'].diff()
+    
+    return signals
+
+# Example usage
+if __name__ == '__main__':
+    # Load historical price data (replace with your data source)
+    # Example data (AAPL daily close prices)
+    data = pd.DataFrame({
+        'Date': pd.date_range(start='1/1/2020', periods=500),
+        'Close': np.random.randn(500).cumsum() + 100
+    })
+    data.set_index('Date', inplace=True)
+    
+    # Run Alfa Trend strategy with horizontal line filtering
+    signals = alfa_trend_strategy(data)
+    
+    # Plotting
+    fig, ax = plt.subplots(figsize=(15, 7))
+    
+    ax.plot(data.index, data['Close'], label='Close Price')
+    
+    # Plot Buy signals
+    ax.plot(signals.loc[signals.positions == 1.0].index, 
+             data['Close'][signals.positions == 1.0],
+             '^', markersize=10, color='g', lw=0, label='Buy Signal')
+    
+    # Plot Sell signals
+    ax.plot(signals.loc[signals.positions == -1.0].index, 
+             data['Close'][signals.positions == -1.0],
+             'v', markersize=10, color='r', lw=0, label='Sell Signal')
+    
+    ax.legend()
+    ax.grid()
+    plt.show()
